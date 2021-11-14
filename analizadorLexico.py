@@ -39,8 +39,14 @@ reserved = {
     'import': 'IMPORT',
     'const': 'CONST',
 
-    #tipo de dato;
-
+    #tipo de dato: Bryan P
+    'bool'      : 'BOOLEANO',
+    'int'       : 'ENTERO',
+    'string'    : 'STRING',
+    'float64'   : 'FLOAT_64',
+    'float'     : 'FLOAT_32',
+    'byte'      : 'BYTES',
+    'complex64' : 'NUMBER_COMPLEX'
 }
 
 tokens = (
@@ -79,6 +85,9 @@ tokens = (
     'COMENTARIO',
     'COMA',
     'PUNTOCOMA',
+    # Caracteres
+    'BARRAINVERSA',
+    'ESPACIO'
 ) + tuple(reserved.values())
 
 #-----------------------------------------------
@@ -115,38 +124,15 @@ t_COMA = r','
 t_PUNTOCOMA = r';'
 t_INCREMENTO = r'\+\+'
 
-# Tipo de datos
+# Caracteres
+t_BARRAINVERSA = r'\\'
+t_ESPACIO = r'\s'
+
+# Tipo de datos : Bryan
 t_BOOLEAN = r'true|false'  
 
 
 t_DECLARADOR = r':='
-
-#Palabras reservadas: Stefany
-t_IF = r'(if)'
-t_BREAK = r'(break)'
-t_ELSE = r'(else)'
-t_FOR = r'(for)'
-t_CASE = r'(case)'
-t_FUNC = r'func'
-t_CONTINUE = r'continue'
-t_FALLTHROUGH = r'fallthrough'
-t_GOTO = r'goto'
-t_INTERFACE = r'interface'
-t_MAP = r'map'
-t_PACKAGE = r'package'
-t_RANGE = r'range'
-t_RETURN = r'return'
-t_SELECT = r'select'
-t_STRUCT = r'struct'
-t_SWITCH = r'switch'
-t_TYPE = r'type'
-t_VAR = r'var'
-t_CHAN = r'chan'
-t_GO = r'go'
-t_DEFAULT = r'default'
-t_DEFER = r'defer'
-t_IMPORT = r'import'
-t_CONST = r'const'
 
 
 # Variables: Stefany
