@@ -3,9 +3,9 @@ import ply.lex as lex
 #Analizador Lexico GO
 
 #Integrantes
-# Lavayen Santana Stefany Marisela: SL
-# Puchaicela Buri Bryan Alexander: BP
-# Veliz Chavez Jahir David: JV
+# Lavayen Santana Stefany Marisela
+# Puchaicela Buri Bryan Alexander
+# Veliz Chavez Jahir David
 
 #------------------------------------------------------------
 # List of token names.   This is always required
@@ -78,6 +78,8 @@ tokens = (
 #-----------------------------------------------
 # Regular expression rules for simple tokens
 #-----------------------------------------------
+
+# Operadores Aritmetico: Stefany
 
 # Operadores Asignacion: Stefany
 t_MASIGUAL = r'\+='
