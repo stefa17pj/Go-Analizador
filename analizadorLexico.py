@@ -52,6 +52,12 @@ tokens = (
     'FLOAT',
     'CADENA',
     'BOOLEAN',
+    #Operadores Matematicos
+    'SUMA',
+    'RESTA',
+    'PRODUCT',
+    'DIV',
+    'MOD',
     #Operadores Logicos
     'MAYORQUE',
     'MENORQUE',
@@ -80,6 +86,11 @@ tokens = (
 #-----------------------------------------------
 
 # Operadores Aritmetico: Stefany
+t_SUMA    = r'\+'
+t_RESTA   = r'-'
+t_PRODUCT = r'\*'
+t_DIV     = r'\/'
+t_MOD     = r'\%'
 
 # Operadores Asignacion: Stefany
 t_MASIGUAL = r'\+='
