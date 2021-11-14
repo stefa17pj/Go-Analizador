@@ -1,5 +1,7 @@
 //Ejemplo Bryan Puchaicela
 userName = 8
+if userName > 50
+example := (userName < 5) || ( userName > 25)
 
 //Ejemplo Stefany Lavayen
 for i := 0; i < 10; i++
