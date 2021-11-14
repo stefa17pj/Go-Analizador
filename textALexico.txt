@@ -1,2 +1,6 @@
 //Ejemplo Bryan Puchaicela
 userName = 8
+
+//Ejemplo Stefany Lavayen
+for i := 0; i < 10; i++
+var x int = 10 / 5 
