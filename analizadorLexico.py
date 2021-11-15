@@ -177,7 +177,7 @@ def t_MAPA(t):
 
 # METODOS: Jahir
 def t_METODO(t):
-    r'[a-zA-Z]([\w])*\([a-zA-Z_]([\w])*\)'
+    r'[a-zA-Z]([\w])*\.?[a-zA-Z]([\w])*\([a-zA-Z_]([\w])*\)'
     return t
 
 
