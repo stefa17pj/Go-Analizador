@@ -6,3 +6,13 @@ example := (userName < 5) || ( userName > 25)
 //Ejemplo Stefany Lavayen
 for i := 0; i < 10; i++
 var x int = 10 / 5 
+
+//Ejemplo jahir Veliz
+var arr [10]int
+arr1 := [5]string{"a", "b", "c", "d", "e"}
+s := arr1[0:4]
+m := map[string]int{"Maria": 123, "Miguel": 456, "Sara": 765}
+var x int = 4 + 5 
+len(arr)
+cap(arr)
+var p1 *int

@@ -53,17 +53,18 @@ tokens = (
     'IDENTIFICADOR',
     'VARIABLE',
     'DECLARADOR',
+    'TIPODEDATO',
     #Tipo de Datos
-    'NUMBER',
+    'NUMERO',
     'FLOAT',
     'CADENA',
     'BOOLEAN',
     #Operadores Matematicos
     'SUMA',
     'RESTA',
-    'PRODUCT',
-    'DIV',
-    'MOD',
+    'PRODUCTO',
+    'DIVISION',
+    'MODULO',
     #Operadores Logicos
     'MAYORQUE',
     'MENORQUE',
@@ -87,7 +88,14 @@ tokens = (
     'PUNTOCOMA',
     # Caracteres
     'BARRAINVERSA',
-    'ESPACIO'
+    'ESPACIO',
+    #Estructuras de datos: Jahir
+    'ARRAY',
+    'SLICE',
+    'MAPA',
+
+    'METODO',
+    'PUNTERO'
 ) + tuple(reserved.values())
 
 #-----------------------------------------------
@@ -97,9 +105,9 @@ tokens = (
 # Operadores Aritmetico: Stefany
 t_SUMA    = r'\+'
 t_RESTA   = r'-'
-t_PRODUCT = r'\*'
-t_DIV     = r'\/'
-t_MOD     = r'\%'
+t_PRODUCTO = r'\*'
+t_DIVISION = r'\/'
+t_MODULO = r'\%'
 
 # Operadores Asignacion: Stefany
 t_MASIGUAL = r'\+='
@@ -135,9 +143,44 @@ t_BOOLEAN = r'true|false'
 t_DECLARADOR = r':='
 
 
+# ESTRUCTURAS DE DATOS: Jahir
+## Array
+def t_ARRAY(t):
+    r'\[\d*\](bool|int|float|complex|string)({.*})?'
+    return t
+
+## Slices
+def t_SLICE(t):
+    r'[a-zA-Z_]([\w])*\[\d+\:\d+\]'
+    return t
+
+## Mapa
+def t_MAPA(t):
+    r'map\[(bool|int|float|complex|string)\](bool|int|float|complex|string){.*}'
+    return t
+
+# METODOS: Jahir
+def t_METODO(t):
+    r'[a-zA-Z]([\w])*\([a-zA-Z_]([\w])*\)'
+    return t
+
+
+#TIPO DE DATO: Jahir
+def t_TIPODEDATO(t):
+    r'bool|int|float|complex|string'
+    t.type = reserved.get(t.value, 'TIPODEDATO')
+    return t
+
+
+# PUNTEROS: Jahir
+def t_PUNTERO(t):
+    r'\*(bool|int|float|complex|string)'
+    return t
+
+
 # Variables: Stefany
 def t_VARIABLE(t):
-    r'[a-z]([\w])*'
+    r'[a-zA-Z_]([\w])*'
     if t.value in reserved:
         t.type = reserved[t.value]
         return t
@@ -153,7 +196,7 @@ def t_IDENTIFICADOR(t):
 
 
 # Numeros: Stefany
-def t_NUMBER(t):
+def t_NUMERO(t):
     r'\d+'
     t.value = int(t.value)
     return t
