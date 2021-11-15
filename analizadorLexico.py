@@ -85,7 +85,12 @@ tokens = (
     'PARRIGHT',
     'COMENTARIO',
     'COMA',
+    'DOSPUNTOS',
     'PUNTOCOMA',
+    'LLAVELEFT',
+    'LLAVERIGHT',
+    'CORCHRIGHT',
+    'CORCHLEFT',
     # Caracteres
     'BARRAINVERSA',
     'ESPACIO',
@@ -93,8 +98,8 @@ tokens = (
     'ARRAY',
     'SLICE',
     'MAPA',
-
     'METODO',
+    'IMPRIMIR',
     'PUNTERO'
 ) + tuple(reserved.values())
 
@@ -130,7 +135,18 @@ t_PARLEFT = r'\('
 t_PARRIGHT = r'\)'
 t_COMA = r','
 t_PUNTOCOMA = r';'
+t_DOSPUNTOS = r':'
 t_INCREMENTO = r'\+\+'
+
+t_LLAVELEFT = r'\{'
+t_LLAVERIGHT = r'\}'
+t_CORCHRIGHT = r'\]'
+t_CORCHLEFT = r'\['
+
+# Imprimir: Stefany
+def t_IMPRIMIR(t):
+    r'fmt\.Print(ln|f)*'
+    return t
 
 # Caracteres
 t_BARRAINVERSA = r'\\'
@@ -204,7 +220,7 @@ def t_NUMERO(t):
 
 # Cadenas: Stefany
 def t_CADENA(t):
-    r'"\w+(_\dw)*"'
+    r'("[^"]*"|\'[^\']*\')'
     return t
 
 
