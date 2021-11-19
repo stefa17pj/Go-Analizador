@@ -158,7 +158,7 @@ t_BOOLEAN = r'true|false'
 
 t_DECLARADOR = r':='
 
-
+'''
 # ESTRUCTURAS DE DATOS: Jahir
 ## Array
 def t_ARRAY(t):
@@ -174,6 +174,7 @@ def t_SLICE(t):
 def t_MAPA(t):
     r'map\[(bool|int|float|complex|string)\](bool|int|float|complex|string){.*}'
     return t
+'''
 
 # METODOS: Jahir
 def t_METODO(t):
@@ -187,7 +188,7 @@ def t_TIPODEDATO(t):
     t.type = reserved.get(t.value, 'TIPODEDATO')
     return t
 
-
+'''
 # PUNTEROS: Jahir
 def t_PUNTERO(t):
     r'\*(bool|int|float|complex|string)'
@@ -202,7 +203,7 @@ def t_VARIABLE(t):
         return t
     else:
         return t
-
+'''
 
 # IDENTIFICADOR : Bryan
 def t_IDENTIFICADOR(t):
