@@ -155,43 +155,7 @@ t_BOOLEAN = r'true|false'
 
 t_DECLARADOR = r':='
 
-<<<<<<< HEAD
 '''
-=======
-# Palabras reservadas: Stefany
-t_BREAK = r'break'
-t_ELSE = r'else' 
-t_FOR = r'for'  
-t_IF = r'if'   
-t_CASE = r'case' 
-t_FUNC = r'func' 
-t_CONTINUE = r'continue' 
-t_FALLTHROUGH = r'fallthrough'  
-t_GOTO = r'goto' 
-t_INTERFACE = r'interface'
-t_MAP = r'map'  
-t_PACKAGE = r'package'  
-t_RANGE = r'range'
-t_RETURN = r'return'   
-t_SELECT = r'select'   
-t_STRUCT = r'struct'   
-t_SWITCH = r'switch'   
-t_TYPE = r'type' 
-t_VAR = r'var'  
-t_CHAN = r'chan' 
-t_GO = r'go'   
-t_DEFAULT = r'default'  
-t_DEFER = r'defer'
-t_IMPORT = r'import'   
-t_CONST = r'const'
-
-# tipo de dato
-t_BOOLEANO = r'bool'
-t_ENTERO = r'int'
-t_STRING = r'string'
-t_BYTES = r'byte'
-
->>>>>>> 4195e38e3af9a7248c89c05bb74ce28f774b33d7
 # ESTRUCTURAS DE DATOS: Jahir
 ## Array
 def t_ARRAY(t):
