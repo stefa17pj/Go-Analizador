@@ -38,6 +38,8 @@ reserved = {
     'defer': 'DEFER',
     'import': 'IMPORT',
     'const': 'CONST',
+    'true': 'TRUE',
+    'false': 'FALSE',
     #id de tipos de datos
     'bool': 'BOOL',
     'int': 'INT',
@@ -49,7 +51,6 @@ tokens = (
     'VARIABLE',
     'DECLARADOR',
     #Tipo de Datos
-    'BOOLEAN',
     'ENTERO',
     'FLOTANTE',
     'CADENA',
@@ -139,11 +140,6 @@ t_ESPACIO = r'\s'
 # Imprimir: Stefany
 def t_IMPRIMIR(t):
     r'fmt\.Print(ln|f)?'
-    return t
-
-# Tipo de datos : Bryan
-def t_BOOLEAN(t):
-    r'true|false'
     return t
 
 # Flotante : Bryan
