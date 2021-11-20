@@ -11,7 +11,7 @@ var x int = 4 % 5
 s := "hola" + "c"
 a += b  
 2 == 1
-If x < y { 
+if x < y { 
     return y 
 } else { 
     return z 

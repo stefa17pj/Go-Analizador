@@ -38,24 +38,21 @@ reserved = {
     'defer': 'DEFER',
     'import': 'IMPORT',
     'const': 'CONST',
-
-    #tipo de dato: Bryan P
-    'bool'      : 'BOOLEANO',
-    'int'       : 'ENTERO',
-    'string'    : 'STRING',
-    'byte'      : 'BYTES',
+    #id de tipos de datos
+    'bool': 'BOOL',
+    'int': 'INT',
+    'float': 'FLOAT',
+    'string': 'STRING'
 }
 
 tokens = (
-    'IDENTIFICADOR',
     'VARIABLE',
     'DECLARADOR',
-    'TIPODEDATO',
     #Tipo de Datos
-    'NUMERO',
+    'BOOLEAN',
+    'ENTERO',
     'FLOTANTE',
     'CADENA',
-    'BOOLEAN',
     #Operadores Matematicos
     'SUMA',
     'RESTA',
@@ -88,16 +85,11 @@ tokens = (
     'LLAVERIGHT',
     'CORCHRIGHT',
     'CORCHLEFT',
-    # Caracteres
+    #Caracteres
     'BARRAINVERSA',
     'ESPACIO',
-    #Estructuras de datos: Jahir
-    'ARRAY',
-    'SLICE',
-    'MAPA',
-    'METODO',
+    #Imprimir
     'IMPRIMIR',
-    'PUNTERO'
 ) + tuple(reserved.values())
 
 #-----------------------------------------------
@@ -115,6 +107,7 @@ t_MODULO = r'\%'
 t_MASIGUAL = r'\+='
 t_MENOSIGUAL = r'-='
 t_IGUAL = r'='
+t_DECLARADOR = r':='
 
 # Operadores logicos: Stefany
 t_MAYORQUE = r'>'
@@ -134,124 +127,69 @@ t_COMA = r','
 t_PUNTOCOMA = r';'
 t_DOSPUNTOS = r':'
 t_INCREMENTO = r'\+\+'
-
 t_LLAVELEFT = r'\{'
 t_LLAVERIGHT = r'\}'
 t_CORCHRIGHT = r'\]'
 t_CORCHLEFT = r'\['
 
-# Imprimir: Stefany
-def t_IMPRIMIR(t):
-    r'fmt\.Print(ln|f)*'
-    return t
-
 # Caracteres
 t_BARRAINVERSA = r'\\'
 t_ESPACIO = r'\s'
 
+# Imprimir: Stefany
+def t_IMPRIMIR(t):
+    r'fmt\.Print(ln|f)?'
+    return t
+
 # Tipo de datos : Bryan
-t_BOOLEAN = r'true|false'  
-
-
-t_DECLARADOR = r':='
-
-'''
-# ESTRUCTURAS DE DATOS: Jahir
-## Array
-def t_ARRAY(t):
-    r'\[\d*\](bool|int|float|complex|string)({.*})?'
+def t_BOOLEAN(t):
+    r'true|false'
     return t
 
-## Slices
-def t_SLICE(t):
-    r'[a-zA-Z_]([\w])*\[\d+\:\d+\]'
-    return t
-
-## Mapa
-def t_MAPA(t):
-    r'map\[(bool|int|float|complex|string)\](bool|int|float|complex|string){.*}'
-    return t
-'''
-
-# METODOS: Jahir
-def t_METODO(t):
-    r'[a-zA-Z]([\w])*\.?[a-zA-Z]([\w])*\([a-zA-Z_]([\w])*\)'
-    return t
-
-
-#TIPO DE DATO: Jahir
-def t_TIPODEDATO(t):
-    r'bool|int|float|complex|string'
-    t.type = reserved.get(t.value, 'TIPODEDATO')
-    return t
-
-'''
-# PUNTEROS: Jahir
-def t_PUNTERO(t):
-    r'\*(bool|int|float|complex|string)'
-    return t
-
-
-# Variables: Stefany
-def t_VARIABLE(t):
-    r'[a-zA-Z_]([\w])*'
-    if t.value in reserved:
-        t.type = reserved[t.value]
-        return t
-    else:
-        return t
-'''
-
-# IDENTIFICADOR, Flotante : Bryan
+# Flotante : Bryan
 def t_FLOTANTE(t):
     r'-?\d+\.\d+'
     t.value = float(t.value)
     return t
-def t_IDENTIFICADOR(t):
-    r'[a-zA-Z_][A-Za-z0-9_]*'
-    t.type = reserved.get(t.value, 'IDENTIFICADOR')
-    return t
 
-
-# Numeros: Stefany
-def t_NUMERO(t):
+# Numeros Enteros: Stefany
+def t_ENTERO(t):
     r'\d+'
     t.value = int(t.value)
     return t
-
 
 # Cadenas: Stefany
 def t_CADENA(t):
     r'("[^"]*"|\'[^\']*\')'
     return t
 
+# Variable: Bryan
+def t_VARIABLE(t):
+    r'[a-zA-Z_][A-Za-z0-9_]*'
+    t.type = reserved.get(t.value, 'VARIABLE')
+    return t
 
 # Comentario: Bryan
 def t_COMENTARIO(t):
     r'(\//.*|\/\*.*\*\/)'
     pass
 
-
 #IGNORE
 t_ignore = ' \t'
-
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
 
-
 def t_error(t):
     print("No se reconoce '%s'" % t.value[0])
     t.lexer.skip(1)
-
 
 #Algorithm
 
 lexer = lex.lex()
 text = open("textALexico.txt")
 data = text.read()
-
 
 def analysis(data):
     lexer.input(data)
@@ -260,6 +198,5 @@ def analysis(data):
         if not tok:
             break
         print(tok)
-
 
 analysis(data)
