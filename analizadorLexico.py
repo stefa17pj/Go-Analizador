@@ -17,6 +17,7 @@ reserved = {
     'else': 'ELSE',
     'for': 'FOR',
     'if': 'IF',
+    'var': 'VAR',
     'case': 'CASE',
     'func': 'FUNC',
     'continue': 'CONTINUE',

@@ -5,7 +5,9 @@ def p_instrucciones(p):
     '''instrucciones : expresion 
                     | condicion
                     | sentenciaFor
-                    | inicio'''
+                    | inicio
+                    | array
+                    | arrayAsig'''
 
 def p_sentenciaFor(p):
     'sentenciaFor : FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT'
@@ -18,6 +20,21 @@ def p_condicion(p):
 
 def p_incrementa(p):
     'incrementa : VARIABLE INCREMENTO'
+
+def p_tipodato(p):
+    '''typeData : BOOL 
+                | INT
+                | FLOAT
+                | STRING '''
+
+def p_array(p):
+    'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT'
+
+def p_arrayAsig(p):
+    'arrayAsig : VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData'
+
+def p_contenidoArray(p):
+    'contArray : contArray COMA numericos'
 
 def p_comparador(p):
     '''comparador : MAYORQUE 
@@ -43,6 +60,10 @@ def p_modulo_expresion(p):
 
 def p_expression_term(p):
     'expresion : term'
+    #p[0] = p[1]
+
+def p_expression_term2(p):
+    'contArray : term'
     #p[0] = p[1]
 
 def p_term_factor(p):
