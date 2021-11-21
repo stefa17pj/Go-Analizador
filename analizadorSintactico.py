@@ -84,6 +84,52 @@ def p_factor_num(p):
 def p_factor_float(p):
     'numericos : FLOTANTE'
 
+def p_factor_bool(p):
+    'factor : BOOL'
+
+def p_comparacion(p):
+    'comparacion : condiciones'
+
+def p_comparaciones_negado(p):
+    'comparacion : NEGACION PARLEFT condiciones PARRIGHT'
+
+def p_comparaciones_paren(p):
+    'comparacion : PARLEFT condiciones PARRIGHT'
+
+# Operadores logicos
+def p_mayorque_compare(p):
+    'condiciones : factor MAYORQUE factor'
+
+def p_menorque_compare(p):
+    'condiciones : factor MENORQUE factor'
+
+def p_distinto_compare(p):
+    'condiciones : factor DIFERENTE factor'
+
+def p_igualdad_compare(p):
+    'condiciones : factor ESIGUAL factor'
+
+def p_menoroigual_compare(p):
+    'condiciones : factor MENORIGUAL factor'
+
+def p_mayoroigual_compare(p):
+    'condiciones : factor MAYORIGUAL factor'
+
+def p_comparaciones(p):
+    'comparaciones : comparacion'
+
+def p_comparaciones_uno(p):
+    'comparaciones : comparacion anado comparaciones'
+
+def p_condicion_extra(p):
+    'anado : condicion'
+
+def p_condicion_and(p):
+    'condicion : AND'
+
+def p_condicion_or(p):
+    'condicion : OR'
+    
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in input!")
