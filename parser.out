@@ -1,0 +1,455 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    BARRAINVERSA
+    BOOL
+    BREAK
+    CADENA
+    CASE
+    CHAN
+    COMA
+    COMENTARIO
+    CONST
+    CONTINUE
+    CORCHLEFT
+    CORCHRIGHT
+    DEFAULT
+    DEFER
+    DIFERENTE
+    DIVISION
+    DOSPUNTOS
+    ELSE
+    ESPACIO
+    FALLTHROUGH
+    FALSE
+    FLOAT
+    FLOTANTE
+    FUNC
+    GO
+    GOTO
+    IF
+    IGUAL
+    IMPORT
+    IMPRIMIR
+    INT
+    INTERFACE
+    MAP
+    MASIGUAL
+    MENOSIGUAL
+    MODULO
+    NEGACION
+    OR
+    PACKAGE
+    PARLEFT
+    PARRIGHT
+    PRODUCTO
+    RANGE
+    RESTA
+    RETURN
+    SELECT
+    STRING
+    STRUCT
+    SUMA
+    SWITCH
+    TRUE
+    TYPE
+    VAR
+
+Grammar
+
+Rule 0     S' -> instrucciones
+Rule 1     instrucciones -> condicion
+Rule 2     instrucciones -> sentenciaFor
+Rule 3     instrucciones -> inicio
+Rule 4     sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+Rule 5     inicio -> VARIABLE DECLARADOR ENTERO
+Rule 6     condicion -> factor comparador factor
+Rule 7     incrementa -> VARIABLE INCREMENTO
+Rule 8     comparador -> MAYORQUE
+Rule 9     comparador -> MENORQUE
+Rule 10    comparador -> ESIGUAL
+Rule 11    comparador -> MAYORIGUAL
+Rule 12    comparador -> MENORIGUAL
+Rule 13    factor -> VARIABLE
+Rule 14    factor -> ENTERO
+
+Terminals, with rules where they appear
+
+AND                  : 
+BARRAINVERSA         : 
+BOOL                 : 
+BREAK                : 
+CADENA               : 
+CASE                 : 
+CHAN                 : 
+COMA                 : 
+COMENTARIO           : 
+CONST                : 
+CONTINUE             : 
+CORCHLEFT            : 
+CORCHRIGHT           : 
+DECLARADOR           : 5
+DEFAULT              : 
+DEFER                : 
+DIFERENTE            : 
+DIVISION             : 
+DOSPUNTOS            : 
+ELSE                 : 
+ENTERO               : 5 14
+ESIGUAL              : 10
+ESPACIO              : 
+FALLTHROUGH          : 
+FALSE                : 
+FLOAT                : 
+FLOTANTE             : 
+FOR                  : 4
+FUNC                 : 
+GO                   : 
+GOTO                 : 
+IF                   : 
+IGUAL                : 
+IMPORT               : 
+IMPRIMIR             : 
+INCREMENTO           : 7
+INT                  : 
+INTERFACE            : 
+LLAVELEFT            : 4
+LLAVERIGHT           : 4
+MAP                  : 
+MASIGUAL             : 
+MAYORIGUAL           : 11
+MAYORQUE             : 8
+MENORIGUAL           : 12
+MENORQUE             : 9
+MENOSIGUAL           : 
+MODULO               : 
+NEGACION             : 
+OR                   : 
+PACKAGE              : 
+PARLEFT              : 
+PARRIGHT             : 
+PRODUCTO             : 
+PUNTOCOMA            : 4 4
+RANGE                : 
+RESTA                : 
+RETURN               : 
+SELECT               : 
+STRING               : 
+STRUCT               : 
+SUMA                 : 
+SWITCH               : 
+TRUE                 : 
+TYPE                 : 
+VAR                  : 
+VARIABLE             : 5 7 13
+error                : 
+
+Nonterminals, with rules where they appear
+
+comparador           : 6
+condicion            : 1 4
+factor               : 6 6
+incrementa           : 4
+inicio               : 3 4
+instrucciones        : 4 0
+sentenciaFor         : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . instrucciones
+    (1) instrucciones -> . condicion
+    (2) instrucciones -> . sentenciaFor
+    (3) instrucciones -> . inicio
+    (6) condicion -> . factor comparador factor
+    (4) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (5) inicio -> . VARIABLE DECLARADOR ENTERO
+    (13) factor -> . VARIABLE
+    (14) factor -> . ENTERO
+
+    FOR             shift and go to state 6
+    VARIABLE        shift and go to state 7
+    ENTERO          shift and go to state 8
+
+    instrucciones                  shift and go to state 1
+    condicion                      shift and go to state 2
+    sentenciaFor                   shift and go to state 3
+    inicio                         shift and go to state 4
+    factor                         shift and go to state 5
+
+state 1
+
+    (0) S' -> instrucciones .
+
+
+
+state 2
+
+    (1) instrucciones -> condicion .
+
+    $end            reduce using rule 1 (instrucciones -> condicion .)
+    LLAVERIGHT      reduce using rule 1 (instrucciones -> condicion .)
+
+
+state 3
+
+    (2) instrucciones -> sentenciaFor .
+
+    $end            reduce using rule 2 (instrucciones -> sentenciaFor .)
+    LLAVERIGHT      reduce using rule 2 (instrucciones -> sentenciaFor .)
+
+
+state 4
+
+    (3) instrucciones -> inicio .
+
+    $end            reduce using rule 3 (instrucciones -> inicio .)
+    LLAVERIGHT      reduce using rule 3 (instrucciones -> inicio .)
+
+
+state 5
+
+    (6) condicion -> factor . comparador factor
+    (8) comparador -> . MAYORQUE
+    (9) comparador -> . MENORQUE
+    (10) comparador -> . ESIGUAL
+    (11) comparador -> . MAYORIGUAL
+    (12) comparador -> . MENORIGUAL
+
+    MAYORQUE        shift and go to state 10
+    MENORQUE        shift and go to state 11
+    ESIGUAL         shift and go to state 12
+    MAYORIGUAL      shift and go to state 13
+    MENORIGUAL      shift and go to state 14
+
+    comparador                     shift and go to state 9
+
+state 6
+
+    (4) sentenciaFor -> FOR . inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (5) inicio -> . VARIABLE DECLARADOR ENTERO
+
+    VARIABLE        shift and go to state 16
+
+    inicio                         shift and go to state 15
+
+state 7
+
+    (5) inicio -> VARIABLE . DECLARADOR ENTERO
+    (13) factor -> VARIABLE .
+
+    DECLARADOR      shift and go to state 17
+    MAYORQUE        reduce using rule 13 (factor -> VARIABLE .)
+    MENORQUE        reduce using rule 13 (factor -> VARIABLE .)
+    ESIGUAL         reduce using rule 13 (factor -> VARIABLE .)
+    MAYORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
+    MENORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
+
+
+state 8
+
+    (14) factor -> ENTERO .
+
+    MAYORQUE        reduce using rule 14 (factor -> ENTERO .)
+    MENORQUE        reduce using rule 14 (factor -> ENTERO .)
+    ESIGUAL         reduce using rule 14 (factor -> ENTERO .)
+    MAYORIGUAL      reduce using rule 14 (factor -> ENTERO .)
+    MENORIGUAL      reduce using rule 14 (factor -> ENTERO .)
+    $end            reduce using rule 14 (factor -> ENTERO .)
+    PUNTOCOMA       reduce using rule 14 (factor -> ENTERO .)
+    LLAVERIGHT      reduce using rule 14 (factor -> ENTERO .)
+
+
+state 9
+
+    (6) condicion -> factor comparador . factor
+    (13) factor -> . VARIABLE
+    (14) factor -> . ENTERO
+
+    VARIABLE        shift and go to state 19
+    ENTERO          shift and go to state 8
+
+    factor                         shift and go to state 18
+
+state 10
+
+    (8) comparador -> MAYORQUE .
+
+    VARIABLE        reduce using rule 8 (comparador -> MAYORQUE .)
+    ENTERO          reduce using rule 8 (comparador -> MAYORQUE .)
+
+
+state 11
+
+    (9) comparador -> MENORQUE .
+
+    VARIABLE        reduce using rule 9 (comparador -> MENORQUE .)
+    ENTERO          reduce using rule 9 (comparador -> MENORQUE .)
+
+
+state 12
+
+    (10) comparador -> ESIGUAL .
+
+    VARIABLE        reduce using rule 10 (comparador -> ESIGUAL .)
+    ENTERO          reduce using rule 10 (comparador -> ESIGUAL .)
+
+
+state 13
+
+    (11) comparador -> MAYORIGUAL .
+
+    VARIABLE        reduce using rule 11 (comparador -> MAYORIGUAL .)
+    ENTERO          reduce using rule 11 (comparador -> MAYORIGUAL .)
+
+
+state 14
+
+    (12) comparador -> MENORIGUAL .
+
+    VARIABLE        reduce using rule 12 (comparador -> MENORIGUAL .)
+    ENTERO          reduce using rule 12 (comparador -> MENORIGUAL .)
+
+
+state 15
+
+    (4) sentenciaFor -> FOR inicio . PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+
+    PUNTOCOMA       shift and go to state 20
+
+
+state 16
+
+    (5) inicio -> VARIABLE . DECLARADOR ENTERO
+
+    DECLARADOR      shift and go to state 17
+
+
+state 17
+
+    (5) inicio -> VARIABLE DECLARADOR . ENTERO
+
+    ENTERO          shift and go to state 21
+
+
+state 18
+
+    (6) condicion -> factor comparador factor .
+
+    $end            reduce using rule 6 (condicion -> factor comparador factor .)
+    PUNTOCOMA       reduce using rule 6 (condicion -> factor comparador factor .)
+    LLAVERIGHT      reduce using rule 6 (condicion -> factor comparador factor .)
+
+
+state 19
+
+    (13) factor -> VARIABLE .
+
+    $end            reduce using rule 13 (factor -> VARIABLE .)
+    PUNTOCOMA       reduce using rule 13 (factor -> VARIABLE .)
+    LLAVERIGHT      reduce using rule 13 (factor -> VARIABLE .)
+    MAYORQUE        reduce using rule 13 (factor -> VARIABLE .)
+    MENORQUE        reduce using rule 13 (factor -> VARIABLE .)
+    ESIGUAL         reduce using rule 13 (factor -> VARIABLE .)
+    MAYORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
+    MENORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
+
+
+state 20
+
+    (4) sentenciaFor -> FOR inicio PUNTOCOMA . condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (6) condicion -> . factor comparador factor
+    (13) factor -> . VARIABLE
+    (14) factor -> . ENTERO
+
+    VARIABLE        shift and go to state 19
+    ENTERO          shift and go to state 8
+
+    condicion                      shift and go to state 22
+    factor                         shift and go to state 5
+
+state 21
+
+    (5) inicio -> VARIABLE DECLARADOR ENTERO .
+
+    $end            reduce using rule 5 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    PUNTOCOMA       reduce using rule 5 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    LLAVERIGHT      reduce using rule 5 (inicio -> VARIABLE DECLARADOR ENTERO .)
+
+
+state 22
+
+    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion . PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+
+    PUNTOCOMA       shift and go to state 23
+
+
+state 23
+
+    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA . incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (7) incrementa -> . VARIABLE INCREMENTO
+
+    VARIABLE        shift and go to state 25
+
+    incrementa                     shift and go to state 24
+
+state 24
+
+    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa . LLAVELEFT instrucciones LLAVERIGHT
+
+    LLAVELEFT       shift and go to state 26
+
+
+state 25
+
+    (7) incrementa -> VARIABLE . INCREMENTO
+
+    INCREMENTO      shift and go to state 27
+
+
+state 26
+
+    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT . instrucciones LLAVERIGHT
+    (1) instrucciones -> . condicion
+    (2) instrucciones -> . sentenciaFor
+    (3) instrucciones -> . inicio
+    (6) condicion -> . factor comparador factor
+    (4) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (5) inicio -> . VARIABLE DECLARADOR ENTERO
+    (13) factor -> . VARIABLE
+    (14) factor -> . ENTERO
+
+    FOR             shift and go to state 6
+    VARIABLE        shift and go to state 7
+    ENTERO          shift and go to state 8
+
+    inicio                         shift and go to state 4
+    condicion                      shift and go to state 2
+    instrucciones                  shift and go to state 28
+    sentenciaFor                   shift and go to state 3
+    factor                         shift and go to state 5
+
+state 27
+
+    (7) incrementa -> VARIABLE INCREMENTO .
+
+    LLAVELEFT       reduce using rule 7 (incrementa -> VARIABLE INCREMENTO .)
+
+
+state 28
+
+    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones . LLAVERIGHT
+
+    LLAVERIGHT      shift and go to state 29
+
+
+state 29
+
+    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .
+
+    $end            reduce using rule 4 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 4 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+

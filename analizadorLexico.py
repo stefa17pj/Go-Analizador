@@ -186,7 +186,7 @@ def t_error(t):
 lexer = lex.lex()
 text = open("textALexico.txt")
 data = text.read()
-
+'''
 def analysis(data):
     lexer.input(data)
     while True:
@@ -196,3 +196,4 @@ def analysis(data):
         print(tok)
 
 analysis(data)
+'''
