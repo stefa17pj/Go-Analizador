@@ -18,14 +18,12 @@ Unused terminals:
     DEFAULT
     DEFER
     DIFERENTE
-    DIVISION
     DOSPUNTOS
     ELSE
     ESPACIO
     FALLTHROUGH
     FALSE
     FLOAT
-    FLOTANTE
     FUNC
     GO
     GOTO
@@ -38,20 +36,16 @@ Unused terminals:
     MAP
     MASIGUAL
     MENOSIGUAL
-    MODULO
     NEGACION
     OR
     PACKAGE
     PARLEFT
     PARRIGHT
-    PRODUCTO
     RANGE
-    RESTA
     RETURN
     SELECT
     STRING
     STRUCT
-    SUMA
     SWITCH
     TRUE
     TYPE
@@ -60,20 +54,31 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> instrucciones
-Rule 1     instrucciones -> condicion
-Rule 2     instrucciones -> sentenciaFor
-Rule 3     instrucciones -> inicio
-Rule 4     sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-Rule 5     inicio -> VARIABLE DECLARADOR ENTERO
-Rule 6     condicion -> factor comparador factor
-Rule 7     incrementa -> VARIABLE INCREMENTO
-Rule 8     comparador -> MAYORQUE
-Rule 9     comparador -> MENORQUE
-Rule 10    comparador -> ESIGUAL
-Rule 11    comparador -> MAYORIGUAL
-Rule 12    comparador -> MENORIGUAL
-Rule 13    factor -> VARIABLE
-Rule 14    factor -> ENTERO
+Rule 1     instrucciones -> expresion
+Rule 2     instrucciones -> condicion
+Rule 3     instrucciones -> sentenciaFor
+Rule 4     instrucciones -> inicio
+Rule 5     sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+Rule 6     inicio -> VARIABLE DECLARADOR ENTERO
+Rule 7     condicion -> termc comparador termc
+Rule 8     incrementa -> VARIABLE INCREMENTO
+Rule 9     comparador -> MAYORQUE
+Rule 10    comparador -> MENORQUE
+Rule 11    comparador -> ESIGUAL
+Rule 12    comparador -> MAYORIGUAL
+Rule 13    comparador -> MENORIGUAL
+Rule 14    expresion -> expresion SUMA numericos
+Rule 15    expresion -> expresion RESTA numericos
+Rule 16    expresion -> expresion PRODUCTO numericos
+Rule 17    expresion -> expresion DIVISION numericos
+Rule 18    expresion -> expresion MODULO numericos
+Rule 19    expresion -> term
+Rule 20    term -> numericos
+Rule 21    termc -> VARIABLE
+Rule 22    termc -> numericos
+Rule 23    factor -> VARIABLE
+Rule 24    numericos -> ENTERO
+Rule 25    numericos -> FLOTANTE
 
 Terminals, with rules where they appear
 
@@ -90,21 +95,21 @@ CONST                :
 CONTINUE             : 
 CORCHLEFT            : 
 CORCHRIGHT           : 
-DECLARADOR           : 5
+DECLARADOR           : 6
 DEFAULT              : 
 DEFER                : 
 DIFERENTE            : 
-DIVISION             : 
+DIVISION             : 17
 DOSPUNTOS            : 
 ELSE                 : 
-ENTERO               : 5 14
-ESIGUAL              : 10
+ENTERO               : 6 24
+ESIGUAL              : 11
 ESPACIO              : 
 FALLTHROUGH          : 
 FALSE                : 
 FLOAT                : 
-FLOTANTE             : 
-FOR                  : 4
+FLOTANTE             : 25
+FOR                  : 5
 FUNC                 : 
 GO                   : 
 GOTO                 : 
@@ -112,73 +117,91 @@ IF                   :
 IGUAL                : 
 IMPORT               : 
 IMPRIMIR             : 
-INCREMENTO           : 7
+INCREMENTO           : 8
 INT                  : 
 INTERFACE            : 
-LLAVELEFT            : 4
-LLAVERIGHT           : 4
+LLAVELEFT            : 5
+LLAVERIGHT           : 5
 MAP                  : 
 MASIGUAL             : 
-MAYORIGUAL           : 11
-MAYORQUE             : 8
-MENORIGUAL           : 12
-MENORQUE             : 9
+MAYORIGUAL           : 12
+MAYORQUE             : 9
+MENORIGUAL           : 13
+MENORQUE             : 10
 MENOSIGUAL           : 
-MODULO               : 
+MODULO               : 18
 NEGACION             : 
 OR                   : 
 PACKAGE              : 
 PARLEFT              : 
 PARRIGHT             : 
-PRODUCTO             : 
-PUNTOCOMA            : 4 4
+PRODUCTO             : 16
+PUNTOCOMA            : 5 5
 RANGE                : 
-RESTA                : 
+RESTA                : 15
 RETURN               : 
 SELECT               : 
 STRING               : 
 STRUCT               : 
-SUMA                 : 
+SUMA                 : 14
 SWITCH               : 
 TRUE                 : 
 TYPE                 : 
 VAR                  : 
-VARIABLE             : 5 7 13
+VARIABLE             : 6 8 21 23
 error                : 
 
 Nonterminals, with rules where they appear
 
-comparador           : 6
-condicion            : 1 4
-factor               : 6 6
-incrementa           : 4
-inicio               : 3 4
-instrucciones        : 4 0
-sentenciaFor         : 2
+comparador           : 7
+condicion            : 2 5
+expresion            : 1 14 15 16 17 18
+factor               : 
+incrementa           : 5
+inicio               : 4 5
+instrucciones        : 5 0
+numericos            : 14 15 16 17 18 20 22
+sentenciaFor         : 3
+term                 : 19
+termc                : 7 7
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . instrucciones
-    (1) instrucciones -> . condicion
-    (2) instrucciones -> . sentenciaFor
-    (3) instrucciones -> . inicio
-    (6) condicion -> . factor comparador factor
-    (4) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (5) inicio -> . VARIABLE DECLARADOR ENTERO
-    (13) factor -> . VARIABLE
-    (14) factor -> . ENTERO
+    (1) instrucciones -> . expresion
+    (2) instrucciones -> . condicion
+    (3) instrucciones -> . sentenciaFor
+    (4) instrucciones -> . inicio
+    (14) expresion -> . expresion SUMA numericos
+    (15) expresion -> . expresion RESTA numericos
+    (16) expresion -> . expresion PRODUCTO numericos
+    (17) expresion -> . expresion DIVISION numericos
+    (18) expresion -> . expresion MODULO numericos
+    (19) expresion -> . term
+    (7) condicion -> . termc comparador termc
+    (5) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (6) inicio -> . VARIABLE DECLARADOR ENTERO
+    (20) term -> . numericos
+    (21) termc -> . VARIABLE
+    (22) termc -> . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
 
-    FOR             shift and go to state 6
-    VARIABLE        shift and go to state 7
-    ENTERO          shift and go to state 8
+    FOR             shift and go to state 9
+    VARIABLE        shift and go to state 10
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
 
     instrucciones                  shift and go to state 1
-    condicion                      shift and go to state 2
-    sentenciaFor                   shift and go to state 3
-    inicio                         shift and go to state 4
-    factor                         shift and go to state 5
+    expresion                      shift and go to state 2
+    condicion                      shift and go to state 3
+    sentenciaFor                   shift and go to state 4
+    inicio                         shift and go to state 5
+    numericos                      shift and go to state 6
+    term                           shift and go to state 7
+    termc                          shift and go to state 8
 
 state 1
 
@@ -188,268 +211,503 @@ state 1
 
 state 2
 
-    (1) instrucciones -> condicion .
+    (1) instrucciones -> expresion .
+    (14) expresion -> expresion . SUMA numericos
+    (15) expresion -> expresion . RESTA numericos
+    (16) expresion -> expresion . PRODUCTO numericos
+    (17) expresion -> expresion . DIVISION numericos
+    (18) expresion -> expresion . MODULO numericos
 
-    $end            reduce using rule 1 (instrucciones -> condicion .)
-    LLAVERIGHT      reduce using rule 1 (instrucciones -> condicion .)
+    $end            reduce using rule 1 (instrucciones -> expresion .)
+    LLAVERIGHT      reduce using rule 1 (instrucciones -> expresion .)
+    SUMA            shift and go to state 13
+    RESTA           shift and go to state 14
+    PRODUCTO        shift and go to state 15
+    DIVISION        shift and go to state 16
+    MODULO          shift and go to state 17
 
 
 state 3
 
-    (2) instrucciones -> sentenciaFor .
+    (2) instrucciones -> condicion .
 
-    $end            reduce using rule 2 (instrucciones -> sentenciaFor .)
-    LLAVERIGHT      reduce using rule 2 (instrucciones -> sentenciaFor .)
+    $end            reduce using rule 2 (instrucciones -> condicion .)
+    LLAVERIGHT      reduce using rule 2 (instrucciones -> condicion .)
 
 
 state 4
 
-    (3) instrucciones -> inicio .
+    (3) instrucciones -> sentenciaFor .
 
-    $end            reduce using rule 3 (instrucciones -> inicio .)
-    LLAVERIGHT      reduce using rule 3 (instrucciones -> inicio .)
+    $end            reduce using rule 3 (instrucciones -> sentenciaFor .)
+    LLAVERIGHT      reduce using rule 3 (instrucciones -> sentenciaFor .)
 
 
 state 5
 
-    (6) condicion -> factor . comparador factor
-    (8) comparador -> . MAYORQUE
-    (9) comparador -> . MENORQUE
-    (10) comparador -> . ESIGUAL
-    (11) comparador -> . MAYORIGUAL
-    (12) comparador -> . MENORIGUAL
+    (4) instrucciones -> inicio .
 
-    MAYORQUE        shift and go to state 10
-    MENORQUE        shift and go to state 11
-    ESIGUAL         shift and go to state 12
-    MAYORIGUAL      shift and go to state 13
-    MENORIGUAL      shift and go to state 14
+    $end            reduce using rule 4 (instrucciones -> inicio .)
+    LLAVERIGHT      reduce using rule 4 (instrucciones -> inicio .)
 
-    comparador                     shift and go to state 9
 
 state 6
 
-    (4) sentenciaFor -> FOR . inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (5) inicio -> . VARIABLE DECLARADOR ENTERO
+    (20) term -> numericos .
+    (22) termc -> numericos .
 
-    VARIABLE        shift and go to state 16
+    SUMA            reduce using rule 20 (term -> numericos .)
+    RESTA           reduce using rule 20 (term -> numericos .)
+    PRODUCTO        reduce using rule 20 (term -> numericos .)
+    DIVISION        reduce using rule 20 (term -> numericos .)
+    MODULO          reduce using rule 20 (term -> numericos .)
+    $end            reduce using rule 20 (term -> numericos .)
+    LLAVERIGHT      reduce using rule 20 (term -> numericos .)
+    MAYORQUE        reduce using rule 22 (termc -> numericos .)
+    MENORQUE        reduce using rule 22 (termc -> numericos .)
+    ESIGUAL         reduce using rule 22 (termc -> numericos .)
+    MAYORIGUAL      reduce using rule 22 (termc -> numericos .)
+    MENORIGUAL      reduce using rule 22 (termc -> numericos .)
 
-    inicio                         shift and go to state 15
 
 state 7
 
-    (5) inicio -> VARIABLE . DECLARADOR ENTERO
-    (13) factor -> VARIABLE .
+    (19) expresion -> term .
 
-    DECLARADOR      shift and go to state 17
-    MAYORQUE        reduce using rule 13 (factor -> VARIABLE .)
-    MENORQUE        reduce using rule 13 (factor -> VARIABLE .)
-    ESIGUAL         reduce using rule 13 (factor -> VARIABLE .)
-    MAYORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
-    MENORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
+    SUMA            reduce using rule 19 (expresion -> term .)
+    RESTA           reduce using rule 19 (expresion -> term .)
+    PRODUCTO        reduce using rule 19 (expresion -> term .)
+    DIVISION        reduce using rule 19 (expresion -> term .)
+    MODULO          reduce using rule 19 (expresion -> term .)
+    $end            reduce using rule 19 (expresion -> term .)
+    LLAVERIGHT      reduce using rule 19 (expresion -> term .)
 
 
 state 8
 
-    (14) factor -> ENTERO .
+    (7) condicion -> termc . comparador termc
+    (9) comparador -> . MAYORQUE
+    (10) comparador -> . MENORQUE
+    (11) comparador -> . ESIGUAL
+    (12) comparador -> . MAYORIGUAL
+    (13) comparador -> . MENORIGUAL
 
-    MAYORQUE        reduce using rule 14 (factor -> ENTERO .)
-    MENORQUE        reduce using rule 14 (factor -> ENTERO .)
-    ESIGUAL         reduce using rule 14 (factor -> ENTERO .)
-    MAYORIGUAL      reduce using rule 14 (factor -> ENTERO .)
-    MENORIGUAL      reduce using rule 14 (factor -> ENTERO .)
-    $end            reduce using rule 14 (factor -> ENTERO .)
-    PUNTOCOMA       reduce using rule 14 (factor -> ENTERO .)
-    LLAVERIGHT      reduce using rule 14 (factor -> ENTERO .)
+    MAYORQUE        shift and go to state 19
+    MENORQUE        shift and go to state 20
+    ESIGUAL         shift and go to state 21
+    MAYORIGUAL      shift and go to state 22
+    MENORIGUAL      shift and go to state 23
 
+    comparador                     shift and go to state 18
 
 state 9
 
-    (6) condicion -> factor comparador . factor
-    (13) factor -> . VARIABLE
-    (14) factor -> . ENTERO
+    (5) sentenciaFor -> FOR . inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (6) inicio -> . VARIABLE DECLARADOR ENTERO
 
-    VARIABLE        shift and go to state 19
-    ENTERO          shift and go to state 8
+    VARIABLE        shift and go to state 25
 
-    factor                         shift and go to state 18
+    inicio                         shift and go to state 24
 
 state 10
 
-    (8) comparador -> MAYORQUE .
+    (6) inicio -> VARIABLE . DECLARADOR ENTERO
+    (21) termc -> VARIABLE .
 
-    VARIABLE        reduce using rule 8 (comparador -> MAYORQUE .)
-    ENTERO          reduce using rule 8 (comparador -> MAYORQUE .)
+    DECLARADOR      shift and go to state 26
+    MAYORQUE        reduce using rule 21 (termc -> VARIABLE .)
+    MENORQUE        reduce using rule 21 (termc -> VARIABLE .)
+    ESIGUAL         reduce using rule 21 (termc -> VARIABLE .)
+    MAYORIGUAL      reduce using rule 21 (termc -> VARIABLE .)
+    MENORIGUAL      reduce using rule 21 (termc -> VARIABLE .)
 
 
 state 11
 
-    (9) comparador -> MENORQUE .
+    (24) numericos -> ENTERO .
 
-    VARIABLE        reduce using rule 9 (comparador -> MENORQUE .)
-    ENTERO          reduce using rule 9 (comparador -> MENORQUE .)
+    SUMA            reduce using rule 24 (numericos -> ENTERO .)
+    RESTA           reduce using rule 24 (numericos -> ENTERO .)
+    PRODUCTO        reduce using rule 24 (numericos -> ENTERO .)
+    DIVISION        reduce using rule 24 (numericos -> ENTERO .)
+    MODULO          reduce using rule 24 (numericos -> ENTERO .)
+    $end            reduce using rule 24 (numericos -> ENTERO .)
+    MAYORQUE        reduce using rule 24 (numericos -> ENTERO .)
+    MENORQUE        reduce using rule 24 (numericos -> ENTERO .)
+    ESIGUAL         reduce using rule 24 (numericos -> ENTERO .)
+    MAYORIGUAL      reduce using rule 24 (numericos -> ENTERO .)
+    MENORIGUAL      reduce using rule 24 (numericos -> ENTERO .)
+    LLAVERIGHT      reduce using rule 24 (numericos -> ENTERO .)
+    PUNTOCOMA       reduce using rule 24 (numericos -> ENTERO .)
 
 
 state 12
 
-    (10) comparador -> ESIGUAL .
+    (25) numericos -> FLOTANTE .
 
-    VARIABLE        reduce using rule 10 (comparador -> ESIGUAL .)
-    ENTERO          reduce using rule 10 (comparador -> ESIGUAL .)
+    SUMA            reduce using rule 25 (numericos -> FLOTANTE .)
+    RESTA           reduce using rule 25 (numericos -> FLOTANTE .)
+    PRODUCTO        reduce using rule 25 (numericos -> FLOTANTE .)
+    DIVISION        reduce using rule 25 (numericos -> FLOTANTE .)
+    MODULO          reduce using rule 25 (numericos -> FLOTANTE .)
+    $end            reduce using rule 25 (numericos -> FLOTANTE .)
+    MAYORQUE        reduce using rule 25 (numericos -> FLOTANTE .)
+    MENORQUE        reduce using rule 25 (numericos -> FLOTANTE .)
+    ESIGUAL         reduce using rule 25 (numericos -> FLOTANTE .)
+    MAYORIGUAL      reduce using rule 25 (numericos -> FLOTANTE .)
+    MENORIGUAL      reduce using rule 25 (numericos -> FLOTANTE .)
+    LLAVERIGHT      reduce using rule 25 (numericos -> FLOTANTE .)
+    PUNTOCOMA       reduce using rule 25 (numericos -> FLOTANTE .)
 
 
 state 13
 
-    (11) comparador -> MAYORIGUAL .
+    (14) expresion -> expresion SUMA . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
 
-    VARIABLE        reduce using rule 11 (comparador -> MAYORIGUAL .)
-    ENTERO          reduce using rule 11 (comparador -> MAYORIGUAL .)
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
 
+    numericos                      shift and go to state 27
 
 state 14
 
-    (12) comparador -> MENORIGUAL .
+    (15) expresion -> expresion RESTA . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
 
-    VARIABLE        reduce using rule 12 (comparador -> MENORIGUAL .)
-    ENTERO          reduce using rule 12 (comparador -> MENORIGUAL .)
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
 
+    numericos                      shift and go to state 28
 
 state 15
 
-    (4) sentenciaFor -> FOR inicio . PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (16) expresion -> expresion PRODUCTO . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
 
-    PUNTOCOMA       shift and go to state 20
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
 
+    numericos                      shift and go to state 29
 
 state 16
 
-    (5) inicio -> VARIABLE . DECLARADOR ENTERO
+    (17) expresion -> expresion DIVISION . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
 
-    DECLARADOR      shift and go to state 17
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
 
+    numericos                      shift and go to state 30
 
 state 17
 
-    (5) inicio -> VARIABLE DECLARADOR . ENTERO
+    (18) expresion -> expresion MODULO . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
 
-    ENTERO          shift and go to state 21
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
 
+    numericos                      shift and go to state 31
 
 state 18
 
-    (6) condicion -> factor comparador factor .
+    (7) condicion -> termc comparador . termc
+    (21) termc -> . VARIABLE
+    (22) termc -> . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
 
-    $end            reduce using rule 6 (condicion -> factor comparador factor .)
-    PUNTOCOMA       reduce using rule 6 (condicion -> factor comparador factor .)
-    LLAVERIGHT      reduce using rule 6 (condicion -> factor comparador factor .)
+    VARIABLE        shift and go to state 33
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
 
+    termc                          shift and go to state 32
+    numericos                      shift and go to state 34
 
 state 19
 
-    (13) factor -> VARIABLE .
+    (9) comparador -> MAYORQUE .
 
-    $end            reduce using rule 13 (factor -> VARIABLE .)
-    PUNTOCOMA       reduce using rule 13 (factor -> VARIABLE .)
-    LLAVERIGHT      reduce using rule 13 (factor -> VARIABLE .)
-    MAYORQUE        reduce using rule 13 (factor -> VARIABLE .)
-    MENORQUE        reduce using rule 13 (factor -> VARIABLE .)
-    ESIGUAL         reduce using rule 13 (factor -> VARIABLE .)
-    MAYORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
-    MENORIGUAL      reduce using rule 13 (factor -> VARIABLE .)
+    VARIABLE        reduce using rule 9 (comparador -> MAYORQUE .)
+    ENTERO          reduce using rule 9 (comparador -> MAYORQUE .)
+    FLOTANTE        reduce using rule 9 (comparador -> MAYORQUE .)
 
 
 state 20
 
-    (4) sentenciaFor -> FOR inicio PUNTOCOMA . condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (6) condicion -> . factor comparador factor
-    (13) factor -> . VARIABLE
-    (14) factor -> . ENTERO
+    (10) comparador -> MENORQUE .
 
-    VARIABLE        shift and go to state 19
-    ENTERO          shift and go to state 8
+    VARIABLE        reduce using rule 10 (comparador -> MENORQUE .)
+    ENTERO          reduce using rule 10 (comparador -> MENORQUE .)
+    FLOTANTE        reduce using rule 10 (comparador -> MENORQUE .)
 
-    condicion                      shift and go to state 22
-    factor                         shift and go to state 5
 
 state 21
 
-    (5) inicio -> VARIABLE DECLARADOR ENTERO .
+    (11) comparador -> ESIGUAL .
 
-    $end            reduce using rule 5 (inicio -> VARIABLE DECLARADOR ENTERO .)
-    PUNTOCOMA       reduce using rule 5 (inicio -> VARIABLE DECLARADOR ENTERO .)
-    LLAVERIGHT      reduce using rule 5 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    VARIABLE        reduce using rule 11 (comparador -> ESIGUAL .)
+    ENTERO          reduce using rule 11 (comparador -> ESIGUAL .)
+    FLOTANTE        reduce using rule 11 (comparador -> ESIGUAL .)
 
 
 state 22
 
-    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion . PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (12) comparador -> MAYORIGUAL .
 
-    PUNTOCOMA       shift and go to state 23
+    VARIABLE        reduce using rule 12 (comparador -> MAYORIGUAL .)
+    ENTERO          reduce using rule 12 (comparador -> MAYORIGUAL .)
+    FLOTANTE        reduce using rule 12 (comparador -> MAYORIGUAL .)
 
 
 state 23
 
-    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA . incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (7) incrementa -> . VARIABLE INCREMENTO
+    (13) comparador -> MENORIGUAL .
 
-    VARIABLE        shift and go to state 25
+    VARIABLE        reduce using rule 13 (comparador -> MENORIGUAL .)
+    ENTERO          reduce using rule 13 (comparador -> MENORIGUAL .)
+    FLOTANTE        reduce using rule 13 (comparador -> MENORIGUAL .)
 
-    incrementa                     shift and go to state 24
 
 state 24
 
-    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa . LLAVELEFT instrucciones LLAVERIGHT
+    (5) sentenciaFor -> FOR inicio . PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
 
-    LLAVELEFT       shift and go to state 26
+    PUNTOCOMA       shift and go to state 35
 
 
 state 25
 
-    (7) incrementa -> VARIABLE . INCREMENTO
+    (6) inicio -> VARIABLE . DECLARADOR ENTERO
 
-    INCREMENTO      shift and go to state 27
+    DECLARADOR      shift and go to state 26
 
 
 state 26
 
-    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT . instrucciones LLAVERIGHT
-    (1) instrucciones -> . condicion
-    (2) instrucciones -> . sentenciaFor
-    (3) instrucciones -> . inicio
-    (6) condicion -> . factor comparador factor
-    (4) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (5) inicio -> . VARIABLE DECLARADOR ENTERO
-    (13) factor -> . VARIABLE
-    (14) factor -> . ENTERO
+    (6) inicio -> VARIABLE DECLARADOR . ENTERO
 
-    FOR             shift and go to state 6
-    VARIABLE        shift and go to state 7
-    ENTERO          shift and go to state 8
+    ENTERO          shift and go to state 36
 
-    inicio                         shift and go to state 4
-    condicion                      shift and go to state 2
-    instrucciones                  shift and go to state 28
-    sentenciaFor                   shift and go to state 3
-    factor                         shift and go to state 5
 
 state 27
 
-    (7) incrementa -> VARIABLE INCREMENTO .
+    (14) expresion -> expresion SUMA numericos .
 
-    LLAVELEFT       reduce using rule 7 (incrementa -> VARIABLE INCREMENTO .)
+    SUMA            reduce using rule 14 (expresion -> expresion SUMA numericos .)
+    RESTA           reduce using rule 14 (expresion -> expresion SUMA numericos .)
+    PRODUCTO        reduce using rule 14 (expresion -> expresion SUMA numericos .)
+    DIVISION        reduce using rule 14 (expresion -> expresion SUMA numericos .)
+    MODULO          reduce using rule 14 (expresion -> expresion SUMA numericos .)
+    $end            reduce using rule 14 (expresion -> expresion SUMA numericos .)
+    LLAVERIGHT      reduce using rule 14 (expresion -> expresion SUMA numericos .)
 
 
 state 28
 
-    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones . LLAVERIGHT
+    (15) expresion -> expresion RESTA numericos .
 
-    LLAVERIGHT      shift and go to state 29
+    SUMA            reduce using rule 15 (expresion -> expresion RESTA numericos .)
+    RESTA           reduce using rule 15 (expresion -> expresion RESTA numericos .)
+    PRODUCTO        reduce using rule 15 (expresion -> expresion RESTA numericos .)
+    DIVISION        reduce using rule 15 (expresion -> expresion RESTA numericos .)
+    MODULO          reduce using rule 15 (expresion -> expresion RESTA numericos .)
+    $end            reduce using rule 15 (expresion -> expresion RESTA numericos .)
+    LLAVERIGHT      reduce using rule 15 (expresion -> expresion RESTA numericos .)
 
 
 state 29
 
-    (4) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .
+    (16) expresion -> expresion PRODUCTO numericos .
 
-    $end            reduce using rule 4 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
-    LLAVERIGHT      reduce using rule 4 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+    SUMA            reduce using rule 16 (expresion -> expresion PRODUCTO numericos .)
+    RESTA           reduce using rule 16 (expresion -> expresion PRODUCTO numericos .)
+    PRODUCTO        reduce using rule 16 (expresion -> expresion PRODUCTO numericos .)
+    DIVISION        reduce using rule 16 (expresion -> expresion PRODUCTO numericos .)
+    MODULO          reduce using rule 16 (expresion -> expresion PRODUCTO numericos .)
+    $end            reduce using rule 16 (expresion -> expresion PRODUCTO numericos .)
+    LLAVERIGHT      reduce using rule 16 (expresion -> expresion PRODUCTO numericos .)
+
+
+state 30
+
+    (17) expresion -> expresion DIVISION numericos .
+
+    SUMA            reduce using rule 17 (expresion -> expresion DIVISION numericos .)
+    RESTA           reduce using rule 17 (expresion -> expresion DIVISION numericos .)
+    PRODUCTO        reduce using rule 17 (expresion -> expresion DIVISION numericos .)
+    DIVISION        reduce using rule 17 (expresion -> expresion DIVISION numericos .)
+    MODULO          reduce using rule 17 (expresion -> expresion DIVISION numericos .)
+    $end            reduce using rule 17 (expresion -> expresion DIVISION numericos .)
+    LLAVERIGHT      reduce using rule 17 (expresion -> expresion DIVISION numericos .)
+
+
+state 31
+
+    (18) expresion -> expresion MODULO numericos .
+
+    SUMA            reduce using rule 18 (expresion -> expresion MODULO numericos .)
+    RESTA           reduce using rule 18 (expresion -> expresion MODULO numericos .)
+    PRODUCTO        reduce using rule 18 (expresion -> expresion MODULO numericos .)
+    DIVISION        reduce using rule 18 (expresion -> expresion MODULO numericos .)
+    MODULO          reduce using rule 18 (expresion -> expresion MODULO numericos .)
+    $end            reduce using rule 18 (expresion -> expresion MODULO numericos .)
+    LLAVERIGHT      reduce using rule 18 (expresion -> expresion MODULO numericos .)
+
+
+state 32
+
+    (7) condicion -> termc comparador termc .
+
+    $end            reduce using rule 7 (condicion -> termc comparador termc .)
+    PUNTOCOMA       reduce using rule 7 (condicion -> termc comparador termc .)
+    LLAVERIGHT      reduce using rule 7 (condicion -> termc comparador termc .)
+
+
+state 33
+
+    (21) termc -> VARIABLE .
+
+    $end            reduce using rule 21 (termc -> VARIABLE .)
+    PUNTOCOMA       reduce using rule 21 (termc -> VARIABLE .)
+    LLAVERIGHT      reduce using rule 21 (termc -> VARIABLE .)
+    MAYORQUE        reduce using rule 21 (termc -> VARIABLE .)
+    MENORQUE        reduce using rule 21 (termc -> VARIABLE .)
+    ESIGUAL         reduce using rule 21 (termc -> VARIABLE .)
+    MAYORIGUAL      reduce using rule 21 (termc -> VARIABLE .)
+    MENORIGUAL      reduce using rule 21 (termc -> VARIABLE .)
+
+
+state 34
+
+    (22) termc -> numericos .
+
+    $end            reduce using rule 22 (termc -> numericos .)
+    PUNTOCOMA       reduce using rule 22 (termc -> numericos .)
+    LLAVERIGHT      reduce using rule 22 (termc -> numericos .)
+    MAYORQUE        reduce using rule 22 (termc -> numericos .)
+    MENORQUE        reduce using rule 22 (termc -> numericos .)
+    ESIGUAL         reduce using rule 22 (termc -> numericos .)
+    MAYORIGUAL      reduce using rule 22 (termc -> numericos .)
+    MENORIGUAL      reduce using rule 22 (termc -> numericos .)
+
+
+state 35
+
+    (5) sentenciaFor -> FOR inicio PUNTOCOMA . condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (7) condicion -> . termc comparador termc
+    (21) termc -> . VARIABLE
+    (22) termc -> . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
+
+    VARIABLE        shift and go to state 33
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
+
+    condicion                      shift and go to state 37
+    termc                          shift and go to state 8
+    numericos                      shift and go to state 34
+
+state 36
+
+    (6) inicio -> VARIABLE DECLARADOR ENTERO .
+
+    $end            reduce using rule 6 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    PUNTOCOMA       reduce using rule 6 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    LLAVERIGHT      reduce using rule 6 (inicio -> VARIABLE DECLARADOR ENTERO .)
+
+
+state 37
+
+    (5) sentenciaFor -> FOR inicio PUNTOCOMA condicion . PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+
+    PUNTOCOMA       shift and go to state 38
+
+
+state 38
+
+    (5) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA . incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (8) incrementa -> . VARIABLE INCREMENTO
+
+    VARIABLE        shift and go to state 40
+
+    incrementa                     shift and go to state 39
+
+state 39
+
+    (5) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa . LLAVELEFT instrucciones LLAVERIGHT
+
+    LLAVELEFT       shift and go to state 41
+
+
+state 40
+
+    (8) incrementa -> VARIABLE . INCREMENTO
+
+    INCREMENTO      shift and go to state 42
+
+
+state 41
+
+    (5) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT . instrucciones LLAVERIGHT
+    (1) instrucciones -> . expresion
+    (2) instrucciones -> . condicion
+    (3) instrucciones -> . sentenciaFor
+    (4) instrucciones -> . inicio
+    (14) expresion -> . expresion SUMA numericos
+    (15) expresion -> . expresion RESTA numericos
+    (16) expresion -> . expresion PRODUCTO numericos
+    (17) expresion -> . expresion DIVISION numericos
+    (18) expresion -> . expresion MODULO numericos
+    (19) expresion -> . term
+    (7) condicion -> . termc comparador termc
+    (5) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (6) inicio -> . VARIABLE DECLARADOR ENTERO
+    (20) term -> . numericos
+    (21) termc -> . VARIABLE
+    (22) termc -> . numericos
+    (24) numericos -> . ENTERO
+    (25) numericos -> . FLOTANTE
+
+    FOR             shift and go to state 9
+    VARIABLE        shift and go to state 10
+    ENTERO          shift and go to state 11
+    FLOTANTE        shift and go to state 12
+
+    inicio                         shift and go to state 5
+    condicion                      shift and go to state 3
+    instrucciones                  shift and go to state 43
+    expresion                      shift and go to state 2
+    sentenciaFor                   shift and go to state 4
+    numericos                      shift and go to state 6
+    term                           shift and go to state 7
+    termc                          shift and go to state 8
+
+state 42
+
+    (8) incrementa -> VARIABLE INCREMENTO .
+
+    LLAVELEFT       reduce using rule 8 (incrementa -> VARIABLE INCREMENTO .)
+
+
+state 43
+
+    (5) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones . LLAVERIGHT
+
+    LLAVERIGHT      shift and go to state 44
+
+
+state 44
+
+    (5) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .
+
+    $end            reduce using rule 5 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 5 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
 
