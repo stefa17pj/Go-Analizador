@@ -21,24 +21,24 @@ reserved = {
     'case': 'CASE',
     'func': 'FUNC',
     'continue': 'CONTINUE',
-    'fallthrough': 'FALLTHROUGH',
-    'goto': 'GOTO',
-    'interface': 'INTERFACE',
+    #'fallthrough': 'FALLTHROUGH',
+    #'goto': 'GOTO',
+    #'interface': 'INTERFACE',
     'map': 'MAP',
-    'package': 'PACKAGE',
-    'range': 'RANGE',
+    #'package': 'PACKAGE',
+    #'range': 'RANGE',
     'return': 'RETURN',
-    'select': 'SELECT',
-    'struct': 'STRUCT',
+    #'select': 'SELECT',
+    #'struct': 'STRUCT',
     'switch': 'SWITCH',
-    'type': 'TYPE',
+    #'type': 'TYPE',
     'var': 'VAR',
-    'chan': 'CHAN',
-    'go': 'GO',
+    #'chan': 'CHAN',
+    #'go': 'GO',
     'default': 'DEFAULT',
-    'defer': 'DEFER',
-    'import': 'IMPORT',
-    'const': 'CONST',
+    #'defer': 'DEFER',
+    #'import': 'IMPORT',
+    #'const': 'CONST',
     'true': 'TRUE',
     'false': 'FALSE',
     #id de tipos de datos
@@ -79,7 +79,7 @@ tokens = (
     'INCREMENTO',
     'PARLEFT',
     'PARRIGHT',
-    'COMENTARIO',
+    #'COMENTARIO',
     'COMA',
     'DOSPUNTOS',
     'PUNTOCOMA',
@@ -88,12 +88,12 @@ tokens = (
     'CORCHRIGHT',
     'CORCHLEFT',
     #Caracteres
-    'BARRAINVERSA',
-    'ESPACIO',
+    #'BARRAINVERSA',
+    #'ESPACIO',
     #Imprimir
     'IMPRIMIR',
     'AMPERSAND',
-    'COMILLA',
+    #'COMILLA',
     #Lectura de datos
     'SCAN'
 
@@ -140,8 +140,8 @@ t_CORCHRIGHT = r'\]'
 t_CORCHLEFT = r'\['
 
 # Caracteres
-t_BARRAINVERSA = r'\\'
-t_ESPACIO = r'\s'
+#t_BARRAINVERSA = r'\\'
+#t_ESPACIO = r'\s'
 t_AMPERSAND = r'&'
 
 # Imprimir: Stefany

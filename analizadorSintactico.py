@@ -1,11 +1,6 @@
 import ply.yacc as yacc 
 from analizadorLexico import tokens
 
-def p_padre(p):
-    '''golang : instrucciones
-              | switch
-              | funcion'''
-
 #STEFANY LAVAYEN
 def p_instrucciones(p):
     '''instrucciones : asignacion 
@@ -19,7 +14,8 @@ def p_instrucciones(p):
                      | lectura
                      | array
                      | switch
-                     | arrayAsig'''
+                     | arrayAsig
+                     | funcion'''
 
 # JAHIR VELIZ
 def p_asignacion(p):
@@ -31,6 +27,10 @@ def p_asignacion(p):
                   | VAR VARIABLE puntero
                   | VARIABLE DECLARADOR valor
                   | VARIABLE IGUAL valor
+                  | VARIABLE MASIGUAL expresion
+                  | VARIABLE MASIGUAL CADENA
+                  | VARIABLE MASIGUAL VARIABLE
+                  | VARIABLE MENOSIGUAL expresion
                   | derefer IGUAL valor
        booleano   : condicion
                   | TRUE 
@@ -44,12 +44,12 @@ def p_asignacion(p):
 
 #JAHIR VELIZ
 def p_sentenciaIf(p):
-    '''sentenciaIf : IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
-                   | IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
-                   | IF condicion LLAVELEFT instrucciones LLAVERIGHT
-                   | IF condicion LLAVELEFT instrucciones LLAVERIGHT else
-                   | IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
-                   | IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+    '''sentenciaIf : IF condiciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+                   | IF condiciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+                   | IF condiciones LLAVELEFT instrucciones LLAVERIGHT
+                   | IF condiciones LLAVELEFT instrucciones LLAVERIGHT else
+                   | IF condiciones LLAVELEFT RETURN VARIABLE LLAVERIGHT
+                   | IF condiciones LLAVELEFT RETURN VARIABLE LLAVERIGHT else
        else :        ELSE LLAVELEFT instrucciones LLAVERIGHT
                    | ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
                    | ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
@@ -59,10 +59,10 @@ def p_sentenciaIf(p):
 def p_mapa(p):
     ''' mapa : MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
              | MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
-        par  : dato DOSPUNTOS dato
-             | dato DOSPUNTOS dato mas
-        mas  : COMA par
-             | COMA par mas
+        par  : dato DOSPUNTOS dato mas
+             | dato DOSPUNTOS dato
+        mas  : mas COMA dato DOSPUNTOS dato
+             | COMA dato DOSPUNTOS dato
         tipo : BOOL
              | INT
              | FLOAT
@@ -116,19 +116,21 @@ def p_print(p):
     'print : IMPRIMIR PARLEFT contPrint PARRIGHT'
 
 def p_contenidoPrint(p):
-    '''contPrint : CADENA 
-                | VARIABLE  
-                | factor
-                | contPrint COMA contPrint'''
+    '''contPrint : contenido masCont
+                 | contenido
+       masCont   : masCont COMA contenido
+                 | COMA contenido
+       contenido : expresion
+                 | CADENA
+                 | VARIABLE
+                 | '''
 
 #STEFANY LAVAYEN : lectura de datos Scan
 def p_lectura(p):
     'lectura : SCAN PARLEFT contScan PARRIGHT'
 
 def p_contenidoScan(p):
-    '''
-        contScan : AMPERSAND VARIABLE
-    '''
+    'contScan : AMPERSAND VARIABLE'
 
 # STEFANY LAVAYEN START{
 def p_contenidoArray(p):
@@ -196,13 +198,17 @@ def p_funcion(p):
                | funcion_sin_parametro_return'''
 
 def p_funcion_sin_parameters(p):
-    'funcion_sin_parametro : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones LLAVERIGHT'
+    '''funcion_sin_parametro : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones LLAVERIGHT
+                             | FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT RETURN LLAVERIGHT
+                             | FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones RETURN LLAVERIGHT'''
 
 def p_funcion_sin_parameters_return(p):
     'funcion_sin_parametro_return : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT'
 
 def p_funcion_parameters(p):
-    'funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones LLAVERIGHT'
+    '''funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones LLAVERIGHT
+                         | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones RETURN LLAVERIGHT
+                         | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT RETURN LLAVERIGHT'''
 
 def p_parametros(p):
     '''parametros : VARIABLE
@@ -215,12 +221,15 @@ def p_switch(p):
     'switch : SWITCH VARIABLE LLAVELEFT bloque_switch LLAVERIGHT'
 
 def p_bloque_switch(p):
-    '''bloque_switch : CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK
-                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones CONTINUE
-                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK bloque_switch
-                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK switch_default
-                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK bloque_switch switch_default
-                     | switch_default'''
+    '''bloque_switch : CASE caso DOSPUNTOS instrucciones BREAK
+                     | CASE caso DOSPUNTOS instrucciones CONTINUE
+                     | CASE caso DOSPUNTOS instrucciones BREAK bloque_switch
+                     | CASE caso DOSPUNTOS instrucciones BREAK switch_default
+                     | CASE caso DOSPUNTOS instrucciones BREAK bloque_switch switch_default
+                     | switch_default
+       caso          : VARIABLE
+                     | CADENA
+                     | ENTERO'''
 
 def p_switch_default(p):
     'switch_default : DEFAULT DOSPUNTOS instrucciones '
