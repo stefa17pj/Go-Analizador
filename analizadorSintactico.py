@@ -83,7 +83,7 @@ def p_puntero(p):
        refer   : AMPERSAND VARIABLE
        derefer : PRODUCTO VARIABLE'''
 
-#STEFANY LAVAYEN: Sentencia For con for inicio; condicion; incremento { codigo } como esta en el avance 0
+#STEFANY LAVAYEN: Sentencia For: ' for inicio; condicion; incremento { codigo } ' como esta en el avance 0
 def p_sentenciaFor(p):
     'sentenciaFor : FOR inicio PUNTOCOMA condiciones PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT'
 
@@ -95,14 +95,14 @@ def p_iniciofor(p):
 def p_incrementa(p):
     'incrementa : VARIABLE INCREMENTO'
 
-#STEFANY LAVAYEN
+#STEFANY LAVAYEN: Tipos de Datos
 def p_typeData(p):
     '''typeData : BOOL
             | INT
             | FLOAT
             | STRING'''
 
-#STEFANY LAVAYEN: Feclaracion de Arrays
+#STEFANY LAVAYEN: Declaracion de Arrays
 def p_array(p):
     'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT'
 
@@ -134,19 +134,19 @@ def p_contenidoArray(p):
     'contArray : contArray COMA numericos'
 
 def p_suma_expresion(p):
-    'expresion : expresion SUMA numericos'
+    '''expresion : expresion SUMA term'''
 
 def p_resta_expresion(p):
-    'expresion : expresion RESTA numericos'
+    'expresion : expresion RESTA term'
 
 def p_producto_expresion(p):
-    'expresion : expresion PRODUCTO numericos'
+    'expresion : expresion PRODUCTO term'
 
 def p_div_expresion(p):
-    'expresion : expresion DIVISION numericos'
+    'expresion : expresion DIVISION term'
 
 def p_modulo_expresion(p):
-    'expresion : expresion MODULO numericos'
+    'expresion : expresion MODULO term'
 
 def p_expression_term(p):
     'expresion : term'
@@ -172,7 +172,11 @@ def p_numericos(p):
 def p_numericos_float(p):
     'numericos : FLOTANTE'
 
+def p_factor_exp(p):
+    'numericos : PARLEFT expresion PARRIGHT'
+
 #} END STEFANY LAVAYEN
+
 # start - Bryan Puchaicela
 
 def p_comparacion(p):
@@ -196,7 +200,7 @@ def p_bloque_switch(p):
                      | switch_default'''
 
 def p_switch_default(p):
-    'switch_default: DEFAULT DOSPUNTOS instrucciones '
+    'switch_default : DEFAULT DOSPUNTOS instrucciones '
 
 # Operadores logicos
 def p_mayorque_compare(p):
