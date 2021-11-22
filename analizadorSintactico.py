@@ -3,7 +3,7 @@ from analizadorLexico import tokens
 
 #STEFANY LAVAYEN
 def p_instrucciones(p):
-    '''instrucciones : asignacion 
+    '''instrucciones : asignacion
                      | expresion 
                      | condiciones
                      | sentenciaIf
@@ -44,12 +44,12 @@ def p_asignacion(p):
 
 #JAHIR VELIZ
 def p_sentenciaIf(p):
-    '''sentenciaIf : IF condiciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
-                   | IF condiciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
-                   | IF condiciones LLAVELEFT instrucciones LLAVERIGHT
-                   | IF condiciones LLAVELEFT instrucciones LLAVERIGHT else
-                   | IF condiciones LLAVELEFT RETURN VARIABLE LLAVERIGHT
-                   | IF condiciones LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+    '''sentenciaIf : IF comparaciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+                   | IF comparaciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+                   | IF comparaciones LLAVELEFT instrucciones LLAVERIGHT
+                   | IF comparaciones LLAVELEFT instrucciones LLAVERIGHT else
+                   | IF comparaciones LLAVELEFT RETURN VARIABLE LLAVERIGHT
+                   | IF comparaciones LLAVELEFT RETURN VARIABLE LLAVERIGHT else
        else :        ELSE LLAVELEFT instrucciones LLAVERIGHT
                    | ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
                    | ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
@@ -224,8 +224,6 @@ def p_bloque_switch(p):
     '''bloque_switch : CASE caso DOSPUNTOS instrucciones BREAK
                      | CASE caso DOSPUNTOS instrucciones CONTINUE
                      | CASE caso DOSPUNTOS instrucciones BREAK bloque_switch
-                     | CASE caso DOSPUNTOS instrucciones BREAK switch_default
-                     | CASE caso DOSPUNTOS instrucciones BREAK bloque_switch switch_default
                      | switch_default
        caso          : VARIABLE
                      | CADENA
