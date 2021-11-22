@@ -192,10 +192,14 @@ def p_comparaciones_paren(p):
 # Estructura de functions
 def p_funcion(p):
     '''funcion : funcion_sin_parametro
-               | funcion_parametro'''
+               | funcion_parametro
+               | funcion_sin_parametro_return'''
 
 def p_funcion_sin_parameters(p):
     'funcion_sin_parametro : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones LLAVERIGHT'
+
+def p_funcion_sin_parameters_return(p):
+    'funcion_sin_parametro_return : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT'
 
 def p_funcion_parameters(p):
     'funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones LLAVERIGHT'
@@ -211,10 +215,11 @@ def p_switch(p):
     'switch : SWITCH VARIABLE LLAVELEFT bloque_switch LLAVERIGHT'
 
 def p_bloque_switch(p):
-    '''bloque_switch : CASE VARIABLE DOSPUNTOS instrucciones
-                     | CASE VARIABLE DOSPUNTOS instrucciones bloque_switch
-                     | CASE VARIABLE DOSPUNTOS instrucciones switch_default
-                     | CASE VARIABLE DOSPUNTOS instrucciones bloque_switch switch_default
+    '''bloque_switch : CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK
+                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones CONTINUE
+                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK bloque_switch
+                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK switch_default
+                     | CASE COMILLA VARIABLE COMILLA DOSPUNTOS instrucciones BREAK bloque_switch switch_default
                      | switch_default'''
 
 def p_switch_default(p):
