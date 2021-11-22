@@ -8,7 +8,10 @@ def p_instrucciones(p):
                      | condiciones
                      | sentenciaIf
                      | sentenciaFor
-                     | inicio
+                     | print
+                     | mapa
+                     | puntero
+                     | lectura
                      | array
                      | arrayAsig'''
 
@@ -75,15 +78,15 @@ def p_puntero(p):
        refer   : AMPERSAND VARIABLE
        derefer : PRODUCTO VARIABLE'''
 
-#STEFANY LAVAYEN
+#STEFANY LAVAYEN: Sentencia For con for inicio; condicion; incremento { codigo } como esta en el avance 0
 def p_sentenciaFor(p):
     'sentenciaFor : FOR inicio PUNTOCOMA condiciones PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT'
 
-#STEFANY LAVAYEN
+#STEFANY LAVAYEN: inicio del For
 def p_iniciofor(p):
     'inicio : VARIABLE DECLARADOR ENTERO'
 
-#STEFANY LAVAYEN
+#STEFANY LAVAYEN: incremento del For
 def p_incrementa(p):
     'incrementa : VARIABLE INCREMENTO'
 
@@ -94,15 +97,34 @@ def p_typeData(p):
             | FLOAT
             | STRING'''
 
-#STEFANY LAVAYEN
+#STEFANY LAVAYEN: Feclaracion de Arrays
 def p_array(p):
     'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT'
 
-#STEFANY LAAVYEN
+#STEFANY LAAVYEN: Asignacion de Arrays
 def p_arrayAsig(p):
     'arrayAsig : VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData'
 
-# STEFANY LAVAYEN {
+#STEFANY: Print
+def p_print(p):
+    'print : IMPRIMIR PARLEFT contPrint PARRIGHT'
+
+def p_contenidoPrint(p):
+    '''contPrint : CADENA 
+                | VARIABLE  
+                | factor
+                | contPrint COMA contPrint'''
+
+#STEFANY LAVAYEN : lectura de datos Scan
+def p_lectura(p):
+    'lectura : SCAN PARLEFT contScan PARRIGHT'
+
+def p_contenidoScan(p):
+    '''
+        contScan : AMPERSAND VARIABLE
+    '''
+
+# STEFANY LAVAYEN START{
 def p_contenidoArray(p):
     'contArray : contArray COMA numericos'
 
@@ -144,6 +166,7 @@ def p_numericos(p):
 
 def p_numericos_float(p):
     'numericos : FLOTANTE'
+
 #} END STEFANY LAVAYEN
 
 def p_factor_bool(p):

@@ -92,7 +92,11 @@ tokens = (
     'ESPACIO',
     #Imprimir
     'IMPRIMIR',
-    'AMPERSAND'
+    'AMPERSAND',
+    'COMILLA',
+    #Lectura de datos
+    'SCAN'
+
 ) + tuple(reserved.values())
 
 #-----------------------------------------------
@@ -144,6 +148,15 @@ t_AMPERSAND = r'&'
 def t_IMPRIMIR(t):
     r'fmt\.Print(ln|f)?'
     return t
+
+# Lectura: Stefany
+def t_SCAN(t):
+    r'fmt\.Scan(ln|f)?'
+    return t
+
+#comillas :Stefany 
+def t_COMILLA (t):
+    r'(\'|\")'
 
 # Flotante : Bryan
 def t_FLOTANTE(t):
