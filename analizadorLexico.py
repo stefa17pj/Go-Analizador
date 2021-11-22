@@ -92,6 +92,7 @@ tokens = (
     'ESPACIO',
     #Imprimir
     'IMPRIMIR',
+    'AMPERSAND'
 ) + tuple(reserved.values())
 
 #-----------------------------------------------
@@ -137,6 +138,7 @@ t_CORCHLEFT = r'\['
 # Caracteres
 t_BARRAINVERSA = r'\\'
 t_ESPACIO = r'\s'
+t_AMPERSAND = r'&'
 
 # Imprimir: Stefany
 def t_IMPRIMIR(t):

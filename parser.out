@@ -4,7 +4,6 @@ Unused terminals:
 
     BARRAINVERSA
     BREAK
-    CADENA
     CASE
     CHAN
     COMENTARIO
@@ -12,226 +11,306 @@ Unused terminals:
     CONTINUE
     DEFAULT
     DEFER
-    DOSPUNTOS
-    ELSE
     ESPACIO
     FALLTHROUGH
-    FALSE
     FUNC
     GO
     GOTO
-    IF
-    IGUAL
     IMPORT
     IMPRIMIR
     INTERFACE
-    MAP
     MASIGUAL
     MENOSIGUAL
     PACKAGE
     RANGE
-    RETURN
     SELECT
     STRUCT
     SWITCH
-    TRUE
     TYPE
 
 Grammar
 
 Rule 0     S' -> instrucciones
-Rule 1     instrucciones -> expresion
-Rule 2     instrucciones -> condicion
-Rule 3     instrucciones -> sentenciaFor
-Rule 4     instrucciones -> inicio
-Rule 5     instrucciones -> array
-Rule 6     instrucciones -> arrayAsig
-Rule 7     sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-Rule 8     inicio -> VARIABLE DECLARADOR ENTERO
-Rule 9     condicion -> termc comparador termc
-Rule 10    incrementa -> VARIABLE INCREMENTO
-Rule 11    typeData -> BOOL
-Rule 12    typeData -> INT
-Rule 13    typeData -> FLOAT
-Rule 14    typeData -> STRING
-Rule 15    array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
-Rule 16    arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
-Rule 17    contArray -> contArray COMA numericos
-Rule 18    comparador -> MAYORQUE
-Rule 19    comparador -> MENORQUE
-Rule 20    comparador -> ESIGUAL
-Rule 21    comparador -> MAYORIGUAL
-Rule 22    comparador -> MENORIGUAL
-Rule 23    expresion -> expresion SUMA numericos
-Rule 24    expresion -> expresion RESTA numericos
-Rule 25    expresion -> expresion PRODUCTO numericos
-Rule 26    expresion -> expresion DIVISION numericos
-Rule 27    expresion -> expresion MODULO numericos
-Rule 28    expresion -> term
-Rule 29    contArray -> term
-Rule 30    term -> numericos
-Rule 31    termc -> VARIABLE
-Rule 32    termc -> numericos
-Rule 33    factor -> VARIABLE
-Rule 34    numericos -> ENTERO
-Rule 35    numericos -> FLOTANTE
-Rule 36    factor -> BOOL
-Rule 37    comparacion -> condiciones
-Rule 38    comparacion -> NEGACION PARLEFT condiciones PARRIGHT
-Rule 39    comparacion -> PARLEFT condiciones PARRIGHT
-Rule 40    condiciones -> factor MAYORQUE factor
-Rule 41    condiciones -> factor MENORQUE factor
-Rule 42    condiciones -> factor DIFERENTE factor
-Rule 43    condiciones -> factor ESIGUAL factor
-Rule 44    condiciones -> factor MENORIGUAL factor
-Rule 45    condiciones -> factor MAYORIGUAL factor
-Rule 46    comparaciones -> comparacion
-Rule 47    comparaciones -> comparacion anado comparaciones
-Rule 48    anado -> condicion
-Rule 49    condicion -> AND
-Rule 50    condicion -> OR
+Rule 1     instrucciones -> asignacion
+Rule 2     instrucciones -> expresion
+Rule 3     instrucciones -> condicion
+Rule 4     instrucciones -> sentenciaIf
+Rule 5     instrucciones -> sentenciaFor
+Rule 6     instrucciones -> inicio
+Rule 7     instrucciones -> array
+Rule 8     instrucciones -> arrayAsig
+Rule 9     asignacion -> VAR VARIABLE BOOL IGUAL booleano
+Rule 10    asignacion -> VAR VARIABLE INT IGUAL expresion
+Rule 11    asignacion -> VAR VARIABLE FLOAT IGUAL expresion
+Rule 12    asignacion -> VAR VARIABLE STRING IGUAL CADENA
+Rule 13    asignacion -> VAR VARIABLE puntero IGUAL refer
+Rule 14    asignacion -> VAR VARIABLE puntero
+Rule 15    asignacion -> VARIABLE DECLARADOR valor
+Rule 16    asignacion -> VARIABLE IGUAL valor
+Rule 17    asignacion -> derefer IGUAL valor
+Rule 18    booleano -> condicion
+Rule 19    booleano -> TRUE
+Rule 20    booleano -> FALSE
+Rule 21    valor -> booleano
+Rule 22    valor -> expresion
+Rule 23    valor -> CADENA
+Rule 24    valor -> VARIABLE
+Rule 25    valor -> mapa
+Rule 26    valor -> refer
+Rule 27    sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+Rule 28    sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+Rule 29    sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT
+Rule 30    sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT else
+Rule 31    sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+Rule 32    sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+Rule 33    else -> ELSE LLAVELEFT instrucciones LLAVERIGHT
+Rule 34    else -> ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+Rule 35    else -> ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
+Rule 36    else -> ELSE sentenciaIf
+Rule 37    mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+Rule 38    mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+Rule 39    par -> dato DOSPUNTOS dato
+Rule 40    par -> dato DOSPUNTOS dato mas
+Rule 41    mas -> COMA par
+Rule 42    mas -> COMA par mas
+Rule 43    tipo -> BOOL
+Rule 44    tipo -> INT
+Rule 45    tipo -> FLOAT
+Rule 46    tipo -> STRING
+Rule 47    dato -> VARIABLE
+Rule 48    dato -> expresion
+Rule 49    dato -> CADENA
+Rule 50    dato -> TRUE
+Rule 51    dato -> FALSE
+Rule 52    puntero -> PRODUCTO BOOL
+Rule 53    puntero -> PRODUCTO INT
+Rule 54    puntero -> PRODUCTO FLOAT
+Rule 55    puntero -> PRODUCTO STRING
+Rule 56    refer -> AMPERSAND VARIABLE
+Rule 57    derefer -> PRODUCTO VARIABLE
+Rule 58    sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+Rule 59    inicio -> VARIABLE DECLARADOR ENTERO
+Rule 60    condicion -> termc comparador termc
+Rule 61    incrementa -> VARIABLE INCREMENTO
+Rule 62    typeData -> BOOL
+Rule 63    typeData -> INT
+Rule 64    typeData -> FLOAT
+Rule 65    typeData -> STRING
+Rule 66    array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+Rule 67    arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
+Rule 68    contArray -> contArray COMA numericos
+Rule 69    comparador -> MAYORQUE
+Rule 70    comparador -> MENORQUE
+Rule 71    comparador -> ESIGUAL
+Rule 72    comparador -> MAYORIGUAL
+Rule 73    comparador -> MENORIGUAL
+Rule 74    expresion -> expresion SUMA numericos
+Rule 75    expresion -> expresion RESTA numericos
+Rule 76    expresion -> expresion PRODUCTO numericos
+Rule 77    expresion -> expresion DIVISION numericos
+Rule 78    expresion -> expresion MODULO numericos
+Rule 79    expresion -> term
+Rule 80    contArray -> term
+Rule 81    term -> numericos
+Rule 82    termc -> VARIABLE
+Rule 83    termc -> numericos
+Rule 84    factor -> VARIABLE
+Rule 85    numericos -> ENTERO
+Rule 86    numericos -> FLOTANTE
+Rule 87    factor -> BOOL
+Rule 88    comparacion -> condiciones
+Rule 89    comparacion -> NEGACION PARLEFT condiciones PARRIGHT
+Rule 90    comparacion -> PARLEFT condiciones PARRIGHT
+Rule 91    condiciones -> factor MAYORQUE factor
+Rule 92    condiciones -> factor MENORQUE factor
+Rule 93    condiciones -> factor DIFERENTE factor
+Rule 94    condiciones -> factor ESIGUAL factor
+Rule 95    condiciones -> factor MENORIGUAL factor
+Rule 96    condiciones -> factor MAYORIGUAL factor
+Rule 97    comparaciones -> comparacion
+Rule 98    comparaciones -> comparacion anado comparaciones
+Rule 99    anado -> condicion
+Rule 100   condicion -> AND
+Rule 101   condicion -> OR
 
 Terminals, with rules where they appear
 
-AND                  : 49
+AMPERSAND            : 56
+AND                  : 100
 BARRAINVERSA         : 
-BOOL                 : 11 36
+BOOL                 : 9 43 52 62 87
 BREAK                : 
-CADENA               : 
+CADENA               : 12 23 49
 CASE                 : 
 CHAN                 : 
-COMA                 : 17
+COMA                 : 41 42 68
 COMENTARIO           : 
 CONST                : 
 CONTINUE             : 
-CORCHLEFT            : 15 16
-CORCHRIGHT           : 15 16
-DECLARADOR           : 8 15
+CORCHLEFT            : 37 38 66 67
+CORCHRIGHT           : 37 38 66 67
+DECLARADOR           : 15 59 66
 DEFAULT              : 
 DEFER                : 
-DIFERENTE            : 42
-DIVISION             : 26
-DOSPUNTOS            : 
-ELSE                 : 
-ENTERO               : 8 15 16 34
-ESIGUAL              : 20 43
+DIFERENTE            : 93
+DIVISION             : 77
+DOSPUNTOS            : 39 40
+ELSE                 : 33 34 35 36
+ENTERO               : 59 66 67 85
+ESIGUAL              : 71 94
 ESPACIO              : 
 FALLTHROUGH          : 
-FALSE                : 
-FLOAT                : 13
-FLOTANTE             : 35
-FOR                  : 7
+FALSE                : 20 51
+FLOAT                : 11 45 54 64
+FLOTANTE             : 86
+FOR                  : 58
 FUNC                 : 
 GO                   : 
 GOTO                 : 
-IF                   : 
-IGUAL                : 
+IF                   : 27 28 29 30 31 32
+IGUAL                : 9 10 11 12 13 16 17
 IMPORT               : 
 IMPRIMIR             : 
-INCREMENTO           : 10
-INT                  : 12
+INCREMENTO           : 61
+INT                  : 10 44 53 63
 INTERFACE            : 
-LLAVELEFT            : 7 15
-LLAVERIGHT           : 7 15
-MAP                  : 
+LLAVELEFT            : 27 28 29 30 31 32 33 34 35 37 38 58 66
+LLAVERIGHT           : 27 28 29 30 31 32 33 34 35 37 38 58 66
+MAP                  : 37 38
 MASIGUAL             : 
-MAYORIGUAL           : 21 45
-MAYORQUE             : 18 40
-MENORIGUAL           : 22 44
-MENORQUE             : 19 41
+MAYORIGUAL           : 72 96
+MAYORQUE             : 69 91
+MENORIGUAL           : 73 95
+MENORQUE             : 70 92
 MENOSIGUAL           : 
-MODULO               : 27
-NEGACION             : 38
-OR                   : 50
+MODULO               : 78
+NEGACION             : 89
+OR                   : 101
 PACKAGE              : 
-PARLEFT              : 38 39
-PARRIGHT             : 38 39
-PRODUCTO             : 25
-PUNTOCOMA            : 7 7
+PARLEFT              : 89 90
+PARRIGHT             : 89 90
+PRODUCTO             : 52 53 54 55 57 76
+PUNTOCOMA            : 58 58
 RANGE                : 
-RESTA                : 24
-RETURN               : 
+RESTA                : 75
+RETURN               : 27 28 31 32 34 35
 SELECT               : 
-STRING               : 14
+STRING               : 12 46 55 65
 STRUCT               : 
-SUMA                 : 23
+SUMA                 : 74
 SWITCH               : 
-TRUE                 : 
+TRUE                 : 19 50
 TYPE                 : 
-VAR                  : 16
-VARIABLE             : 8 10 15 16 31 33
+VAR                  : 9 10 11 12 13 14 67
+VARIABLE             : 9 10 11 12 13 14 15 16 24 27 28 31 32 34 35 47 56 57 59 61 66 67 82 84
 error                : 
 
 Nonterminals, with rules where they appear
 
-anado                : 47
-array                : 5
-arrayAsig            : 6
-comparacion          : 46 47
-comparaciones        : 47
-comparador           : 9
-condicion            : 2 7 48
-condiciones          : 37 38 39
-contArray            : 15 17
-expresion            : 1 23 24 25 26 27
-factor               : 40 40 41 41 42 42 43 43 44 44 45 45
-incrementa           : 7
-inicio               : 4 7
-instrucciones        : 7 0
-numericos            : 17 23 24 25 26 27 30 32
-sentenciaFor         : 3
-term                 : 28 29
-termc                : 9 9
-typeData             : 15 16
+anado                : 98
+array                : 7
+arrayAsig            : 8
+asignacion           : 1
+booleano             : 9 21
+comparacion          : 97 98
+comparaciones        : 98
+comparador           : 60
+condicion            : 3 18 27 28 29 30 31 32 58 99
+condiciones          : 88 89 90
+contArray            : 66 68
+dato                 : 39 39 40 40
+derefer              : 17
+else                 : 28 30 32
+expresion            : 2 10 11 22 48 74 75 76 77 78
+factor               : 91 91 92 92 93 93 94 94 95 95 96 96
+incrementa           : 58
+inicio               : 6 58
+instrucciones        : 27 28 29 30 33 34 58 0
+mapa                 : 25
+mas                  : 40 42
+numericos            : 68 74 75 76 77 78 81 83
+par                  : 37 41 42
+puntero              : 13 14
+refer                : 13 26
+sentenciaFor         : 5
+sentenciaIf          : 4 36
+term                 : 79 80
+termc                : 60 60
+tipo                 : 37 37 38 38
+typeData             : 66 67
+valor                : 15 16 17
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . instrucciones
-    (1) instrucciones -> . expresion
-    (2) instrucciones -> . condicion
-    (3) instrucciones -> . sentenciaFor
-    (4) instrucciones -> . inicio
-    (5) instrucciones -> . array
-    (6) instrucciones -> . arrayAsig
-    (23) expresion -> . expresion SUMA numericos
-    (24) expresion -> . expresion RESTA numericos
-    (25) expresion -> . expresion PRODUCTO numericos
-    (26) expresion -> . expresion DIVISION numericos
-    (27) expresion -> . expresion MODULO numericos
-    (28) expresion -> . term
-    (9) condicion -> . termc comparador termc
-    (49) condicion -> . AND
-    (50) condicion -> . OR
-    (7) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (8) inicio -> . VARIABLE DECLARADOR ENTERO
-    (15) array -> . VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
-    (16) arrayAsig -> . VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
-    (30) term -> . numericos
-    (31) termc -> . VARIABLE
-    (32) termc -> . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (1) instrucciones -> . asignacion
+    (2) instrucciones -> . expresion
+    (3) instrucciones -> . condicion
+    (4) instrucciones -> . sentenciaIf
+    (5) instrucciones -> . sentenciaFor
+    (6) instrucciones -> . inicio
+    (7) instrucciones -> . array
+    (8) instrucciones -> . arrayAsig
+    (9) asignacion -> . VAR VARIABLE BOOL IGUAL booleano
+    (10) asignacion -> . VAR VARIABLE INT IGUAL expresion
+    (11) asignacion -> . VAR VARIABLE FLOAT IGUAL expresion
+    (12) asignacion -> . VAR VARIABLE STRING IGUAL CADENA
+    (13) asignacion -> . VAR VARIABLE puntero IGUAL refer
+    (14) asignacion -> . VAR VARIABLE puntero
+    (15) asignacion -> . VARIABLE DECLARADOR valor
+    (16) asignacion -> . VARIABLE IGUAL valor
+    (17) asignacion -> . derefer IGUAL valor
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (27) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT
+    (30) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+    (58) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (59) inicio -> . VARIABLE DECLARADOR ENTERO
+    (66) array -> . VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (67) arrayAsig -> . VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
+    (57) derefer -> . PRODUCTO VARIABLE
+    (81) term -> . numericos
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    AND             shift and go to state 11
-    OR              shift and go to state 12
-    FOR             shift and go to state 13
-    VARIABLE        shift and go to state 14
-    VAR             shift and go to state 16
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    VAR             shift and go to state 10
+    VARIABLE        shift and go to state 11
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    IF              shift and go to state 19
+    FOR             shift and go to state 20
+    PRODUCTO        shift and go to state 14
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
     instrucciones                  shift and go to state 1
-    expresion                      shift and go to state 2
-    condicion                      shift and go to state 3
-    sentenciaFor                   shift and go to state 4
-    inicio                         shift and go to state 5
-    array                          shift and go to state 6
-    arrayAsig                      shift and go to state 7
-    numericos                      shift and go to state 8
-    term                           shift and go to state 9
-    termc                          shift and go to state 10
+    asignacion                     shift and go to state 2
+    expresion                      shift and go to state 3
+    condicion                      shift and go to state 4
+    sentenciaIf                    shift and go to state 5
+    sentenciaFor                   shift and go to state 6
+    inicio                         shift and go to state 7
+    array                          shift and go to state 8
+    arrayAsig                      shift and go to state 9
+    derefer                        shift and go to state 12
+    numericos                      shift and go to state 13
+    term                           shift and go to state 15
+    termc                          shift and go to state 16
 
 state 1
 
@@ -241,755 +320,2175 @@ state 1
 
 state 2
 
-    (1) instrucciones -> expresion .
-    (23) expresion -> expresion . SUMA numericos
-    (24) expresion -> expresion . RESTA numericos
-    (25) expresion -> expresion . PRODUCTO numericos
-    (26) expresion -> expresion . DIVISION numericos
-    (27) expresion -> expresion . MODULO numericos
+    (1) instrucciones -> asignacion .
 
-    $end            reduce using rule 1 (instrucciones -> expresion .)
-    LLAVERIGHT      reduce using rule 1 (instrucciones -> expresion .)
-    SUMA            shift and go to state 18
-    RESTA           shift and go to state 19
-    PRODUCTO        shift and go to state 20
-    DIVISION        shift and go to state 21
-    MODULO          shift and go to state 22
+    $end            reduce using rule 1 (instrucciones -> asignacion .)
+    RETURN          reduce using rule 1 (instrucciones -> asignacion .)
+    LLAVERIGHT      reduce using rule 1 (instrucciones -> asignacion .)
 
 
 state 3
 
-    (2) instrucciones -> condicion .
+    (2) instrucciones -> expresion .
+    (74) expresion -> expresion . SUMA numericos
+    (75) expresion -> expresion . RESTA numericos
+    (76) expresion -> expresion . PRODUCTO numericos
+    (77) expresion -> expresion . DIVISION numericos
+    (78) expresion -> expresion . MODULO numericos
 
-    $end            reduce using rule 2 (instrucciones -> condicion .)
-    LLAVERIGHT      reduce using rule 2 (instrucciones -> condicion .)
+    $end            reduce using rule 2 (instrucciones -> expresion .)
+    RETURN          reduce using rule 2 (instrucciones -> expresion .)
+    LLAVERIGHT      reduce using rule 2 (instrucciones -> expresion .)
+    SUMA            shift and go to state 23
+    RESTA           shift and go to state 24
+    PRODUCTO        shift and go to state 25
+    DIVISION        shift and go to state 26
+    MODULO          shift and go to state 27
 
 
 state 4
 
-    (3) instrucciones -> sentenciaFor .
+    (3) instrucciones -> condicion .
 
-    $end            reduce using rule 3 (instrucciones -> sentenciaFor .)
-    LLAVERIGHT      reduce using rule 3 (instrucciones -> sentenciaFor .)
+    $end            reduce using rule 3 (instrucciones -> condicion .)
+    RETURN          reduce using rule 3 (instrucciones -> condicion .)
+    LLAVERIGHT      reduce using rule 3 (instrucciones -> condicion .)
 
 
 state 5
 
-    (4) instrucciones -> inicio .
+    (4) instrucciones -> sentenciaIf .
 
-    $end            reduce using rule 4 (instrucciones -> inicio .)
-    LLAVERIGHT      reduce using rule 4 (instrucciones -> inicio .)
+    $end            reduce using rule 4 (instrucciones -> sentenciaIf .)
+    RETURN          reduce using rule 4 (instrucciones -> sentenciaIf .)
+    LLAVERIGHT      reduce using rule 4 (instrucciones -> sentenciaIf .)
 
 
 state 6
 
-    (5) instrucciones -> array .
+    (5) instrucciones -> sentenciaFor .
 
-    $end            reduce using rule 5 (instrucciones -> array .)
-    LLAVERIGHT      reduce using rule 5 (instrucciones -> array .)
+    $end            reduce using rule 5 (instrucciones -> sentenciaFor .)
+    RETURN          reduce using rule 5 (instrucciones -> sentenciaFor .)
+    LLAVERIGHT      reduce using rule 5 (instrucciones -> sentenciaFor .)
 
 
 state 7
 
-    (6) instrucciones -> arrayAsig .
+    (6) instrucciones -> inicio .
 
-    $end            reduce using rule 6 (instrucciones -> arrayAsig .)
-    LLAVERIGHT      reduce using rule 6 (instrucciones -> arrayAsig .)
+    $end            reduce using rule 6 (instrucciones -> inicio .)
+    RETURN          reduce using rule 6 (instrucciones -> inicio .)
+    LLAVERIGHT      reduce using rule 6 (instrucciones -> inicio .)
 
 
 state 8
 
-    (30) term -> numericos .
-    (32) termc -> numericos .
+    (7) instrucciones -> array .
 
-    SUMA            reduce using rule 30 (term -> numericos .)
-    RESTA           reduce using rule 30 (term -> numericos .)
-    PRODUCTO        reduce using rule 30 (term -> numericos .)
-    DIVISION        reduce using rule 30 (term -> numericos .)
-    MODULO          reduce using rule 30 (term -> numericos .)
-    $end            reduce using rule 30 (term -> numericos .)
-    LLAVERIGHT      reduce using rule 30 (term -> numericos .)
-    MAYORQUE        reduce using rule 32 (termc -> numericos .)
-    MENORQUE        reduce using rule 32 (termc -> numericos .)
-    ESIGUAL         reduce using rule 32 (termc -> numericos .)
-    MAYORIGUAL      reduce using rule 32 (termc -> numericos .)
-    MENORIGUAL      reduce using rule 32 (termc -> numericos .)
+    $end            reduce using rule 7 (instrucciones -> array .)
+    RETURN          reduce using rule 7 (instrucciones -> array .)
+    LLAVERIGHT      reduce using rule 7 (instrucciones -> array .)
 
 
 state 9
 
-    (28) expresion -> term .
+    (8) instrucciones -> arrayAsig .
 
-    SUMA            reduce using rule 28 (expresion -> term .)
-    RESTA           reduce using rule 28 (expresion -> term .)
-    PRODUCTO        reduce using rule 28 (expresion -> term .)
-    DIVISION        reduce using rule 28 (expresion -> term .)
-    MODULO          reduce using rule 28 (expresion -> term .)
-    $end            reduce using rule 28 (expresion -> term .)
-    LLAVERIGHT      reduce using rule 28 (expresion -> term .)
+    $end            reduce using rule 8 (instrucciones -> arrayAsig .)
+    RETURN          reduce using rule 8 (instrucciones -> arrayAsig .)
+    LLAVERIGHT      reduce using rule 8 (instrucciones -> arrayAsig .)
 
 
 state 10
 
-    (9) condicion -> termc . comparador termc
-    (18) comparador -> . MAYORQUE
-    (19) comparador -> . MENORQUE
-    (20) comparador -> . ESIGUAL
-    (21) comparador -> . MAYORIGUAL
-    (22) comparador -> . MENORIGUAL
+    (9) asignacion -> VAR . VARIABLE BOOL IGUAL booleano
+    (10) asignacion -> VAR . VARIABLE INT IGUAL expresion
+    (11) asignacion -> VAR . VARIABLE FLOAT IGUAL expresion
+    (12) asignacion -> VAR . VARIABLE STRING IGUAL CADENA
+    (13) asignacion -> VAR . VARIABLE puntero IGUAL refer
+    (14) asignacion -> VAR . VARIABLE puntero
+    (67) arrayAsig -> VAR . VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
 
-    MAYORQUE        shift and go to state 24
-    MENORQUE        shift and go to state 25
-    ESIGUAL         shift and go to state 26
-    MAYORIGUAL      shift and go to state 27
-    MENORIGUAL      shift and go to state 28
+    VARIABLE        shift and go to state 28
 
-    comparador                     shift and go to state 23
 
 state 11
 
-    (49) condicion -> AND .
+    (15) asignacion -> VARIABLE . DECLARADOR valor
+    (16) asignacion -> VARIABLE . IGUAL valor
+    (59) inicio -> VARIABLE . DECLARADOR ENTERO
+    (66) array -> VARIABLE . DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (82) termc -> VARIABLE .
 
-    $end            reduce using rule 49 (condicion -> AND .)
-    PUNTOCOMA       reduce using rule 49 (condicion -> AND .)
-    LLAVERIGHT      reduce using rule 49 (condicion -> AND .)
+    DECLARADOR      shift and go to state 29
+    IGUAL           shift and go to state 30
+    MAYORQUE        reduce using rule 82 (termc -> VARIABLE .)
+    MENORQUE        reduce using rule 82 (termc -> VARIABLE .)
+    ESIGUAL         reduce using rule 82 (termc -> VARIABLE .)
+    MAYORIGUAL      reduce using rule 82 (termc -> VARIABLE .)
+    MENORIGUAL      reduce using rule 82 (termc -> VARIABLE .)
 
 
 state 12
 
-    (50) condicion -> OR .
+    (17) asignacion -> derefer . IGUAL valor
 
-    $end            reduce using rule 50 (condicion -> OR .)
-    PUNTOCOMA       reduce using rule 50 (condicion -> OR .)
-    LLAVERIGHT      reduce using rule 50 (condicion -> OR .)
+    IGUAL           shift and go to state 31
 
 
 state 13
 
-    (7) sentenciaFor -> FOR . inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (8) inicio -> . VARIABLE DECLARADOR ENTERO
+    (81) term -> numericos .
+    (83) termc -> numericos .
 
-    VARIABLE        shift and go to state 30
+    SUMA            reduce using rule 81 (term -> numericos .)
+    RESTA           reduce using rule 81 (term -> numericos .)
+    PRODUCTO        reduce using rule 81 (term -> numericos .)
+    DIVISION        reduce using rule 81 (term -> numericos .)
+    MODULO          reduce using rule 81 (term -> numericos .)
+    $end            reduce using rule 81 (term -> numericos .)
+    RETURN          reduce using rule 81 (term -> numericos .)
+    LLAVERIGHT      reduce using rule 81 (term -> numericos .)
+    MAYORQUE        reduce using rule 83 (termc -> numericos .)
+    MENORQUE        reduce using rule 83 (termc -> numericos .)
+    ESIGUAL         reduce using rule 83 (termc -> numericos .)
+    MAYORIGUAL      reduce using rule 83 (termc -> numericos .)
+    MENORIGUAL      reduce using rule 83 (termc -> numericos .)
 
-    inicio                         shift and go to state 29
 
 state 14
 
-    (8) inicio -> VARIABLE . DECLARADOR ENTERO
-    (15) array -> VARIABLE . DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
-    (31) termc -> VARIABLE .
-
-    DECLARADOR      shift and go to state 31
-    MAYORQUE        reduce using rule 31 (termc -> VARIABLE .)
-    MENORQUE        reduce using rule 31 (termc -> VARIABLE .)
-    ESIGUAL         reduce using rule 31 (termc -> VARIABLE .)
-    MAYORIGUAL      reduce using rule 31 (termc -> VARIABLE .)
-    MENORIGUAL      reduce using rule 31 (termc -> VARIABLE .)
-
-
-state 15
-
-    (34) numericos -> ENTERO .
-
-    SUMA            reduce using rule 34 (numericos -> ENTERO .)
-    RESTA           reduce using rule 34 (numericos -> ENTERO .)
-    PRODUCTO        reduce using rule 34 (numericos -> ENTERO .)
-    DIVISION        reduce using rule 34 (numericos -> ENTERO .)
-    MODULO          reduce using rule 34 (numericos -> ENTERO .)
-    $end            reduce using rule 34 (numericos -> ENTERO .)
-    MAYORQUE        reduce using rule 34 (numericos -> ENTERO .)
-    MENORQUE        reduce using rule 34 (numericos -> ENTERO .)
-    ESIGUAL         reduce using rule 34 (numericos -> ENTERO .)
-    MAYORIGUAL      reduce using rule 34 (numericos -> ENTERO .)
-    MENORIGUAL      reduce using rule 34 (numericos -> ENTERO .)
-    LLAVERIGHT      reduce using rule 34 (numericos -> ENTERO .)
-    PUNTOCOMA       reduce using rule 34 (numericos -> ENTERO .)
-    COMA            reduce using rule 34 (numericos -> ENTERO .)
-
-
-state 16
-
-    (16) arrayAsig -> VAR . VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
+    (57) derefer -> PRODUCTO . VARIABLE
 
     VARIABLE        shift and go to state 32
 
 
+state 15
+
+    (79) expresion -> term .
+
+    SUMA            reduce using rule 79 (expresion -> term .)
+    RESTA           reduce using rule 79 (expresion -> term .)
+    PRODUCTO        reduce using rule 79 (expresion -> term .)
+    DIVISION        reduce using rule 79 (expresion -> term .)
+    MODULO          reduce using rule 79 (expresion -> term .)
+    $end            reduce using rule 79 (expresion -> term .)
+    RETURN          reduce using rule 79 (expresion -> term .)
+    LLAVERIGHT      reduce using rule 79 (expresion -> term .)
+    DOSPUNTOS       reduce using rule 79 (expresion -> term .)
+    COMA            reduce using rule 79 (expresion -> term .)
+
+
+state 16
+
+    (60) condicion -> termc . comparador termc
+    (69) comparador -> . MAYORQUE
+    (70) comparador -> . MENORQUE
+    (71) comparador -> . ESIGUAL
+    (72) comparador -> . MAYORIGUAL
+    (73) comparador -> . MENORIGUAL
+
+    MAYORQUE        shift and go to state 34
+    MENORQUE        shift and go to state 35
+    ESIGUAL         shift and go to state 36
+    MAYORIGUAL      shift and go to state 37
+    MENORIGUAL      shift and go to state 38
+
+    comparador                     shift and go to state 33
+
 state 17
 
-    (35) numericos -> FLOTANTE .
+    (100) condicion -> AND .
 
-    SUMA            reduce using rule 35 (numericos -> FLOTANTE .)
-    RESTA           reduce using rule 35 (numericos -> FLOTANTE .)
-    PRODUCTO        reduce using rule 35 (numericos -> FLOTANTE .)
-    DIVISION        reduce using rule 35 (numericos -> FLOTANTE .)
-    MODULO          reduce using rule 35 (numericos -> FLOTANTE .)
-    $end            reduce using rule 35 (numericos -> FLOTANTE .)
-    MAYORQUE        reduce using rule 35 (numericos -> FLOTANTE .)
-    MENORQUE        reduce using rule 35 (numericos -> FLOTANTE .)
-    ESIGUAL         reduce using rule 35 (numericos -> FLOTANTE .)
-    MAYORIGUAL      reduce using rule 35 (numericos -> FLOTANTE .)
-    MENORIGUAL      reduce using rule 35 (numericos -> FLOTANTE .)
-    LLAVERIGHT      reduce using rule 35 (numericos -> FLOTANTE .)
-    PUNTOCOMA       reduce using rule 35 (numericos -> FLOTANTE .)
-    COMA            reduce using rule 35 (numericos -> FLOTANTE .)
+    $end            reduce using rule 100 (condicion -> AND .)
+    LLAVELEFT       reduce using rule 100 (condicion -> AND .)
+    RETURN          reduce using rule 100 (condicion -> AND .)
+    LLAVERIGHT      reduce using rule 100 (condicion -> AND .)
+    PUNTOCOMA       reduce using rule 100 (condicion -> AND .)
 
 
 state 18
 
-    (23) expresion -> expresion SUMA . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (101) condicion -> OR .
 
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    $end            reduce using rule 101 (condicion -> OR .)
+    LLAVELEFT       reduce using rule 101 (condicion -> OR .)
+    RETURN          reduce using rule 101 (condicion -> OR .)
+    LLAVERIGHT      reduce using rule 101 (condicion -> OR .)
+    PUNTOCOMA       reduce using rule 101 (condicion -> OR .)
 
-    numericos                      shift and go to state 33
 
 state 19
 
-    (24) expresion -> expresion RESTA . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (27) sentenciaIf -> IF . condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> IF . condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> IF . condicion LLAVELEFT instrucciones LLAVERIGHT
+    (30) sentenciaIf -> IF . condicion LLAVELEFT instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> IF . condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> IF . condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    VARIABLE        shift and go to state 40
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
-    numericos                      shift and go to state 34
+    condicion                      shift and go to state 39
+    termc                          shift and go to state 16
+    numericos                      shift and go to state 41
 
 state 20
 
-    (25) expresion -> expresion PRODUCTO . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (58) sentenciaFor -> FOR . inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (59) inicio -> . VARIABLE DECLARADOR ENTERO
 
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    VARIABLE        shift and go to state 43
 
-    numericos                      shift and go to state 35
+    inicio                         shift and go to state 42
 
 state 21
 
-    (26) expresion -> expresion DIVISION . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (85) numericos -> ENTERO .
 
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    SUMA            reduce using rule 85 (numericos -> ENTERO .)
+    RESTA           reduce using rule 85 (numericos -> ENTERO .)
+    PRODUCTO        reduce using rule 85 (numericos -> ENTERO .)
+    DIVISION        reduce using rule 85 (numericos -> ENTERO .)
+    MODULO          reduce using rule 85 (numericos -> ENTERO .)
+    $end            reduce using rule 85 (numericos -> ENTERO .)
+    MAYORQUE        reduce using rule 85 (numericos -> ENTERO .)
+    MENORQUE        reduce using rule 85 (numericos -> ENTERO .)
+    ESIGUAL         reduce using rule 85 (numericos -> ENTERO .)
+    MAYORIGUAL      reduce using rule 85 (numericos -> ENTERO .)
+    MENORIGUAL      reduce using rule 85 (numericos -> ENTERO .)
+    RETURN          reduce using rule 85 (numericos -> ENTERO .)
+    LLAVERIGHT      reduce using rule 85 (numericos -> ENTERO .)
+    DOSPUNTOS       reduce using rule 85 (numericos -> ENTERO .)
+    COMA            reduce using rule 85 (numericos -> ENTERO .)
+    LLAVELEFT       reduce using rule 85 (numericos -> ENTERO .)
+    PUNTOCOMA       reduce using rule 85 (numericos -> ENTERO .)
 
-    numericos                      shift and go to state 36
 
 state 22
 
-    (27) expresion -> expresion MODULO . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (86) numericos -> FLOTANTE .
 
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    SUMA            reduce using rule 86 (numericos -> FLOTANTE .)
+    RESTA           reduce using rule 86 (numericos -> FLOTANTE .)
+    PRODUCTO        reduce using rule 86 (numericos -> FLOTANTE .)
+    DIVISION        reduce using rule 86 (numericos -> FLOTANTE .)
+    MODULO          reduce using rule 86 (numericos -> FLOTANTE .)
+    $end            reduce using rule 86 (numericos -> FLOTANTE .)
+    MAYORQUE        reduce using rule 86 (numericos -> FLOTANTE .)
+    MENORQUE        reduce using rule 86 (numericos -> FLOTANTE .)
+    ESIGUAL         reduce using rule 86 (numericos -> FLOTANTE .)
+    MAYORIGUAL      reduce using rule 86 (numericos -> FLOTANTE .)
+    MENORIGUAL      reduce using rule 86 (numericos -> FLOTANTE .)
+    RETURN          reduce using rule 86 (numericos -> FLOTANTE .)
+    LLAVERIGHT      reduce using rule 86 (numericos -> FLOTANTE .)
+    DOSPUNTOS       reduce using rule 86 (numericos -> FLOTANTE .)
+    COMA            reduce using rule 86 (numericos -> FLOTANTE .)
+    LLAVELEFT       reduce using rule 86 (numericos -> FLOTANTE .)
+    PUNTOCOMA       reduce using rule 86 (numericos -> FLOTANTE .)
 
-    numericos                      shift and go to state 37
 
 state 23
 
-    (9) condicion -> termc comparador . termc
-    (31) termc -> . VARIABLE
-    (32) termc -> . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (74) expresion -> expresion SUMA . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    VARIABLE        shift and go to state 39
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
-    termc                          shift and go to state 38
-    numericos                      shift and go to state 40
+    numericos                      shift and go to state 44
 
 state 24
 
-    (18) comparador -> MAYORQUE .
+    (75) expresion -> expresion RESTA . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    VARIABLE        reduce using rule 18 (comparador -> MAYORQUE .)
-    ENTERO          reduce using rule 18 (comparador -> MAYORQUE .)
-    FLOTANTE        reduce using rule 18 (comparador -> MAYORQUE .)
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
+    numericos                      shift and go to state 45
 
 state 25
 
-    (19) comparador -> MENORQUE .
+    (76) expresion -> expresion PRODUCTO . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    VARIABLE        reduce using rule 19 (comparador -> MENORQUE .)
-    ENTERO          reduce using rule 19 (comparador -> MENORQUE .)
-    FLOTANTE        reduce using rule 19 (comparador -> MENORQUE .)
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
+    numericos                      shift and go to state 46
 
 state 26
 
-    (20) comparador -> ESIGUAL .
+    (77) expresion -> expresion DIVISION . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    VARIABLE        reduce using rule 20 (comparador -> ESIGUAL .)
-    ENTERO          reduce using rule 20 (comparador -> ESIGUAL .)
-    FLOTANTE        reduce using rule 20 (comparador -> ESIGUAL .)
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
+    numericos                      shift and go to state 47
 
 state 27
 
-    (21) comparador -> MAYORIGUAL .
+    (78) expresion -> expresion MODULO . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    VARIABLE        reduce using rule 21 (comparador -> MAYORIGUAL .)
-    ENTERO          reduce using rule 21 (comparador -> MAYORIGUAL .)
-    FLOTANTE        reduce using rule 21 (comparador -> MAYORIGUAL .)
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
+    numericos                      shift and go to state 48
 
 state 28
 
-    (22) comparador -> MENORIGUAL .
+    (9) asignacion -> VAR VARIABLE . BOOL IGUAL booleano
+    (10) asignacion -> VAR VARIABLE . INT IGUAL expresion
+    (11) asignacion -> VAR VARIABLE . FLOAT IGUAL expresion
+    (12) asignacion -> VAR VARIABLE . STRING IGUAL CADENA
+    (13) asignacion -> VAR VARIABLE . puntero IGUAL refer
+    (14) asignacion -> VAR VARIABLE . puntero
+    (67) arrayAsig -> VAR VARIABLE . CORCHLEFT ENTERO CORCHRIGHT typeData
+    (52) puntero -> . PRODUCTO BOOL
+    (53) puntero -> . PRODUCTO INT
+    (54) puntero -> . PRODUCTO FLOAT
+    (55) puntero -> . PRODUCTO STRING
 
-    VARIABLE        reduce using rule 22 (comparador -> MENORIGUAL .)
-    ENTERO          reduce using rule 22 (comparador -> MENORIGUAL .)
-    FLOTANTE        reduce using rule 22 (comparador -> MENORIGUAL .)
+    BOOL            shift and go to state 49
+    INT             shift and go to state 50
+    FLOAT           shift and go to state 51
+    STRING          shift and go to state 52
+    CORCHLEFT       shift and go to state 54
+    PRODUCTO        shift and go to state 55
 
+    puntero                        shift and go to state 53
 
 state 29
 
-    (7) sentenciaFor -> FOR inicio . PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (15) asignacion -> VARIABLE DECLARADOR . valor
+    (59) inicio -> VARIABLE DECLARADOR . ENTERO
+    (66) array -> VARIABLE DECLARADOR . CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (21) valor -> . booleano
+    (22) valor -> . expresion
+    (23) valor -> . CADENA
+    (24) valor -> . VARIABLE
+    (25) valor -> . mapa
+    (26) valor -> . refer
+    (18) booleano -> . condicion
+    (19) booleano -> . TRUE
+    (20) booleano -> . FALSE
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (37) mapa -> . MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+    (38) mapa -> . MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+    (56) refer -> . AMPERSAND VARIABLE
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (81) term -> . numericos
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    PUNTOCOMA       shift and go to state 41
+    ENTERO          shift and go to state 58
+    CORCHLEFT       shift and go to state 59
+    CADENA          shift and go to state 62
+    VARIABLE        shift and go to state 56
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    MAP             shift and go to state 68
+    AMPERSAND       shift and go to state 69
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    FLOTANTE        shift and go to state 22
 
+    valor                          shift and go to state 57
+    booleano                       shift and go to state 60
+    expresion                      shift and go to state 61
+    mapa                           shift and go to state 63
+    refer                          shift and go to state 64
+    condicion                      shift and go to state 65
+    numericos                      shift and go to state 13
+    term                           shift and go to state 15
+    termc                          shift and go to state 16
 
 state 30
 
-    (8) inicio -> VARIABLE . DECLARADOR ENTERO
+    (16) asignacion -> VARIABLE IGUAL . valor
+    (21) valor -> . booleano
+    (22) valor -> . expresion
+    (23) valor -> . CADENA
+    (24) valor -> . VARIABLE
+    (25) valor -> . mapa
+    (26) valor -> . refer
+    (18) booleano -> . condicion
+    (19) booleano -> . TRUE
+    (20) booleano -> . FALSE
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (37) mapa -> . MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+    (38) mapa -> . MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+    (56) refer -> . AMPERSAND VARIABLE
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (81) term -> . numericos
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    DECLARADOR      shift and go to state 42
+    CADENA          shift and go to state 62
+    VARIABLE        shift and go to state 56
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    MAP             shift and go to state 68
+    AMPERSAND       shift and go to state 69
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
+    valor                          shift and go to state 70
+    booleano                       shift and go to state 60
+    expresion                      shift and go to state 61
+    mapa                           shift and go to state 63
+    refer                          shift and go to state 64
+    condicion                      shift and go to state 65
+    numericos                      shift and go to state 13
+    term                           shift and go to state 15
+    termc                          shift and go to state 16
 
 state 31
 
-    (8) inicio -> VARIABLE DECLARADOR . ENTERO
-    (15) array -> VARIABLE DECLARADOR . CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (17) asignacion -> derefer IGUAL . valor
+    (21) valor -> . booleano
+    (22) valor -> . expresion
+    (23) valor -> . CADENA
+    (24) valor -> . VARIABLE
+    (25) valor -> . mapa
+    (26) valor -> . refer
+    (18) booleano -> . condicion
+    (19) booleano -> . TRUE
+    (20) booleano -> . FALSE
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (37) mapa -> . MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+    (38) mapa -> . MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+    (56) refer -> . AMPERSAND VARIABLE
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (81) term -> . numericos
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    ENTERO          shift and go to state 43
-    CORCHLEFT       shift and go to state 44
+    CADENA          shift and go to state 62
+    VARIABLE        shift and go to state 56
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    MAP             shift and go to state 68
+    AMPERSAND       shift and go to state 69
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
+    valor                          shift and go to state 71
+    booleano                       shift and go to state 60
+    expresion                      shift and go to state 61
+    mapa                           shift and go to state 63
+    refer                          shift and go to state 64
+    condicion                      shift and go to state 65
+    numericos                      shift and go to state 13
+    term                           shift and go to state 15
+    termc                          shift and go to state 16
 
 state 32
 
-    (16) arrayAsig -> VAR VARIABLE . CORCHLEFT ENTERO CORCHRIGHT typeData
+    (57) derefer -> PRODUCTO VARIABLE .
 
-    CORCHLEFT       shift and go to state 45
+    IGUAL           reduce using rule 57 (derefer -> PRODUCTO VARIABLE .)
 
 
 state 33
 
-    (23) expresion -> expresion SUMA numericos .
+    (60) condicion -> termc comparador . termc
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
 
-    SUMA            reduce using rule 23 (expresion -> expresion SUMA numericos .)
-    RESTA           reduce using rule 23 (expresion -> expresion SUMA numericos .)
-    PRODUCTO        reduce using rule 23 (expresion -> expresion SUMA numericos .)
-    DIVISION        reduce using rule 23 (expresion -> expresion SUMA numericos .)
-    MODULO          reduce using rule 23 (expresion -> expresion SUMA numericos .)
-    $end            reduce using rule 23 (expresion -> expresion SUMA numericos .)
-    LLAVERIGHT      reduce using rule 23 (expresion -> expresion SUMA numericos .)
+    VARIABLE        shift and go to state 40
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
 
+    termc                          shift and go to state 72
+    numericos                      shift and go to state 41
 
 state 34
 
-    (24) expresion -> expresion RESTA numericos .
+    (69) comparador -> MAYORQUE .
 
-    SUMA            reduce using rule 24 (expresion -> expresion RESTA numericos .)
-    RESTA           reduce using rule 24 (expresion -> expresion RESTA numericos .)
-    PRODUCTO        reduce using rule 24 (expresion -> expresion RESTA numericos .)
-    DIVISION        reduce using rule 24 (expresion -> expresion RESTA numericos .)
-    MODULO          reduce using rule 24 (expresion -> expresion RESTA numericos .)
-    $end            reduce using rule 24 (expresion -> expresion RESTA numericos .)
-    LLAVERIGHT      reduce using rule 24 (expresion -> expresion RESTA numericos .)
+    VARIABLE        reduce using rule 69 (comparador -> MAYORQUE .)
+    ENTERO          reduce using rule 69 (comparador -> MAYORQUE .)
+    FLOTANTE        reduce using rule 69 (comparador -> MAYORQUE .)
 
 
 state 35
 
-    (25) expresion -> expresion PRODUCTO numericos .
+    (70) comparador -> MENORQUE .
 
-    SUMA            reduce using rule 25 (expresion -> expresion PRODUCTO numericos .)
-    RESTA           reduce using rule 25 (expresion -> expresion PRODUCTO numericos .)
-    PRODUCTO        reduce using rule 25 (expresion -> expresion PRODUCTO numericos .)
-    DIVISION        reduce using rule 25 (expresion -> expresion PRODUCTO numericos .)
-    MODULO          reduce using rule 25 (expresion -> expresion PRODUCTO numericos .)
-    $end            reduce using rule 25 (expresion -> expresion PRODUCTO numericos .)
-    LLAVERIGHT      reduce using rule 25 (expresion -> expresion PRODUCTO numericos .)
+    VARIABLE        reduce using rule 70 (comparador -> MENORQUE .)
+    ENTERO          reduce using rule 70 (comparador -> MENORQUE .)
+    FLOTANTE        reduce using rule 70 (comparador -> MENORQUE .)
 
 
 state 36
 
-    (26) expresion -> expresion DIVISION numericos .
+    (71) comparador -> ESIGUAL .
 
-    SUMA            reduce using rule 26 (expresion -> expresion DIVISION numericos .)
-    RESTA           reduce using rule 26 (expresion -> expresion DIVISION numericos .)
-    PRODUCTO        reduce using rule 26 (expresion -> expresion DIVISION numericos .)
-    DIVISION        reduce using rule 26 (expresion -> expresion DIVISION numericos .)
-    MODULO          reduce using rule 26 (expresion -> expresion DIVISION numericos .)
-    $end            reduce using rule 26 (expresion -> expresion DIVISION numericos .)
-    LLAVERIGHT      reduce using rule 26 (expresion -> expresion DIVISION numericos .)
+    VARIABLE        reduce using rule 71 (comparador -> ESIGUAL .)
+    ENTERO          reduce using rule 71 (comparador -> ESIGUAL .)
+    FLOTANTE        reduce using rule 71 (comparador -> ESIGUAL .)
 
 
 state 37
 
-    (27) expresion -> expresion MODULO numericos .
+    (72) comparador -> MAYORIGUAL .
 
-    SUMA            reduce using rule 27 (expresion -> expresion MODULO numericos .)
-    RESTA           reduce using rule 27 (expresion -> expresion MODULO numericos .)
-    PRODUCTO        reduce using rule 27 (expresion -> expresion MODULO numericos .)
-    DIVISION        reduce using rule 27 (expresion -> expresion MODULO numericos .)
-    MODULO          reduce using rule 27 (expresion -> expresion MODULO numericos .)
-    $end            reduce using rule 27 (expresion -> expresion MODULO numericos .)
-    LLAVERIGHT      reduce using rule 27 (expresion -> expresion MODULO numericos .)
+    VARIABLE        reduce using rule 72 (comparador -> MAYORIGUAL .)
+    ENTERO          reduce using rule 72 (comparador -> MAYORIGUAL .)
+    FLOTANTE        reduce using rule 72 (comparador -> MAYORIGUAL .)
 
 
 state 38
 
-    (9) condicion -> termc comparador termc .
+    (73) comparador -> MENORIGUAL .
 
-    $end            reduce using rule 9 (condicion -> termc comparador termc .)
-    PUNTOCOMA       reduce using rule 9 (condicion -> termc comparador termc .)
-    LLAVERIGHT      reduce using rule 9 (condicion -> termc comparador termc .)
+    VARIABLE        reduce using rule 73 (comparador -> MENORIGUAL .)
+    ENTERO          reduce using rule 73 (comparador -> MENORIGUAL .)
+    FLOTANTE        reduce using rule 73 (comparador -> MENORIGUAL .)
 
 
 state 39
 
-    (31) termc -> VARIABLE .
+    (27) sentenciaIf -> IF condicion . LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> IF condicion . LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> IF condicion . LLAVELEFT instrucciones LLAVERIGHT
+    (30) sentenciaIf -> IF condicion . LLAVELEFT instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> IF condicion . LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> IF condicion . LLAVELEFT RETURN VARIABLE LLAVERIGHT else
 
-    $end            reduce using rule 31 (termc -> VARIABLE .)
-    PUNTOCOMA       reduce using rule 31 (termc -> VARIABLE .)
-    LLAVERIGHT      reduce using rule 31 (termc -> VARIABLE .)
-    MAYORQUE        reduce using rule 31 (termc -> VARIABLE .)
-    MENORQUE        reduce using rule 31 (termc -> VARIABLE .)
-    ESIGUAL         reduce using rule 31 (termc -> VARIABLE .)
-    MAYORIGUAL      reduce using rule 31 (termc -> VARIABLE .)
-    MENORIGUAL      reduce using rule 31 (termc -> VARIABLE .)
+    LLAVELEFT       shift and go to state 73
 
 
 state 40
 
-    (32) termc -> numericos .
+    (82) termc -> VARIABLE .
 
-    $end            reduce using rule 32 (termc -> numericos .)
-    PUNTOCOMA       reduce using rule 32 (termc -> numericos .)
-    LLAVERIGHT      reduce using rule 32 (termc -> numericos .)
-    MAYORQUE        reduce using rule 32 (termc -> numericos .)
-    MENORQUE        reduce using rule 32 (termc -> numericos .)
-    ESIGUAL         reduce using rule 32 (termc -> numericos .)
-    MAYORIGUAL      reduce using rule 32 (termc -> numericos .)
-    MENORIGUAL      reduce using rule 32 (termc -> numericos .)
+    MAYORQUE        reduce using rule 82 (termc -> VARIABLE .)
+    MENORQUE        reduce using rule 82 (termc -> VARIABLE .)
+    ESIGUAL         reduce using rule 82 (termc -> VARIABLE .)
+    MAYORIGUAL      reduce using rule 82 (termc -> VARIABLE .)
+    MENORIGUAL      reduce using rule 82 (termc -> VARIABLE .)
+    $end            reduce using rule 82 (termc -> VARIABLE .)
+    LLAVELEFT       reduce using rule 82 (termc -> VARIABLE .)
+    RETURN          reduce using rule 82 (termc -> VARIABLE .)
+    LLAVERIGHT      reduce using rule 82 (termc -> VARIABLE .)
+    PUNTOCOMA       reduce using rule 82 (termc -> VARIABLE .)
 
 
 state 41
 
-    (7) sentenciaFor -> FOR inicio PUNTOCOMA . condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (9) condicion -> . termc comparador termc
-    (49) condicion -> . AND
-    (50) condicion -> . OR
-    (31) termc -> . VARIABLE
-    (32) termc -> . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (83) termc -> numericos .
 
-    AND             shift and go to state 11
-    OR              shift and go to state 12
-    VARIABLE        shift and go to state 39
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    MAYORQUE        reduce using rule 83 (termc -> numericos .)
+    MENORQUE        reduce using rule 83 (termc -> numericos .)
+    ESIGUAL         reduce using rule 83 (termc -> numericos .)
+    MAYORIGUAL      reduce using rule 83 (termc -> numericos .)
+    MENORIGUAL      reduce using rule 83 (termc -> numericos .)
+    $end            reduce using rule 83 (termc -> numericos .)
+    LLAVELEFT       reduce using rule 83 (termc -> numericos .)
+    RETURN          reduce using rule 83 (termc -> numericos .)
+    LLAVERIGHT      reduce using rule 83 (termc -> numericos .)
+    PUNTOCOMA       reduce using rule 83 (termc -> numericos .)
 
-    condicion                      shift and go to state 46
-    termc                          shift and go to state 10
-    numericos                      shift and go to state 40
 
 state 42
 
-    (8) inicio -> VARIABLE DECLARADOR . ENTERO
+    (58) sentenciaFor -> FOR inicio . PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
 
-    ENTERO          shift and go to state 43
+    PUNTOCOMA       shift and go to state 74
 
 
 state 43
 
-    (8) inicio -> VARIABLE DECLARADOR ENTERO .
+    (59) inicio -> VARIABLE . DECLARADOR ENTERO
 
-    $end            reduce using rule 8 (inicio -> VARIABLE DECLARADOR ENTERO .)
-    PUNTOCOMA       reduce using rule 8 (inicio -> VARIABLE DECLARADOR ENTERO .)
-    LLAVERIGHT      reduce using rule 8 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    DECLARADOR      shift and go to state 75
 
 
 state 44
 
-    (15) array -> VARIABLE DECLARADOR CORCHLEFT . ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (74) expresion -> expresion SUMA numericos .
 
-    ENTERO          shift and go to state 47
+    SUMA            reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    RESTA           reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    PRODUCTO        reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    DIVISION        reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    MODULO          reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    $end            reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    RETURN          reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    LLAVERIGHT      reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    DOSPUNTOS       reduce using rule 74 (expresion -> expresion SUMA numericos .)
+    COMA            reduce using rule 74 (expresion -> expresion SUMA numericos .)
 
 
 state 45
 
-    (16) arrayAsig -> VAR VARIABLE CORCHLEFT . ENTERO CORCHRIGHT typeData
+    (75) expresion -> expresion RESTA numericos .
 
-    ENTERO          shift and go to state 48
+    SUMA            reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    RESTA           reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    PRODUCTO        reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    DIVISION        reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    MODULO          reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    $end            reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    RETURN          reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    LLAVERIGHT      reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    DOSPUNTOS       reduce using rule 75 (expresion -> expresion RESTA numericos .)
+    COMA            reduce using rule 75 (expresion -> expresion RESTA numericos .)
 
 
 state 46
 
-    (7) sentenciaFor -> FOR inicio PUNTOCOMA condicion . PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (76) expresion -> expresion PRODUCTO numericos .
 
-    PUNTOCOMA       shift and go to state 49
+    SUMA            reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    RESTA           reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    PRODUCTO        reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    DIVISION        reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    MODULO          reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    $end            reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    RETURN          reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    LLAVERIGHT      reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    DOSPUNTOS       reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
+    COMA            reduce using rule 76 (expresion -> expresion PRODUCTO numericos .)
 
 
 state 47
 
-    (15) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO . CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (77) expresion -> expresion DIVISION numericos .
 
-    CORCHRIGHT      shift and go to state 50
+    SUMA            reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    RESTA           reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    PRODUCTO        reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    DIVISION        reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    MODULO          reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    $end            reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    RETURN          reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    LLAVERIGHT      reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    DOSPUNTOS       reduce using rule 77 (expresion -> expresion DIVISION numericos .)
+    COMA            reduce using rule 77 (expresion -> expresion DIVISION numericos .)
 
 
 state 48
 
-    (16) arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO . CORCHRIGHT typeData
+    (78) expresion -> expresion MODULO numericos .
 
-    CORCHRIGHT      shift and go to state 51
+    SUMA            reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    RESTA           reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    PRODUCTO        reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    DIVISION        reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    MODULO          reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    $end            reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    RETURN          reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    LLAVERIGHT      reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    DOSPUNTOS       reduce using rule 78 (expresion -> expresion MODULO numericos .)
+    COMA            reduce using rule 78 (expresion -> expresion MODULO numericos .)
 
 
 state 49
 
-    (7) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA . incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (10) incrementa -> . VARIABLE INCREMENTO
+    (9) asignacion -> VAR VARIABLE BOOL . IGUAL booleano
 
-    VARIABLE        shift and go to state 53
+    IGUAL           shift and go to state 76
 
-    incrementa                     shift and go to state 52
 
 state 50
 
-    (15) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT . typeData LLAVELEFT contArray LLAVERIGHT
-    (11) typeData -> . BOOL
-    (12) typeData -> . INT
-    (13) typeData -> . FLOAT
-    (14) typeData -> . STRING
+    (10) asignacion -> VAR VARIABLE INT . IGUAL expresion
 
-    BOOL            shift and go to state 55
-    INT             shift and go to state 56
-    FLOAT           shift and go to state 57
-    STRING          shift and go to state 58
+    IGUAL           shift and go to state 77
 
-    typeData                       shift and go to state 54
 
 state 51
 
-    (16) arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT . typeData
-    (11) typeData -> . BOOL
-    (12) typeData -> . INT
-    (13) typeData -> . FLOAT
-    (14) typeData -> . STRING
+    (11) asignacion -> VAR VARIABLE FLOAT . IGUAL expresion
 
-    BOOL            shift and go to state 55
-    INT             shift and go to state 56
-    FLOAT           shift and go to state 57
-    STRING          shift and go to state 58
+    IGUAL           shift and go to state 78
 
-    typeData                       shift and go to state 59
 
 state 52
 
-    (7) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa . LLAVELEFT instrucciones LLAVERIGHT
+    (12) asignacion -> VAR VARIABLE STRING . IGUAL CADENA
 
-    LLAVELEFT       shift and go to state 60
+    IGUAL           shift and go to state 79
 
 
 state 53
 
-    (10) incrementa -> VARIABLE . INCREMENTO
+    (13) asignacion -> VAR VARIABLE puntero . IGUAL refer
+    (14) asignacion -> VAR VARIABLE puntero .
 
-    INCREMENTO      shift and go to state 61
+    IGUAL           shift and go to state 80
+    $end            reduce using rule 14 (asignacion -> VAR VARIABLE puntero .)
+    RETURN          reduce using rule 14 (asignacion -> VAR VARIABLE puntero .)
+    LLAVERIGHT      reduce using rule 14 (asignacion -> VAR VARIABLE puntero .)
 
 
 state 54
 
-    (15) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData . LLAVELEFT contArray LLAVERIGHT
+    (67) arrayAsig -> VAR VARIABLE CORCHLEFT . ENTERO CORCHRIGHT typeData
 
-    LLAVELEFT       shift and go to state 62
+    ENTERO          shift and go to state 81
 
 
 state 55
 
-    (11) typeData -> BOOL .
+    (52) puntero -> PRODUCTO . BOOL
+    (53) puntero -> PRODUCTO . INT
+    (54) puntero -> PRODUCTO . FLOAT
+    (55) puntero -> PRODUCTO . STRING
 
-    LLAVELEFT       reduce using rule 11 (typeData -> BOOL .)
-    $end            reduce using rule 11 (typeData -> BOOL .)
-    LLAVERIGHT      reduce using rule 11 (typeData -> BOOL .)
+    BOOL            shift and go to state 82
+    INT             shift and go to state 83
+    FLOAT           shift and go to state 84
+    STRING          shift and go to state 85
 
 
 state 56
 
-    (12) typeData -> INT .
+    (24) valor -> VARIABLE .
+    (82) termc -> VARIABLE .
 
-    LLAVELEFT       reduce using rule 12 (typeData -> INT .)
-    $end            reduce using rule 12 (typeData -> INT .)
-    LLAVERIGHT      reduce using rule 12 (typeData -> INT .)
+    $end            reduce using rule 24 (valor -> VARIABLE .)
+    RETURN          reduce using rule 24 (valor -> VARIABLE .)
+    LLAVERIGHT      reduce using rule 24 (valor -> VARIABLE .)
+    MAYORQUE        reduce using rule 82 (termc -> VARIABLE .)
+    MENORQUE        reduce using rule 82 (termc -> VARIABLE .)
+    ESIGUAL         reduce using rule 82 (termc -> VARIABLE .)
+    MAYORIGUAL      reduce using rule 82 (termc -> VARIABLE .)
+    MENORIGUAL      reduce using rule 82 (termc -> VARIABLE .)
 
 
 state 57
 
-    (13) typeData -> FLOAT .
+    (15) asignacion -> VARIABLE DECLARADOR valor .
 
-    LLAVELEFT       reduce using rule 13 (typeData -> FLOAT .)
-    $end            reduce using rule 13 (typeData -> FLOAT .)
-    LLAVERIGHT      reduce using rule 13 (typeData -> FLOAT .)
+    $end            reduce using rule 15 (asignacion -> VARIABLE DECLARADOR valor .)
+    RETURN          reduce using rule 15 (asignacion -> VARIABLE DECLARADOR valor .)
+    LLAVERIGHT      reduce using rule 15 (asignacion -> VARIABLE DECLARADOR valor .)
 
 
 state 58
 
-    (14) typeData -> STRING .
+    (59) inicio -> VARIABLE DECLARADOR ENTERO .
+    (85) numericos -> ENTERO .
 
-    LLAVELEFT       reduce using rule 14 (typeData -> STRING .)
-    $end            reduce using rule 14 (typeData -> STRING .)
-    LLAVERIGHT      reduce using rule 14 (typeData -> STRING .)
+  ! reduce/reduce conflict for $end resolved using rule 59 (inicio -> VARIABLE DECLARADOR ENTERO .)
+  ! reduce/reduce conflict for RETURN resolved using rule 59 (inicio -> VARIABLE DECLARADOR ENTERO .)
+  ! reduce/reduce conflict for LLAVERIGHT resolved using rule 59 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    $end            reduce using rule 59 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    RETURN          reduce using rule 59 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    LLAVERIGHT      reduce using rule 59 (inicio -> VARIABLE DECLARADOR ENTERO .)
+    SUMA            reduce using rule 85 (numericos -> ENTERO .)
+    RESTA           reduce using rule 85 (numericos -> ENTERO .)
+    PRODUCTO        reduce using rule 85 (numericos -> ENTERO .)
+    DIVISION        reduce using rule 85 (numericos -> ENTERO .)
+    MODULO          reduce using rule 85 (numericos -> ENTERO .)
+    MAYORQUE        reduce using rule 85 (numericos -> ENTERO .)
+    MENORQUE        reduce using rule 85 (numericos -> ENTERO .)
+    ESIGUAL         reduce using rule 85 (numericos -> ENTERO .)
+    MAYORIGUAL      reduce using rule 85 (numericos -> ENTERO .)
+    MENORIGUAL      reduce using rule 85 (numericos -> ENTERO .)
+
+  ! $end            [ reduce using rule 85 (numericos -> ENTERO .) ]
+  ! RETURN          [ reduce using rule 85 (numericos -> ENTERO .) ]
+  ! LLAVERIGHT      [ reduce using rule 85 (numericos -> ENTERO .) ]
 
 
 state 59
 
-    (16) arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData .
+    (66) array -> VARIABLE DECLARADOR CORCHLEFT . ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
 
-    $end            reduce using rule 16 (arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData .)
-    LLAVERIGHT      reduce using rule 16 (arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData .)
+    ENTERO          shift and go to state 86
 
 
 state 60
 
-    (7) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT . instrucciones LLAVERIGHT
-    (1) instrucciones -> . expresion
-    (2) instrucciones -> . condicion
-    (3) instrucciones -> . sentenciaFor
-    (4) instrucciones -> . inicio
-    (5) instrucciones -> . array
-    (6) instrucciones -> . arrayAsig
-    (23) expresion -> . expresion SUMA numericos
-    (24) expresion -> . expresion RESTA numericos
-    (25) expresion -> . expresion PRODUCTO numericos
-    (26) expresion -> . expresion DIVISION numericos
-    (27) expresion -> . expresion MODULO numericos
-    (28) expresion -> . term
-    (9) condicion -> . termc comparador termc
-    (49) condicion -> . AND
-    (50) condicion -> . OR
-    (7) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
-    (8) inicio -> . VARIABLE DECLARADOR ENTERO
-    (15) array -> . VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
-    (16) arrayAsig -> . VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
-    (30) term -> . numericos
-    (31) termc -> . VARIABLE
-    (32) termc -> . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (21) valor -> booleano .
 
-    AND             shift and go to state 11
-    OR              shift and go to state 12
-    FOR             shift and go to state 13
-    VARIABLE        shift and go to state 14
-    VAR             shift and go to state 16
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    $end            reduce using rule 21 (valor -> booleano .)
+    RETURN          reduce using rule 21 (valor -> booleano .)
+    LLAVERIGHT      reduce using rule 21 (valor -> booleano .)
 
-    inicio                         shift and go to state 5
-    condicion                      shift and go to state 3
-    instrucciones                  shift and go to state 63
-    expresion                      shift and go to state 2
-    sentenciaFor                   shift and go to state 4
-    array                          shift and go to state 6
-    arrayAsig                      shift and go to state 7
-    numericos                      shift and go to state 8
-    term                           shift and go to state 9
-    termc                          shift and go to state 10
 
 state 61
 
-    (10) incrementa -> VARIABLE INCREMENTO .
+    (22) valor -> expresion .
+    (74) expresion -> expresion . SUMA numericos
+    (75) expresion -> expresion . RESTA numericos
+    (76) expresion -> expresion . PRODUCTO numericos
+    (77) expresion -> expresion . DIVISION numericos
+    (78) expresion -> expresion . MODULO numericos
 
-    LLAVELEFT       reduce using rule 10 (incrementa -> VARIABLE INCREMENTO .)
+    $end            reduce using rule 22 (valor -> expresion .)
+    RETURN          reduce using rule 22 (valor -> expresion .)
+    LLAVERIGHT      reduce using rule 22 (valor -> expresion .)
+    SUMA            shift and go to state 23
+    RESTA           shift and go to state 24
+    PRODUCTO        shift and go to state 25
+    DIVISION        shift and go to state 26
+    MODULO          shift and go to state 27
 
 
 state 62
 
-    (15) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT . contArray LLAVERIGHT
-    (17) contArray -> . contArray COMA numericos
-    (29) contArray -> . term
-    (30) term -> . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (23) valor -> CADENA .
 
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    $end            reduce using rule 23 (valor -> CADENA .)
+    RETURN          reduce using rule 23 (valor -> CADENA .)
+    LLAVERIGHT      reduce using rule 23 (valor -> CADENA .)
 
-    contArray                      shift and go to state 64
-    numericos                      shift and go to state 65
-    term                           shift and go to state 66
 
 state 63
 
-    (7) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones . LLAVERIGHT
+    (25) valor -> mapa .
 
-    LLAVERIGHT      shift and go to state 67
+    $end            reduce using rule 25 (valor -> mapa .)
+    RETURN          reduce using rule 25 (valor -> mapa .)
+    LLAVERIGHT      reduce using rule 25 (valor -> mapa .)
 
 
 state 64
 
-    (15) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray . LLAVERIGHT
-    (17) contArray -> contArray . COMA numericos
+    (26) valor -> refer .
 
-    LLAVERIGHT      shift and go to state 68
-    COMA            shift and go to state 69
+    $end            reduce using rule 26 (valor -> refer .)
+    RETURN          reduce using rule 26 (valor -> refer .)
+    LLAVERIGHT      reduce using rule 26 (valor -> refer .)
 
 
 state 65
 
-    (30) term -> numericos .
+    (18) booleano -> condicion .
 
-    LLAVERIGHT      reduce using rule 30 (term -> numericos .)
-    COMA            reduce using rule 30 (term -> numericos .)
+    $end            reduce using rule 18 (booleano -> condicion .)
+    RETURN          reduce using rule 18 (booleano -> condicion .)
+    LLAVERIGHT      reduce using rule 18 (booleano -> condicion .)
 
 
 state 66
 
-    (29) contArray -> term .
+    (19) booleano -> TRUE .
 
-    LLAVERIGHT      reduce using rule 29 (contArray -> term .)
-    COMA            reduce using rule 29 (contArray -> term .)
+    $end            reduce using rule 19 (booleano -> TRUE .)
+    RETURN          reduce using rule 19 (booleano -> TRUE .)
+    LLAVERIGHT      reduce using rule 19 (booleano -> TRUE .)
 
 
 state 67
 
-    (7) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .
+    (20) booleano -> FALSE .
 
-    $end            reduce using rule 7 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
-    LLAVERIGHT      reduce using rule 7 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+    $end            reduce using rule 20 (booleano -> FALSE .)
+    RETURN          reduce using rule 20 (booleano -> FALSE .)
+    LLAVERIGHT      reduce using rule 20 (booleano -> FALSE .)
 
 
 state 68
 
-    (15) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT .
+    (37) mapa -> MAP . CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+    (38) mapa -> MAP . CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
 
-    $end            reduce using rule 15 (array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT .)
-    LLAVERIGHT      reduce using rule 15 (array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT .)
+    CORCHLEFT       shift and go to state 87
 
 
 state 69
 
-    (17) contArray -> contArray COMA . numericos
-    (34) numericos -> . ENTERO
-    (35) numericos -> . FLOTANTE
+    (56) refer -> AMPERSAND . VARIABLE
 
-    ENTERO          shift and go to state 15
-    FLOTANTE        shift and go to state 17
+    VARIABLE        shift and go to state 88
 
-    numericos                      shift and go to state 70
 
 state 70
 
-    (17) contArray -> contArray COMA numericos .
+    (16) asignacion -> VARIABLE IGUAL valor .
 
-    LLAVERIGHT      reduce using rule 17 (contArray -> contArray COMA numericos .)
-    COMA            reduce using rule 17 (contArray -> contArray COMA numericos .)
+    $end            reduce using rule 16 (asignacion -> VARIABLE IGUAL valor .)
+    RETURN          reduce using rule 16 (asignacion -> VARIABLE IGUAL valor .)
+    LLAVERIGHT      reduce using rule 16 (asignacion -> VARIABLE IGUAL valor .)
 
+
+state 71
+
+    (17) asignacion -> derefer IGUAL valor .
+
+    $end            reduce using rule 17 (asignacion -> derefer IGUAL valor .)
+    RETURN          reduce using rule 17 (asignacion -> derefer IGUAL valor .)
+    LLAVERIGHT      reduce using rule 17 (asignacion -> derefer IGUAL valor .)
+
+
+state 72
+
+    (60) condicion -> termc comparador termc .
+
+    $end            reduce using rule 60 (condicion -> termc comparador termc .)
+    LLAVELEFT       reduce using rule 60 (condicion -> termc comparador termc .)
+    RETURN          reduce using rule 60 (condicion -> termc comparador termc .)
+    LLAVERIGHT      reduce using rule 60 (condicion -> termc comparador termc .)
+    PUNTOCOMA       reduce using rule 60 (condicion -> termc comparador termc .)
+
+
+state 73
+
+    (27) sentenciaIf -> IF condicion LLAVELEFT . instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> IF condicion LLAVELEFT . instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> IF condicion LLAVELEFT . instrucciones LLAVERIGHT
+    (30) sentenciaIf -> IF condicion LLAVELEFT . instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> IF condicion LLAVELEFT . RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> IF condicion LLAVELEFT . RETURN VARIABLE LLAVERIGHT else
+    (1) instrucciones -> . asignacion
+    (2) instrucciones -> . expresion
+    (3) instrucciones -> . condicion
+    (4) instrucciones -> . sentenciaIf
+    (5) instrucciones -> . sentenciaFor
+    (6) instrucciones -> . inicio
+    (7) instrucciones -> . array
+    (8) instrucciones -> . arrayAsig
+    (9) asignacion -> . VAR VARIABLE BOOL IGUAL booleano
+    (10) asignacion -> . VAR VARIABLE INT IGUAL expresion
+    (11) asignacion -> . VAR VARIABLE FLOAT IGUAL expresion
+    (12) asignacion -> . VAR VARIABLE STRING IGUAL CADENA
+    (13) asignacion -> . VAR VARIABLE puntero IGUAL refer
+    (14) asignacion -> . VAR VARIABLE puntero
+    (15) asignacion -> . VARIABLE DECLARADOR valor
+    (16) asignacion -> . VARIABLE IGUAL valor
+    (17) asignacion -> . derefer IGUAL valor
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (27) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT
+    (30) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+    (58) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (59) inicio -> . VARIABLE DECLARADOR ENTERO
+    (66) array -> . VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (67) arrayAsig -> . VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
+    (57) derefer -> . PRODUCTO VARIABLE
+    (81) term -> . numericos
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    RETURN          shift and go to state 90
+    VAR             shift and go to state 10
+    VARIABLE        shift and go to state 11
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    IF              shift and go to state 19
+    FOR             shift and go to state 20
+    PRODUCTO        shift and go to state 14
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    condicion                      shift and go to state 4
+    instrucciones                  shift and go to state 89
+    asignacion                     shift and go to state 2
+    expresion                      shift and go to state 3
+    sentenciaIf                    shift and go to state 5
+    sentenciaFor                   shift and go to state 6
+    inicio                         shift and go to state 7
+    array                          shift and go to state 8
+    arrayAsig                      shift and go to state 9
+    derefer                        shift and go to state 12
+    numericos                      shift and go to state 13
+    term                           shift and go to state 15
+    termc                          shift and go to state 16
+
+state 74
+
+    (58) sentenciaFor -> FOR inicio PUNTOCOMA . condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    VARIABLE        shift and go to state 40
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    condicion                      shift and go to state 91
+    termc                          shift and go to state 16
+    numericos                      shift and go to state 41
+
+state 75
+
+    (59) inicio -> VARIABLE DECLARADOR . ENTERO
+
+    ENTERO          shift and go to state 92
+
+
+state 76
+
+    (9) asignacion -> VAR VARIABLE BOOL IGUAL . booleano
+    (18) booleano -> . condicion
+    (19) booleano -> . TRUE
+    (20) booleano -> . FALSE
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    TRUE            shift and go to state 66
+    FALSE           shift and go to state 67
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    VARIABLE        shift and go to state 40
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    booleano                       shift and go to state 93
+    condicion                      shift and go to state 65
+    termc                          shift and go to state 16
+    numericos                      shift and go to state 41
+
+state 77
+
+    (10) asignacion -> VAR VARIABLE INT IGUAL . expresion
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (81) term -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    expresion                      shift and go to state 94
+    numericos                      shift and go to state 95
+    term                           shift and go to state 15
+
+state 78
+
+    (11) asignacion -> VAR VARIABLE FLOAT IGUAL . expresion
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (81) term -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    expresion                      shift and go to state 96
+    numericos                      shift and go to state 95
+    term                           shift and go to state 15
+
+state 79
+
+    (12) asignacion -> VAR VARIABLE STRING IGUAL . CADENA
+
+    CADENA          shift and go to state 97
+
+
+state 80
+
+    (13) asignacion -> VAR VARIABLE puntero IGUAL . refer
+    (56) refer -> . AMPERSAND VARIABLE
+
+    AMPERSAND       shift and go to state 69
+
+    refer                          shift and go to state 98
+
+state 81
+
+    (67) arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO . CORCHRIGHT typeData
+
+    CORCHRIGHT      shift and go to state 99
+
+
+state 82
+
+    (52) puntero -> PRODUCTO BOOL .
+
+    IGUAL           reduce using rule 52 (puntero -> PRODUCTO BOOL .)
+    $end            reduce using rule 52 (puntero -> PRODUCTO BOOL .)
+    RETURN          reduce using rule 52 (puntero -> PRODUCTO BOOL .)
+    LLAVERIGHT      reduce using rule 52 (puntero -> PRODUCTO BOOL .)
+
+
+state 83
+
+    (53) puntero -> PRODUCTO INT .
+
+    IGUAL           reduce using rule 53 (puntero -> PRODUCTO INT .)
+    $end            reduce using rule 53 (puntero -> PRODUCTO INT .)
+    RETURN          reduce using rule 53 (puntero -> PRODUCTO INT .)
+    LLAVERIGHT      reduce using rule 53 (puntero -> PRODUCTO INT .)
+
+
+state 84
+
+    (54) puntero -> PRODUCTO FLOAT .
+
+    IGUAL           reduce using rule 54 (puntero -> PRODUCTO FLOAT .)
+    $end            reduce using rule 54 (puntero -> PRODUCTO FLOAT .)
+    RETURN          reduce using rule 54 (puntero -> PRODUCTO FLOAT .)
+    LLAVERIGHT      reduce using rule 54 (puntero -> PRODUCTO FLOAT .)
+
+
+state 85
+
+    (55) puntero -> PRODUCTO STRING .
+
+    IGUAL           reduce using rule 55 (puntero -> PRODUCTO STRING .)
+    $end            reduce using rule 55 (puntero -> PRODUCTO STRING .)
+    RETURN          reduce using rule 55 (puntero -> PRODUCTO STRING .)
+    LLAVERIGHT      reduce using rule 55 (puntero -> PRODUCTO STRING .)
+
+
+state 86
+
+    (66) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO . CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+
+    CORCHRIGHT      shift and go to state 100
+
+
+state 87
+
+    (37) mapa -> MAP CORCHLEFT . tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+    (38) mapa -> MAP CORCHLEFT . tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+    (43) tipo -> . BOOL
+    (44) tipo -> . INT
+    (45) tipo -> . FLOAT
+    (46) tipo -> . STRING
+
+    BOOL            shift and go to state 102
+    INT             shift and go to state 103
+    FLOAT           shift and go to state 104
+    STRING          shift and go to state 105
+
+    tipo                           shift and go to state 101
+
+state 88
+
+    (56) refer -> AMPERSAND VARIABLE .
+
+    $end            reduce using rule 56 (refer -> AMPERSAND VARIABLE .)
+    RETURN          reduce using rule 56 (refer -> AMPERSAND VARIABLE .)
+    LLAVERIGHT      reduce using rule 56 (refer -> AMPERSAND VARIABLE .)
+
+
+state 89
+
+    (27) sentenciaIf -> IF condicion LLAVELEFT instrucciones . RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> IF condicion LLAVELEFT instrucciones . RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> IF condicion LLAVELEFT instrucciones . LLAVERIGHT
+    (30) sentenciaIf -> IF condicion LLAVELEFT instrucciones . LLAVERIGHT else
+
+    RETURN          shift and go to state 106
+    LLAVERIGHT      shift and go to state 107
+
+
+state 90
+
+    (31) sentenciaIf -> IF condicion LLAVELEFT RETURN . VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> IF condicion LLAVELEFT RETURN . VARIABLE LLAVERIGHT else
+
+    VARIABLE        shift and go to state 108
+
+
+state 91
+
+    (58) sentenciaFor -> FOR inicio PUNTOCOMA condicion . PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+
+    PUNTOCOMA       shift and go to state 109
+
+
+state 92
+
+    (59) inicio -> VARIABLE DECLARADOR ENTERO .
+
+    PUNTOCOMA       reduce using rule 59 (inicio -> VARIABLE DECLARADOR ENTERO .)
+
+
+state 93
+
+    (9) asignacion -> VAR VARIABLE BOOL IGUAL booleano .
+
+    $end            reduce using rule 9 (asignacion -> VAR VARIABLE BOOL IGUAL booleano .)
+    RETURN          reduce using rule 9 (asignacion -> VAR VARIABLE BOOL IGUAL booleano .)
+    LLAVERIGHT      reduce using rule 9 (asignacion -> VAR VARIABLE BOOL IGUAL booleano .)
+
+
+state 94
+
+    (10) asignacion -> VAR VARIABLE INT IGUAL expresion .
+    (74) expresion -> expresion . SUMA numericos
+    (75) expresion -> expresion . RESTA numericos
+    (76) expresion -> expresion . PRODUCTO numericos
+    (77) expresion -> expresion . DIVISION numericos
+    (78) expresion -> expresion . MODULO numericos
+
+    $end            reduce using rule 10 (asignacion -> VAR VARIABLE INT IGUAL expresion .)
+    RETURN          reduce using rule 10 (asignacion -> VAR VARIABLE INT IGUAL expresion .)
+    LLAVERIGHT      reduce using rule 10 (asignacion -> VAR VARIABLE INT IGUAL expresion .)
+    SUMA            shift and go to state 23
+    RESTA           shift and go to state 24
+    PRODUCTO        shift and go to state 25
+    DIVISION        shift and go to state 26
+    MODULO          shift and go to state 27
+
+
+state 95
+
+    (81) term -> numericos .
+
+    SUMA            reduce using rule 81 (term -> numericos .)
+    RESTA           reduce using rule 81 (term -> numericos .)
+    PRODUCTO        reduce using rule 81 (term -> numericos .)
+    DIVISION        reduce using rule 81 (term -> numericos .)
+    MODULO          reduce using rule 81 (term -> numericos .)
+    $end            reduce using rule 81 (term -> numericos .)
+    RETURN          reduce using rule 81 (term -> numericos .)
+    LLAVERIGHT      reduce using rule 81 (term -> numericos .)
+    COMA            reduce using rule 81 (term -> numericos .)
+    DOSPUNTOS       reduce using rule 81 (term -> numericos .)
+
+
+state 96
+
+    (11) asignacion -> VAR VARIABLE FLOAT IGUAL expresion .
+    (74) expresion -> expresion . SUMA numericos
+    (75) expresion -> expresion . RESTA numericos
+    (76) expresion -> expresion . PRODUCTO numericos
+    (77) expresion -> expresion . DIVISION numericos
+    (78) expresion -> expresion . MODULO numericos
+
+    $end            reduce using rule 11 (asignacion -> VAR VARIABLE FLOAT IGUAL expresion .)
+    RETURN          reduce using rule 11 (asignacion -> VAR VARIABLE FLOAT IGUAL expresion .)
+    LLAVERIGHT      reduce using rule 11 (asignacion -> VAR VARIABLE FLOAT IGUAL expresion .)
+    SUMA            shift and go to state 23
+    RESTA           shift and go to state 24
+    PRODUCTO        shift and go to state 25
+    DIVISION        shift and go to state 26
+    MODULO          shift and go to state 27
+
+
+state 97
+
+    (12) asignacion -> VAR VARIABLE STRING IGUAL CADENA .
+
+    $end            reduce using rule 12 (asignacion -> VAR VARIABLE STRING IGUAL CADENA .)
+    RETURN          reduce using rule 12 (asignacion -> VAR VARIABLE STRING IGUAL CADENA .)
+    LLAVERIGHT      reduce using rule 12 (asignacion -> VAR VARIABLE STRING IGUAL CADENA .)
+
+
+state 98
+
+    (13) asignacion -> VAR VARIABLE puntero IGUAL refer .
+
+    $end            reduce using rule 13 (asignacion -> VAR VARIABLE puntero IGUAL refer .)
+    RETURN          reduce using rule 13 (asignacion -> VAR VARIABLE puntero IGUAL refer .)
+    LLAVERIGHT      reduce using rule 13 (asignacion -> VAR VARIABLE puntero IGUAL refer .)
+
+
+state 99
+
+    (67) arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT . typeData
+    (62) typeData -> . BOOL
+    (63) typeData -> . INT
+    (64) typeData -> . FLOAT
+    (65) typeData -> . STRING
+
+    BOOL            shift and go to state 111
+    INT             shift and go to state 112
+    FLOAT           shift and go to state 113
+    STRING          shift and go to state 114
+
+    typeData                       shift and go to state 110
+
+state 100
+
+    (66) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT . typeData LLAVELEFT contArray LLAVERIGHT
+    (62) typeData -> . BOOL
+    (63) typeData -> . INT
+    (64) typeData -> . FLOAT
+    (65) typeData -> . STRING
+
+    BOOL            shift and go to state 111
+    INT             shift and go to state 112
+    FLOAT           shift and go to state 113
+    STRING          shift and go to state 114
+
+    typeData                       shift and go to state 115
+
+state 101
+
+    (37) mapa -> MAP CORCHLEFT tipo . CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+    (38) mapa -> MAP CORCHLEFT tipo . CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+
+    CORCHRIGHT      shift and go to state 116
+
+
+state 102
+
+    (43) tipo -> BOOL .
+
+    CORCHRIGHT      reduce using rule 43 (tipo -> BOOL .)
+    LLAVELEFT       reduce using rule 43 (tipo -> BOOL .)
+
+
+state 103
+
+    (44) tipo -> INT .
+
+    CORCHRIGHT      reduce using rule 44 (tipo -> INT .)
+    LLAVELEFT       reduce using rule 44 (tipo -> INT .)
+
+
+state 104
+
+    (45) tipo -> FLOAT .
+
+    CORCHRIGHT      reduce using rule 45 (tipo -> FLOAT .)
+    LLAVELEFT       reduce using rule 45 (tipo -> FLOAT .)
+
+
+state 105
+
+    (46) tipo -> STRING .
+
+    CORCHRIGHT      reduce using rule 46 (tipo -> STRING .)
+    LLAVELEFT       reduce using rule 46 (tipo -> STRING .)
+
+
+state 106
+
+    (27) sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN . VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN . VARIABLE LLAVERIGHT else
+
+    VARIABLE        shift and go to state 117
+
+
+state 107
+
+    (29) sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT .
+    (30) sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT . else
+    (33) else -> . ELSE LLAVELEFT instrucciones LLAVERIGHT
+    (34) else -> . ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (35) else -> . ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (36) else -> . ELSE sentenciaIf
+
+    $end            reduce using rule 29 (sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT .)
+    RETURN          reduce using rule 29 (sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 29 (sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT .)
+    ELSE            shift and go to state 119
+
+    else                           shift and go to state 118
+
+state 108
+
+    (31) sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE . LLAVERIGHT
+    (32) sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE . LLAVERIGHT else
+
+    LLAVERIGHT      shift and go to state 120
+
+
+state 109
+
+    (58) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA . incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (61) incrementa -> . VARIABLE INCREMENTO
+
+    VARIABLE        shift and go to state 122
+
+    incrementa                     shift and go to state 121
+
+state 110
+
+    (67) arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData .
+
+    $end            reduce using rule 67 (arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData .)
+    RETURN          reduce using rule 67 (arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData .)
+    LLAVERIGHT      reduce using rule 67 (arrayAsig -> VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData .)
+
+
+state 111
+
+    (62) typeData -> BOOL .
+
+    $end            reduce using rule 62 (typeData -> BOOL .)
+    RETURN          reduce using rule 62 (typeData -> BOOL .)
+    LLAVERIGHT      reduce using rule 62 (typeData -> BOOL .)
+    LLAVELEFT       reduce using rule 62 (typeData -> BOOL .)
+
+
+state 112
+
+    (63) typeData -> INT .
+
+    $end            reduce using rule 63 (typeData -> INT .)
+    RETURN          reduce using rule 63 (typeData -> INT .)
+    LLAVERIGHT      reduce using rule 63 (typeData -> INT .)
+    LLAVELEFT       reduce using rule 63 (typeData -> INT .)
+
+
+state 113
+
+    (64) typeData -> FLOAT .
+
+    $end            reduce using rule 64 (typeData -> FLOAT .)
+    RETURN          reduce using rule 64 (typeData -> FLOAT .)
+    LLAVERIGHT      reduce using rule 64 (typeData -> FLOAT .)
+    LLAVELEFT       reduce using rule 64 (typeData -> FLOAT .)
+
+
+state 114
+
+    (65) typeData -> STRING .
+
+    $end            reduce using rule 65 (typeData -> STRING .)
+    RETURN          reduce using rule 65 (typeData -> STRING .)
+    LLAVERIGHT      reduce using rule 65 (typeData -> STRING .)
+    LLAVELEFT       reduce using rule 65 (typeData -> STRING .)
+
+
+state 115
+
+    (66) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData . LLAVELEFT contArray LLAVERIGHT
+
+    LLAVELEFT       shift and go to state 123
+
+
+state 116
+
+    (37) mapa -> MAP CORCHLEFT tipo CORCHRIGHT . tipo LLAVELEFT par LLAVERIGHT
+    (38) mapa -> MAP CORCHLEFT tipo CORCHRIGHT . tipo LLAVELEFT LLAVERIGHT
+    (43) tipo -> . BOOL
+    (44) tipo -> . INT
+    (45) tipo -> . FLOAT
+    (46) tipo -> . STRING
+
+    BOOL            shift and go to state 102
+    INT             shift and go to state 103
+    FLOAT           shift and go to state 104
+    STRING          shift and go to state 105
+
+    tipo                           shift and go to state 124
+
+state 117
+
+    (27) sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE . LLAVERIGHT
+    (28) sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE . LLAVERIGHT else
+
+    LLAVERIGHT      shift and go to state 125
+
+
+state 118
+
+    (30) sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT else .
+
+    $end            reduce using rule 30 (sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT else .)
+    RETURN          reduce using rule 30 (sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT else .)
+    LLAVERIGHT      reduce using rule 30 (sentenciaIf -> IF condicion LLAVELEFT instrucciones LLAVERIGHT else .)
+
+
+state 119
+
+    (33) else -> ELSE . LLAVELEFT instrucciones LLAVERIGHT
+    (34) else -> ELSE . LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (35) else -> ELSE . LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (36) else -> ELSE . sentenciaIf
+    (27) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT
+    (30) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+
+    LLAVELEFT       shift and go to state 126
+    IF              shift and go to state 19
+
+    sentenciaIf                    shift and go to state 127
+
+state 120
+
+    (31) sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT .
+    (32) sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT . else
+    (33) else -> . ELSE LLAVELEFT instrucciones LLAVERIGHT
+    (34) else -> . ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (35) else -> . ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (36) else -> . ELSE sentenciaIf
+
+    $end            reduce using rule 31 (sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT .)
+    RETURN          reduce using rule 31 (sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 31 (sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT .)
+    ELSE            shift and go to state 119
+
+    else                           shift and go to state 128
+
+state 121
+
+    (58) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa . LLAVELEFT instrucciones LLAVERIGHT
+
+    LLAVELEFT       shift and go to state 129
+
+
+state 122
+
+    (61) incrementa -> VARIABLE . INCREMENTO
+
+    INCREMENTO      shift and go to state 130
+
+
+state 123
+
+    (66) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT . contArray LLAVERIGHT
+    (68) contArray -> . contArray COMA numericos
+    (80) contArray -> . term
+    (81) term -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    contArray                      shift and go to state 131
+    numericos                      shift and go to state 95
+    term                           shift and go to state 132
+
+state 124
+
+    (37) mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo . LLAVELEFT par LLAVERIGHT
+    (38) mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo . LLAVELEFT LLAVERIGHT
+
+    LLAVELEFT       shift and go to state 133
+
+
+state 125
+
+    (27) sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .
+    (28) sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT . else
+    (33) else -> . ELSE LLAVELEFT instrucciones LLAVERIGHT
+    (34) else -> . ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (35) else -> . ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (36) else -> . ELSE sentenciaIf
+
+    $end            reduce using rule 27 (sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .)
+    RETURN          reduce using rule 27 (sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 27 (sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .)
+    ELSE            shift and go to state 119
+
+    else                           shift and go to state 134
+
+state 126
+
+    (33) else -> ELSE LLAVELEFT . instrucciones LLAVERIGHT
+    (34) else -> ELSE LLAVELEFT . instrucciones RETURN VARIABLE LLAVERIGHT
+    (35) else -> ELSE LLAVELEFT . RETURN VARIABLE LLAVERIGHT
+    (1) instrucciones -> . asignacion
+    (2) instrucciones -> . expresion
+    (3) instrucciones -> . condicion
+    (4) instrucciones -> . sentenciaIf
+    (5) instrucciones -> . sentenciaFor
+    (6) instrucciones -> . inicio
+    (7) instrucciones -> . array
+    (8) instrucciones -> . arrayAsig
+    (9) asignacion -> . VAR VARIABLE BOOL IGUAL booleano
+    (10) asignacion -> . VAR VARIABLE INT IGUAL expresion
+    (11) asignacion -> . VAR VARIABLE FLOAT IGUAL expresion
+    (12) asignacion -> . VAR VARIABLE STRING IGUAL CADENA
+    (13) asignacion -> . VAR VARIABLE puntero IGUAL refer
+    (14) asignacion -> . VAR VARIABLE puntero
+    (15) asignacion -> . VARIABLE DECLARADOR valor
+    (16) asignacion -> . VARIABLE IGUAL valor
+    (17) asignacion -> . derefer IGUAL valor
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (27) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT
+    (30) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+    (58) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (59) inicio -> . VARIABLE DECLARADOR ENTERO
+    (66) array -> . VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (67) arrayAsig -> . VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
+    (57) derefer -> . PRODUCTO VARIABLE
+    (81) term -> . numericos
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    RETURN          shift and go to state 136
+    VAR             shift and go to state 10
+    VARIABLE        shift and go to state 11
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    IF              shift and go to state 19
+    FOR             shift and go to state 20
+    PRODUCTO        shift and go to state 14
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    instrucciones                  shift and go to state 135
+    asignacion                     shift and go to state 2
+    expresion                      shift and go to state 3
+    condicion                      shift and go to state 4
+    sentenciaIf                    shift and go to state 5
+    sentenciaFor                   shift and go to state 6
+    inicio                         shift and go to state 7
+    array                          shift and go to state 8
+    arrayAsig                      shift and go to state 9
+    derefer                        shift and go to state 12
+    numericos                      shift and go to state 13
+    term                           shift and go to state 15
+    termc                          shift and go to state 16
+
+state 127
+
+    (36) else -> ELSE sentenciaIf .
+
+    $end            reduce using rule 36 (else -> ELSE sentenciaIf .)
+    RETURN          reduce using rule 36 (else -> ELSE sentenciaIf .)
+    LLAVERIGHT      reduce using rule 36 (else -> ELSE sentenciaIf .)
+
+
+state 128
+
+    (32) sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else .
+
+    $end            reduce using rule 32 (sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else .)
+    RETURN          reduce using rule 32 (sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else .)
+    LLAVERIGHT      reduce using rule 32 (sentenciaIf -> IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else .)
+
+
+state 129
+
+    (58) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT . instrucciones LLAVERIGHT
+    (1) instrucciones -> . asignacion
+    (2) instrucciones -> . expresion
+    (3) instrucciones -> . condicion
+    (4) instrucciones -> . sentenciaIf
+    (5) instrucciones -> . sentenciaFor
+    (6) instrucciones -> . inicio
+    (7) instrucciones -> . array
+    (8) instrucciones -> . arrayAsig
+    (9) asignacion -> . VAR VARIABLE BOOL IGUAL booleano
+    (10) asignacion -> . VAR VARIABLE INT IGUAL expresion
+    (11) asignacion -> . VAR VARIABLE FLOAT IGUAL expresion
+    (12) asignacion -> . VAR VARIABLE STRING IGUAL CADENA
+    (13) asignacion -> . VAR VARIABLE puntero IGUAL refer
+    (14) asignacion -> . VAR VARIABLE puntero
+    (15) asignacion -> . VARIABLE DECLARADOR valor
+    (16) asignacion -> . VARIABLE IGUAL valor
+    (17) asignacion -> . derefer IGUAL valor
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (60) condicion -> . termc comparador termc
+    (100) condicion -> . AND
+    (101) condicion -> . OR
+    (27) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+    (28) sentenciaIf -> . IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+    (29) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT
+    (30) sentenciaIf -> . IF condicion LLAVELEFT instrucciones LLAVERIGHT else
+    (31) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+    (32) sentenciaIf -> . IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+    (58) sentenciaFor -> . FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    (59) inicio -> . VARIABLE DECLARADOR ENTERO
+    (66) array -> . VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT
+    (67) arrayAsig -> . VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData
+    (57) derefer -> . PRODUCTO VARIABLE
+    (81) term -> . numericos
+    (82) termc -> . VARIABLE
+    (83) termc -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    VAR             shift and go to state 10
+    VARIABLE        shift and go to state 11
+    AND             shift and go to state 17
+    OR              shift and go to state 18
+    IF              shift and go to state 19
+    FOR             shift and go to state 20
+    PRODUCTO        shift and go to state 14
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    inicio                         shift and go to state 7
+    condicion                      shift and go to state 4
+    instrucciones                  shift and go to state 137
+    asignacion                     shift and go to state 2
+    expresion                      shift and go to state 3
+    sentenciaIf                    shift and go to state 5
+    sentenciaFor                   shift and go to state 6
+    array                          shift and go to state 8
+    arrayAsig                      shift and go to state 9
+    derefer                        shift and go to state 12
+    numericos                      shift and go to state 13
+    term                           shift and go to state 15
+    termc                          shift and go to state 16
+
+state 130
+
+    (61) incrementa -> VARIABLE INCREMENTO .
+
+    LLAVELEFT       reduce using rule 61 (incrementa -> VARIABLE INCREMENTO .)
+
+
+state 131
+
+    (66) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray . LLAVERIGHT
+    (68) contArray -> contArray . COMA numericos
+
+    LLAVERIGHT      shift and go to state 138
+    COMA            shift and go to state 139
+
+
+state 132
+
+    (80) contArray -> term .
+
+    LLAVERIGHT      reduce using rule 80 (contArray -> term .)
+    COMA            reduce using rule 80 (contArray -> term .)
+
+
+state 133
+
+    (37) mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT . par LLAVERIGHT
+    (38) mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT . LLAVERIGHT
+    (39) par -> . dato DOSPUNTOS dato
+    (40) par -> . dato DOSPUNTOS dato mas
+    (47) dato -> . VARIABLE
+    (48) dato -> . expresion
+    (49) dato -> . CADENA
+    (50) dato -> . TRUE
+    (51) dato -> . FALSE
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (81) term -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    LLAVERIGHT      shift and go to state 141
+    VARIABLE        shift and go to state 143
+    CADENA          shift and go to state 145
+    TRUE            shift and go to state 146
+    FALSE           shift and go to state 147
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    par                            shift and go to state 140
+    dato                           shift and go to state 142
+    expresion                      shift and go to state 144
+    numericos                      shift and go to state 95
+    term                           shift and go to state 15
+
+state 134
+
+    (28) sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else .
+
+    $end            reduce using rule 28 (sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else .)
+    RETURN          reduce using rule 28 (sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else .)
+    LLAVERIGHT      reduce using rule 28 (sentenciaIf -> IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else .)
+
+
+state 135
+
+    (33) else -> ELSE LLAVELEFT instrucciones . LLAVERIGHT
+    (34) else -> ELSE LLAVELEFT instrucciones . RETURN VARIABLE LLAVERIGHT
+
+    LLAVERIGHT      shift and go to state 148
+    RETURN          shift and go to state 149
+
+
+state 136
+
+    (35) else -> ELSE LLAVELEFT RETURN . VARIABLE LLAVERIGHT
+
+    VARIABLE        shift and go to state 150
+
+
+state 137
+
+    (58) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones . LLAVERIGHT
+
+    LLAVERIGHT      shift and go to state 151
+
+
+state 138
+
+    (66) array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT .
+
+    $end            reduce using rule 66 (array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT .)
+    RETURN          reduce using rule 66 (array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 66 (array -> VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT .)
+
+
+state 139
+
+    (68) contArray -> contArray COMA . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    numericos                      shift and go to state 152
+
+state 140
+
+    (37) mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par . LLAVERIGHT
+
+    LLAVERIGHT      shift and go to state 153
+
+
+state 141
+
+    (38) mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT .
+
+    $end            reduce using rule 38 (mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT .)
+    RETURN          reduce using rule 38 (mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 38 (mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT .)
+
+
+state 142
+
+    (39) par -> dato . DOSPUNTOS dato
+    (40) par -> dato . DOSPUNTOS dato mas
+
+    DOSPUNTOS       shift and go to state 154
+
+
+state 143
+
+    (47) dato -> VARIABLE .
+
+    DOSPUNTOS       reduce using rule 47 (dato -> VARIABLE .)
+    COMA            reduce using rule 47 (dato -> VARIABLE .)
+    LLAVERIGHT      reduce using rule 47 (dato -> VARIABLE .)
+
+
+state 144
+
+    (48) dato -> expresion .
+    (74) expresion -> expresion . SUMA numericos
+    (75) expresion -> expresion . RESTA numericos
+    (76) expresion -> expresion . PRODUCTO numericos
+    (77) expresion -> expresion . DIVISION numericos
+    (78) expresion -> expresion . MODULO numericos
+
+    DOSPUNTOS       reduce using rule 48 (dato -> expresion .)
+    COMA            reduce using rule 48 (dato -> expresion .)
+    LLAVERIGHT      reduce using rule 48 (dato -> expresion .)
+    SUMA            shift and go to state 23
+    RESTA           shift and go to state 24
+    PRODUCTO        shift and go to state 25
+    DIVISION        shift and go to state 26
+    MODULO          shift and go to state 27
+
+
+state 145
+
+    (49) dato -> CADENA .
+
+    DOSPUNTOS       reduce using rule 49 (dato -> CADENA .)
+    COMA            reduce using rule 49 (dato -> CADENA .)
+    LLAVERIGHT      reduce using rule 49 (dato -> CADENA .)
+
+
+state 146
+
+    (50) dato -> TRUE .
+
+    DOSPUNTOS       reduce using rule 50 (dato -> TRUE .)
+    COMA            reduce using rule 50 (dato -> TRUE .)
+    LLAVERIGHT      reduce using rule 50 (dato -> TRUE .)
+
+
+state 147
+
+    (51) dato -> FALSE .
+
+    DOSPUNTOS       reduce using rule 51 (dato -> FALSE .)
+    COMA            reduce using rule 51 (dato -> FALSE .)
+    LLAVERIGHT      reduce using rule 51 (dato -> FALSE .)
+
+
+state 148
+
+    (33) else -> ELSE LLAVELEFT instrucciones LLAVERIGHT .
+
+    $end            reduce using rule 33 (else -> ELSE LLAVELEFT instrucciones LLAVERIGHT .)
+    RETURN          reduce using rule 33 (else -> ELSE LLAVELEFT instrucciones LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 33 (else -> ELSE LLAVELEFT instrucciones LLAVERIGHT .)
+
+
+state 149
+
+    (34) else -> ELSE LLAVELEFT instrucciones RETURN . VARIABLE LLAVERIGHT
+
+    VARIABLE        shift and go to state 155
+
+
+state 150
+
+    (35) else -> ELSE LLAVELEFT RETURN VARIABLE . LLAVERIGHT
+
+    LLAVERIGHT      shift and go to state 156
+
+
+state 151
+
+    (58) sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .
+
+    $end            reduce using rule 58 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+    RETURN          reduce using rule 58 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 58 (sentenciaFor -> FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT .)
+
+
+state 152
+
+    (68) contArray -> contArray COMA numericos .
+
+    LLAVERIGHT      reduce using rule 68 (contArray -> contArray COMA numericos .)
+    COMA            reduce using rule 68 (contArray -> contArray COMA numericos .)
+
+
+state 153
+
+    (37) mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT .
+
+    $end            reduce using rule 37 (mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT .)
+    RETURN          reduce using rule 37 (mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 37 (mapa -> MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT .)
+
+
+state 154
+
+    (39) par -> dato DOSPUNTOS . dato
+    (40) par -> dato DOSPUNTOS . dato mas
+    (47) dato -> . VARIABLE
+    (48) dato -> . expresion
+    (49) dato -> . CADENA
+    (50) dato -> . TRUE
+    (51) dato -> . FALSE
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (81) term -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    VARIABLE        shift and go to state 143
+    CADENA          shift and go to state 145
+    TRUE            shift and go to state 146
+    FALSE           shift and go to state 147
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    dato                           shift and go to state 157
+    expresion                      shift and go to state 144
+    numericos                      shift and go to state 95
+    term                           shift and go to state 15
+
+state 155
+
+    (34) else -> ELSE LLAVELEFT instrucciones RETURN VARIABLE . LLAVERIGHT
+
+    LLAVERIGHT      shift and go to state 158
+
+
+state 156
+
+    (35) else -> ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT .
+
+    $end            reduce using rule 35 (else -> ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT .)
+    RETURN          reduce using rule 35 (else -> ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 35 (else -> ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT .)
+
+
+state 157
+
+    (39) par -> dato DOSPUNTOS dato .
+    (40) par -> dato DOSPUNTOS dato . mas
+    (41) mas -> . COMA par
+    (42) mas -> . COMA par mas
+
+  ! shift/reduce conflict for COMA resolved as shift
+    LLAVERIGHT      reduce using rule 39 (par -> dato DOSPUNTOS dato .)
+    COMA            shift and go to state 160
+
+  ! COMA            [ reduce using rule 39 (par -> dato DOSPUNTOS dato .) ]
+
+    mas                            shift and go to state 159
+
+state 158
+
+    (34) else -> ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .
+
+    $end            reduce using rule 34 (else -> ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .)
+    RETURN          reduce using rule 34 (else -> ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .)
+    LLAVERIGHT      reduce using rule 34 (else -> ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT .)
+
+
+state 159
+
+    (40) par -> dato DOSPUNTOS dato mas .
+
+    LLAVERIGHT      reduce using rule 40 (par -> dato DOSPUNTOS dato mas .)
+    COMA            reduce using rule 40 (par -> dato DOSPUNTOS dato mas .)
+
+
+state 160
+
+    (41) mas -> COMA . par
+    (42) mas -> COMA . par mas
+    (39) par -> . dato DOSPUNTOS dato
+    (40) par -> . dato DOSPUNTOS dato mas
+    (47) dato -> . VARIABLE
+    (48) dato -> . expresion
+    (49) dato -> . CADENA
+    (50) dato -> . TRUE
+    (51) dato -> . FALSE
+    (74) expresion -> . expresion SUMA numericos
+    (75) expresion -> . expresion RESTA numericos
+    (76) expresion -> . expresion PRODUCTO numericos
+    (77) expresion -> . expresion DIVISION numericos
+    (78) expresion -> . expresion MODULO numericos
+    (79) expresion -> . term
+    (81) term -> . numericos
+    (85) numericos -> . ENTERO
+    (86) numericos -> . FLOTANTE
+
+    VARIABLE        shift and go to state 143
+    CADENA          shift and go to state 145
+    TRUE            shift and go to state 146
+    FALSE           shift and go to state 147
+    ENTERO          shift and go to state 21
+    FLOTANTE        shift and go to state 22
+
+    par                            shift and go to state 161
+    dato                           shift and go to state 142
+    expresion                      shift and go to state 144
+    numericos                      shift and go to state 95
+    term                           shift and go to state 15
+
+state 161
+
+    (41) mas -> COMA par .
+    (42) mas -> COMA par . mas
+    (41) mas -> . COMA par
+    (42) mas -> . COMA par mas
+
+  ! shift/reduce conflict for COMA resolved as shift
+    LLAVERIGHT      reduce using rule 41 (mas -> COMA par .)
+    COMA            shift and go to state 160
+
+  ! COMA            [ reduce using rule 41 (mas -> COMA par .) ]
+
+    mas                            shift and go to state 162
+
+state 162
+
+    (42) mas -> COMA par mas .
+
+    COMA            reduce using rule 42 (mas -> COMA par mas .)
+    LLAVERIGHT      reduce using rule 42 (mas -> COMA par mas .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for COMA in state 157 resolved as shift
+WARNING: shift/reduce conflict for COMA in state 161 resolved as shift
+WARNING: reduce/reduce conflict in state 58 resolved using rule (inicio -> VARIABLE DECLARADOR ENTERO)
+WARNING: rejected rule (numericos -> ENTERO) in state 58

@@ -2,12 +2,77 @@ import ply.yacc as yacc
 from analizadorLexico import tokens
 
 def p_instrucciones(p):
-    '''instrucciones : expresion 
-                    | condicion
-                    | sentenciaFor
-                    | inicio
-                    | array
-                    | arrayAsig'''
+    '''instrucciones : asignacion 
+                     | expresion 
+                     | condicion
+                     | sentenciaIf
+                     | sentenciaFor
+                     | inicio
+                     | array
+                     | arrayAsig'''
+
+# JAHIR VELIZ
+def p_asignacion(p):
+    '''asignacion : VAR VARIABLE BOOL IGUAL booleano
+                  | VAR VARIABLE INT IGUAL expresion
+                  | VAR VARIABLE FLOAT IGUAL expresion
+                  | VAR VARIABLE STRING IGUAL CADENA
+                  | VAR VARIABLE puntero IGUAL refer
+                  | VAR VARIABLE puntero
+                  | VARIABLE DECLARADOR valor
+                  | VARIABLE IGUAL valor
+                  | derefer IGUAL valor
+       booleano   : condicion
+                  | TRUE 
+                  | FALSE
+       valor      : booleano
+                  | expresion
+                  | CADENA
+                  | VARIABLE
+                  | mapa
+                  | refer'''
+
+#JAHIR VELIZ
+def p_sentenciaIf(p):
+    '''sentenciaIf : IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+                   | IF condicion LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
+                   | IF condicion LLAVELEFT instrucciones LLAVERIGHT
+                   | IF condicion LLAVELEFT instrucciones LLAVERIGHT else
+                   | IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT
+                   | IF condicion LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+       else :        ELSE LLAVELEFT instrucciones LLAVERIGHT
+                   | ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+                   | ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
+                   | ELSE sentenciaIf'''
+
+#JAHIR VELIZ
+def p_mapa(p):
+    ''' mapa : MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
+             | MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+        par  : dato DOSPUNTOS dato
+             | dato DOSPUNTOS dato mas
+        mas  : COMA par
+             | COMA par mas
+        tipo : BOOL
+             | INT
+             | FLOAT
+             | STRING
+        dato : VARIABLE
+             | expresion
+             | CADENA
+             | TRUE
+             | FALSE'''
+
+#JAHIR VELIZ
+# refer: "&" se utiliza para obtener la dirección de una variable
+# derefer: "*" dereferir un puntero significa obtener el valor de la dirección almacenada en el puntero.
+def p_puntero(p):
+    '''puntero : PRODUCTO BOOL
+               | PRODUCTO INT
+               | PRODUCTO FLOAT
+               | PRODUCTO STRING
+       refer   : AMPERSAND VARIABLE
+       derefer : PRODUCTO VARIABLE'''
 
 def p_sentenciaFor(p):
     'sentenciaFor : FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT'
@@ -21,11 +86,11 @@ def p_condicion(p):
 def p_incrementa(p):
     'incrementa : VARIABLE INCREMENTO'
 
-def p_tipodato(p):
-    '''typeData : BOOL 
-                | INT
-                | FLOAT
-                | STRING '''
+def p_typeData(p):
+    '''typeData : BOOL
+            | INT
+            | FLOAT
+            | STRING'''
 
 def p_array(p):
     'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT'
