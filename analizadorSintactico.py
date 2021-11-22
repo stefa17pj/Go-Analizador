@@ -93,6 +93,7 @@ def p_typeData(p):
             | INT
             | FLOAT
             | STRING'''
+
 #STEFANY LAVAYEN
 def p_array(p):
     'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT'
@@ -132,19 +133,16 @@ def p_term_factor(p):
     'term : numericos'
     #p[0] = p[1]
 
-def p_term_condicion(p):
-    'termc : VARIABLE' 
-
-def p_term_condicionm(p):
-    'termc : numericos'
+def p_factor_num(p):
+    'factor : numericos'
 
 def p_factor_var(p):
     'factor : VARIABLE'
 
-def p_factor_num(p):
+def p_numericos(p):
     'numericos : ENTERO'
 
-def p_factor_float(p):
+def p_numericos_float(p):
     'numericos : FLOTANTE'
 #} END STEFANY LAVAYEN
 
