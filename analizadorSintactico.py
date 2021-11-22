@@ -3,7 +3,8 @@ from analizadorLexico import tokens
 
 def p_padre(p):
     '''golang : instrucciones
-              | switch'''
+              | switch
+              | funcion'''
 
 #STEFANY LAVAYEN
 def p_instrucciones(p):
@@ -187,6 +188,23 @@ def p_comparaciones_negado(p):
 
 def p_comparaciones_paren(p):
     'comparacion : PARLEFT condiciones PARRIGHT'
+
+# Estructura de functions
+def p_funcion(p):
+    '''funcion : funcion_sin_parametro
+               | funcion_parametro'''
+
+def p_funcion_sin_parameters(p):
+    'funcion_sin_parametro : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones LLAVERIGHT'
+
+def p_funcion_parameters(p):
+    'funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones LLAVERIGHT'
+
+def p_parametros(p):
+    '''parametros : VARIABLE
+                  | VARIABLE COMA parametros
+                  | typeData VARIABLE
+                  | typeData VARIABLE COMA parametros'''
 
 # Estructura de switch / case
 def p_switch(p):
