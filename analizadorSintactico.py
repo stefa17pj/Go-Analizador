@@ -1,10 +1,11 @@
 import ply.yacc as yacc 
 from analizadorLexico import tokens
 
+#STEFANY LAVAYEN
 def p_instrucciones(p):
     '''instrucciones : asignacion 
                      | expresion 
-                     | condicion
+                     | condiciones
                      | sentenciaIf
                      | sentenciaFor
                      | inicio
@@ -74,39 +75,35 @@ def p_puntero(p):
        refer   : AMPERSAND VARIABLE
        derefer : PRODUCTO VARIABLE'''
 
+#STEFANY LAVAYEN
 def p_sentenciaFor(p):
-    'sentenciaFor : FOR inicio PUNTOCOMA condicion PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT'
+    'sentenciaFor : FOR inicio PUNTOCOMA condiciones PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT'
 
+#STEFANY LAVAYEN
 def p_iniciofor(p):
     'inicio : VARIABLE DECLARADOR ENTERO'
 
-def p_condicion(p):
-    'condicion : termc comparador termc'
-
+#STEFANY LAVAYEN
 def p_incrementa(p):
     'incrementa : VARIABLE INCREMENTO'
 
+#STEFANY LAVAYEN
 def p_typeData(p):
     '''typeData : BOOL
             | INT
             | FLOAT
             | STRING'''
-
+#STEFANY LAVAYEN
 def p_array(p):
     'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT'
 
+#STEFANY LAAVYEN
 def p_arrayAsig(p):
     'arrayAsig : VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData'
 
+# STEFANY LAVAYEN {
 def p_contenidoArray(p):
     'contArray : contArray COMA numericos'
-
-def p_comparador(p):
-    '''comparador : MAYORQUE 
-                    | MENORQUE
-                    | ESIGUAL 
-                    | MAYORIGUAL 
-                    | MENORIGUAL'''
 
 def p_suma_expresion(p):
     'expresion : expresion SUMA numericos'
@@ -146,8 +143,10 @@ def p_factor_var(p):
 
 def p_factor_num(p):
     'numericos : ENTERO'
+
 def p_factor_float(p):
     'numericos : FLOTANTE'
+#} END STEFANY LAVAYEN
 
 def p_factor_bool(p):
     'factor : BOOL'
