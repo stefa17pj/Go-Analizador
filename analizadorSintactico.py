@@ -1,6 +1,10 @@
 import ply.yacc as yacc 
 from analizadorLexico import tokens
 
+def p_padre(p):
+    '''golang : instrucciones
+              | switch'''
+
 #STEFANY LAVAYEN
 def p_instrucciones(p):
     '''instrucciones : asignacion 
@@ -13,6 +17,7 @@ def p_instrucciones(p):
                      | puntero
                      | lectura
                      | array
+                     | switch
                      | arrayAsig'''
 
 # JAHIR VELIZ
@@ -168,9 +173,7 @@ def p_numericos_float(p):
     'numericos : FLOTANTE'
 
 #} END STEFANY LAVAYEN
-
-def p_factor_bool(p):
-    'factor : BOOL'
+# start - Bryan Puchaicela
 
 def p_comparacion(p):
     'comparacion : condiciones'
@@ -180,6 +183,20 @@ def p_comparaciones_negado(p):
 
 def p_comparaciones_paren(p):
     'comparacion : PARLEFT condiciones PARRIGHT'
+
+# Estructura de switch / case
+def p_switch(p):
+    'switch : SWITCH VARIABLE LLAVELEFT bloque_switch LLAVERIGHT'
+
+def p_bloque_switch(p):
+    '''bloque_switch : CASE VARIABLE DOSPUNTOS instrucciones
+                     | CASE VARIABLE DOSPUNTOS instrucciones bloque_switch
+                     | CASE VARIABLE DOSPUNTOS instrucciones switch_default
+                     | CASE VARIABLE DOSPUNTOS instrucciones bloque_switch switch_default
+                     | switch_default'''
+
+def p_switch_default(p):
+    'switch_default: DEFAULT DOSPUNTOS instrucciones '
 
 # Operadores logicos
 def p_mayorque_compare(p):
@@ -214,7 +231,11 @@ def p_condicion_and(p):
 
 def p_condicion_or(p):
     'condicion : OR'
-    
+
+def p_factor_bool(p):
+    'factor : BOOL'
+# end - Bryan Puchaicela 
+
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in input!")
@@ -223,7 +244,7 @@ def p_error(p):
 parser = yacc.yacc()
 while True:
     try:
-        s = input('Python > ')
+        s = input('GO > ')
     except EOFError:
         break
     if not s: continue
