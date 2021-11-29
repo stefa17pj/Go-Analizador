@@ -200,16 +200,14 @@ def t_error(t):
 #Algorithm
 
 lexer = lex.lex()
-text = open("textALexico.txt")
-data = text.read()
-'''
-def analysis(data):
+
+def analysisLex(data):
     lexer.input(data)
+    global textrResult
+    textResult = ""
     while True:
         tok = lexer.token()
         if not tok:
             break
-        print(tok)
-
-analysis(data)
-'''
+        textResult += str(tok)+"\n"
+    return textResult

@@ -1,5 +1,8 @@
 import ply.yacc as yacc 
 from analizadorLexico import tokens
+from analizadorLexico import reserved 
+
+textResult = ""
 
 #STEFANY LAVAYEN
 def p_instrucciones(p):
@@ -272,15 +275,16 @@ def p_factor_bool(p):
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in input!")
+    global textResult
+    print(p)
+    textResult += "Syntax error in input!\n" + str(p)
 
 # Build the parser
 parser = yacc.yacc()
-while True:
-    try:
-        s = input('GO > ')
-    except EOFError:
-        break
-    if not s: continue
-    result = parser.parse(s)
-    print(result)
+
+def analysisSyntax(data):
+    global textResult
+    textResult = ""
+    result = parser.parse(data)
+    textResult += str (result)+"\n"
+    return textResult
