@@ -30,9 +30,7 @@ def p_asignacion(p):
                   | VAR VARIABLE puntero
                   | VARIABLE DECLARADOR valor
                   | VARIABLE IGUAL valor
-                  | VARIABLE MASIGUAL expresion
-                  | VARIABLE MASIGUAL CADENA
-                  | VARIABLE MASIGUAL VARIABLE
+                  | VARIABLE MASIGUAL acumular
                   | VARIABLE MENOSIGUAL expresion
                   | derefer IGUAL valor
        booleano   : condicion
@@ -43,7 +41,10 @@ def p_asignacion(p):
                   | CADENA
                   | VARIABLE
                   | mapa
-                  | refer'''
+                  | refer
+        acumular  : expresion
+                  | CADENA
+                  | VARIABLE'''
 
 #JAHIR VELIZ
 def p_sentenciaIf(p):
@@ -60,16 +61,12 @@ def p_sentenciaIf(p):
 
 #JAHIR VELIZ
 def p_mapa(p):
-    ''' mapa : MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT par LLAVERIGHT
-             | MAP CORCHLEFT tipo CORCHRIGHT tipo LLAVELEFT LLAVERIGHT
+    ''' mapa : MAP CORCHLEFT typeData CORCHRIGHT typeData LLAVELEFT par LLAVERIGHT
+             | MAP CORCHLEFT typeData CORCHRIGHT typeData LLAVELEFT LLAVERIGHT
         par  : dato DOSPUNTOS dato mas
              | dato DOSPUNTOS dato
         mas  : mas COMA dato DOSPUNTOS dato
              | COMA dato DOSPUNTOS dato
-        tipo : BOOL
-             | INT
-             | FLOAT
-             | STRING
         dato : VARIABLE
              | expresion
              | CADENA
@@ -80,10 +77,7 @@ def p_mapa(p):
 # refer: "&" se utiliza para obtener la dirección de una variable
 # derefer: "*" dereferir un puntero significa obtener el valor de la dirección almacenada en el puntero.
 def p_puntero(p):
-    '''puntero : PRODUCTO BOOL
-               | PRODUCTO INT
-               | PRODUCTO FLOAT
-               | PRODUCTO STRING
+    '''puntero : PRODUCTO typeData
        refer   : AMPERSAND VARIABLE
        derefer : PRODUCTO VARIABLE'''
 
@@ -102,9 +96,9 @@ def p_incrementa(p):
 #STEFANY LAVAYEN: Tipos de Datos
 def p_typeData(p):
     '''typeData : BOOL
-            | INT
-            | FLOAT
-            | STRING'''
+                | INT
+                | FLOAT
+                | STRING'''
 
 #STEFANY LAVAYEN: Declaracion de Arrays
 def p_array(p):
