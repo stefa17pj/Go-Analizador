@@ -93,7 +93,7 @@ tokens = (
     #Imprimir
     'IMPRIMIR',
     'AMPERSAND',
-    #'COMILLA',
+    'COMILLA',
     #Lectura de datos
     'SCAN'
 
@@ -157,6 +157,7 @@ def t_SCAN(t):
 #comillas :Stefany 
 def t_COMILLA (t):
     r'(\'|\")'
+    return t
 
 # Flotante : Bryan
 def t_FLOTANTE(t):
