@@ -17,7 +17,13 @@ def p_instrucciones(p):
                      | lectura
                      | array
                      | switch
-                     | funcion'''
+                     | funcion
+                     | PACKAGE VARIABLE IMPORT CADENA funcion''' # <- inicio valido de un programa en go
+
+def p_masInstrucciones(p):
+    '''masInstrucciones : masInstrucciones instrucciones
+                        | masInstrucciones
+                        | '''
 
 # JAHIR VELIZ
 def p_asignacion(p):
@@ -48,30 +54,61 @@ def p_asignacion(p):
 
 #JAHIR VELIZ
 def p_sentenciaIf(p):
-    '''sentenciaIf : IF comparaciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
-                   | IF comparaciones LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT else
-                   | IF comparaciones LLAVELEFT instrucciones LLAVERIGHT
-                   | IF comparaciones LLAVELEFT instrucciones LLAVERIGHT else
+    '''sentenciaIf : IF comparaciones LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT
+                   | IF comparaciones LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT else
+                   | IF comparaciones LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
+                   | IF comparaciones LLAVELEFT instrucciones masInstrucciones LLAVERIGHT else
                    | IF comparaciones LLAVELEFT RETURN VARIABLE LLAVERIGHT
                    | IF comparaciones LLAVELEFT RETURN VARIABLE LLAVERIGHT else
-       else :        ELSE LLAVELEFT instrucciones LLAVERIGHT
-                   | ELSE LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT
+        else :       ELSE LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
+                   | ELSE LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT
                    | ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
                    | ELSE sentenciaIf'''
 
 #JAHIR VELIZ
 def p_mapa(p):
-    ''' mapa : MAP CORCHLEFT typeData CORCHRIGHT typeData LLAVELEFT par LLAVERIGHT
-             | MAP CORCHLEFT typeData CORCHRIGHT typeData LLAVELEFT LLAVERIGHT
-        par  : dato DOSPUNTOS dato mas
-             | dato DOSPUNTOS dato
-        mas  : mas COMA dato DOSPUNTOS dato
-             | COMA dato DOSPUNTOS dato
-        dato : VARIABLE
-             | expresion
-             | CADENA
-             | TRUE
-             | FALSE'''
+    ''' mapa : MAP CORCHLEFT STRING CORCHRIGHT typeData LLAVELEFT LLAVERIGHT
+             | MAP CORCHLEFT STRING CORCHRIGHT contMapa'''
+
+# la clave del mapa siempre será una cadena, pero su valor puede ser entero, float, cadena o booleano
+def p_contenidoMapa(p):
+    '''contMapa  : INT LLAVELEFT parEntero LLAVERIGHT
+                 | STRING LLAVELEFT parCadena LLAVERIGHT 
+                 | FLOAT LLAVELEFT parFlotante LLAVERIGHT
+                 | BOOL LLAVELEFT parBoolean LLAVERIGHT'''
+
+def p_mapaEntero(p):
+    '''parEntero  : CADENA DOSPUNTOS datoEntero masEntero
+                  | CADENA DOSPUNTOS datoEntero
+       masEntero  : masEntero COMA CADENA DOSPUNTOS datoEntero
+                  | COMA CADENA DOSPUNTOS datoEntero
+       datoEntero : VARIABLE
+                  | expresion'''
+
+def p_mapaCadena(p):
+    '''parCadena  : CADENA DOSPUNTOS datoCadena masCadena
+                  | CADENA DOSPUNTOS datoCadena
+       masCadena  : masCadena COMA CADENA DOSPUNTOS datoCadena
+                  | COMA CADENA DOSPUNTOS datoCadena
+       datoCadena : VARIABLE
+                  | CADENA'''
+
+def p_mapaFlotante(p):
+    '''parFlotante  : CADENA DOSPUNTOS datoFlotante masFlotante
+                    | CADENA DOSPUNTOS datoFlotante
+       masFlotante  : masFlotante COMA CADENA DOSPUNTOS datoFlotante
+                    | COMA CADENA DOSPUNTOS datoFlotante
+       datoFlotante : VARIABLE
+                    | expresion'''
+
+def p_mapaBooleano(p):
+    '''parBoolean  : CADENA DOSPUNTOS datoBoolean masBoolean
+                   | CADENA DOSPUNTOS datoBoolean
+       masBoolean  : masBoolean COMA CADENA DOSPUNTOS datoBoolean
+                   | COMA CADENA DOSPUNTOS datoBoolean
+       datoBoolean : condicion
+                   | TRUE 
+                   | FALSE'''
 
 #JAHIR VELIZ
 # refer: "&" se utiliza para obtener la dirección de una variable
@@ -83,7 +120,7 @@ def p_puntero(p):
 
 #STEFANY LAVAYEN: Sentencia For: ' for inicio; condicion; incremento { codigo } ' como esta en el avance 0
 def p_sentenciaFor(p):
-    ''' sentenciaFor : FOR inicio PUNTOCOMA condiciones PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+    ''' sentenciaFor : FOR inicio PUNTOCOMA condiciones PUNTOCOMA incrementa LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
         inicio       : VARIABLE DECLARADOR ENTERO
         incrementa   : VARIABLE INCREMENTO'''
 
@@ -216,16 +253,16 @@ def p_funcion(p):
                | funcion_sin_parametro_return'''
 
 def p_funcion_sin_parameters(p):
-    '''funcion_sin_parametro : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones LLAVERIGHT
+    '''funcion_sin_parametro : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
                              | FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT RETURN LLAVERIGHT
-                             | FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones RETURN LLAVERIGHT'''
+                             | FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones masInstrucciones RETURN LLAVERIGHT'''
 
 def p_funcion_sin_parameters_return(p):
-    'funcion_sin_parametro_return : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones RETURN VARIABLE LLAVERIGHT'
+    'funcion_sin_parametro_return : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT'
 
 def p_funcion_parameters(p):
-    '''funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones LLAVERIGHT
-                         | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones RETURN LLAVERIGHT
+    '''funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
+                         | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones masInstrucciones RETURN LLAVERIGHT
                          | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT RETURN LLAVERIGHT'''
 
 def p_parametros(p):
@@ -239,9 +276,9 @@ def p_switch(p):
     'switch : SWITCH VARIABLE LLAVELEFT bloque_switch LLAVERIGHT'
 
 def p_bloque_switch(p):
-    '''bloque_switch : CASE caso_switch DOSPUNTOS instrucciones BREAK
-                     | CASE caso_switch DOSPUNTOS instrucciones CONTINUE
-                     | CASE caso_switch DOSPUNTOS instrucciones BREAK bloque_switch
+    '''bloque_switch : CASE caso_switch DOSPUNTOS instrucciones masInstrucciones BREAK
+                     | CASE caso_switch DOSPUNTOS instrucciones masInstrucciones CONTINUE
+                     | CASE caso_switch DOSPUNTOS instrucciones masInstrucciones BREAK bloque_switch
                      | switch_default'''
 
 def p_caso_switch(p):
@@ -250,7 +287,8 @@ def p_caso_switch(p):
                    | ENTERO '''
 
 def p_switch_default(p):
-    'switch_default : DEFAULT DOSPUNTOS instrucciones '
+    '''switch_default : DEFAULT DOSPUNTOS instrucciones masInstrucciones BREAK
+                      | DEFAULT DOSPUNTOS instrucciones masInstrucciones CONTINUE'''
 
 # Operadores logicos
 def p_mayorque_compare(p):
