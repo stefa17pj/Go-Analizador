@@ -185,18 +185,20 @@ def p_factor_exp(p):
 
 # start - Bryan Puchaicela
 
-def p_contenido_arrays(p):
-    ' contenido_arrays : contArray'
-
 def p_estructura_slice(p):
     '''slices : declaracion_slices
-              | declaracion_slices LLAVELEFT contenido_arrays LLAVERIGHT'''
+              | declaracion_slices LLAVELEFT contArrayEnteros LLAVERIGHT
+              | declaracion_slices LLAVELEFT contArrayCadenas LLAVERIGHT
+              | VARIABLE DECLARADOR metodos_slices PARLEFT CORCHLEFT CORCHRIGHT typeData COMA ENTERO PARRIGHT
+              | VARIABLE DECLARADOR metodos_slices PARLEFT CORCHLEFT CORCHRIGHT typeData COMA ENTERO COMA ENTERO PARRIGHT
+       metodos_slices : MAKE'''
 
 def p_declaracion_slice(p):
     '''declaracion_slices : VAR VARIABLE IGUAL CORCHLEFT ENTERO CORCHRIGHT typeData
                           | VAR VARIABLE IGUAL CORCHLEFT CORCHRIGHT typeData
                           | VARIABLE IGUAL CORCHLEFT ENTERO CORCHRIGHT typeData
-                          | VARIABLE IGUAL CORCHLEFT CORCHRIGHT typeData'''
+                          | VARIABLE IGUAL CORCHLEFT CORCHRIGHT typeData
+                          | VARIABLE DECLARADOR CORCHLEFT CORCHRIGHT typeData'''
 
 def p_comparacion(p):
     'comparacion : condiciones'
