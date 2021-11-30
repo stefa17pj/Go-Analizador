@@ -27,6 +27,7 @@ def p_asignacion(p):
                   | VAR VARIABLE STRING IGUAL CADENA
                   | VAR VARIABLE puntero IGUAL refer
                   | VAR VARIABLE puntero
+                  | slices
                   | VARIABLE DECLARADOR valor
                   | VARIABLE IGUAL valor
                   | VARIABLE MASIGUAL acumular
@@ -176,6 +177,24 @@ def p_factor_exp(p):
 #} END STEFANY LAVAYEN
 
 # start - Bryan Puchaicela
+
+def p_contenido_arrays(p):
+    ''' contenido_arrays : contArray
+                         | stringArray'''
+# contenido de un array de string ex:  ... , " string "
+def p_stringArray(p):
+    '''stringArray : COMILLA VARIABLE COMILLA COMA stringArray
+                   | COMILLA VARIABLE COMILLA'''
+
+def p_estructura_slice(p):
+    '''slices : declaracion_slices
+              | declaracion_slices LLAVELEFT contenido_arrays LLAVERIGHT'''
+
+def p_declaracion_slice(p):
+    '''declaracion_slices : VAR VARIABLE IGUAL CORCHLEFT ENTERO CORCHRIGHT typeData
+                          | VAR VARIABLE IGUAL CORCHLEFT CORCHRIGHT typeData
+                          | VARIABLE IGUAL CORCHLEFT ENTERO CORCHRIGHT typeData
+                          | VARIABLE IGUAL CORCHLEFT CORCHRIGHT typeData'''
 
 def p_comparacion(p):
     'comparacion : condiciones'

@@ -94,7 +94,7 @@ tokens = (
     #Imprimir
     'IMPRIMIR',
     'AMPERSAND',
-    #'COMILLA',
+    'COMILLA',
     #Lectura de datos
     'SCAN'
 
