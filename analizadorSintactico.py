@@ -28,8 +28,8 @@ def p_masInstrucciones(p):
 # JAHIR VELIZ
 def p_asignacion(p):
     '''asignacion : VAR VARIABLE BOOL IGUAL booleano
-                  | VAR VARIABLE INT IGUAL expresion
-                  | VAR VARIABLE FLOAT IGUAL expresion
+                  | VAR VARIABLE INT IGUAL expresionInt
+                  | VAR VARIABLE FLOAT IGUAL expresionFloat
                   | VAR VARIABLE STRING IGUAL CADENA
                   | VAR VARIABLE puntero IGUAL refer
                   | VAR VARIABLE puntero
@@ -186,10 +186,15 @@ def p_lectura(p):
 def p_contenidoScan(p):
     'contScan : AMPERSAND VARIABLE'
 
-# STEFANY LAVAYEN: Regla semantica - Los datos numericos (int, float) son los unicos que pueden sumar/restar/multiplicar/dividirse entre si 
+# STEFANY LAVAYEN: Regla semantica - En Go, solo podemos usar operadores en los mismos tipos de datos. No podemos sumar/restar/multiplicar/dividirseun int y un float64 
 def p_aritmetica_expresion(p):
-    '''expresion : expresion operadorArit term'''
-
+    '''expresion : expresionInt
+                 | expresionFloat
+    expresionInt : expresionInt operadorArit ENTERO
+                 | ENTERO operadorArit ENTERO
+    expresionFloat : expresionFloat operadorArit FLOTANTE
+                   | FLOTANTE operadorArit FLOTANTE
+    '''
 def p_operador_aritmetico(p):
     '''operadorArit : SUMA
                     | RESTA
