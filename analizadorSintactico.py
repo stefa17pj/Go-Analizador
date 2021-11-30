@@ -118,10 +118,17 @@ def p_ArrayFlotante(p):
     '''contArrayFloat : FLOTANTE COMA FLOTANTE
                       | contArrayFloat COMA FLOTANTE'''
 
-#STEFANY LAVAYEN: Validacion de metodos de estructuras de datos ARRAY, SLICES, MAPS
 
+def p_methodGeneral(p):
+    'method : methodArray'
 
-#STEFANY LAVAYEN: Print -> Regla semantica: Solo pueden imprimir contenido tipo STRING o variables
+#STEFANY LAVAYEN:  metodos de estructuras de datos ARRAY
+def p_methodArray(p):
+    ''' methodArray : namemetodoArr PARLEFT VARIABLE PARRIGHT
+        namemetodoArr   :   LEN
+                        |   CAP '''
+
+#STEFANY LAVAYEN: Print -> Regla semantica: Solo pueden imprimir contenido tipo STRING, variables, o resultados de un metodos
 def p_print(p):
     'print : IMPRIMIR PARLEFT contPrint PARRIGHT'
 
@@ -132,6 +139,7 @@ def p_contenidoPrint(p):
                  | COMA contenido
        contenido : CADENA
                  | VARIABLE
+                 | method
                  | '''
 
 #STEFANY LAVAYEN : lectura de datos Scan
@@ -179,12 +187,7 @@ def p_factor_exp(p):
 # start - Bryan Puchaicela
 
 def p_contenido_arrays(p):
-    ''' contenido_arrays : contArray
-                         | stringArray'''
-# contenido de un array de string ex:  ... , " string "
-def p_stringArray(p):
-    '''stringArray : COMILLA VARIABLE COMILLA COMA stringArray
-                   | COMILLA VARIABLE COMILLA'''
+    ' contenido_arrays : contArray'
 
 def p_estructura_slice(p):
     '''slices : declaracion_slices
@@ -300,5 +303,4 @@ def analysisSyntax(data):
     textResult = ""
     result = parser.parse(data)
     textResult += str(result)+"\n"
-    print(textResult)
     return textResult

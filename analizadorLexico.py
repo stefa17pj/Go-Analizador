@@ -22,7 +22,8 @@ reserved = {
     'case': 'CASE',
     'func': 'FUNC',
     'continue': 'CONTINUE',
-    #'fallthrough': 'FALLTHROUGH',
+    'len': 'LEN',
+    'cap': 'CAP',
     #'goto': 'GOTO',
     #'interface': 'INTERFACE',
     'map': 'MAP',
@@ -94,7 +95,6 @@ tokens = (
     #Imprimir
     'IMPRIMIR',
     'AMPERSAND',
-    'COMILLA',
     #Lectura de datos
     'SCAN'
 
