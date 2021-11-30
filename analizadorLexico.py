@@ -10,6 +10,7 @@ import ply.lex as lex
 #------------------------------------------------------------
 # List of token names.   This is always required
 #------------------------------------------------------------
+textResult = ""
 
 #Palabras reservadas: Stefany
 reserved = {
@@ -154,10 +155,6 @@ def t_SCAN(t):
     r'fmt\.Scan(ln|f)?'
     return t
 
-#comillas :Stefany 
-def t_COMILLA (t):
-    r'(\'|\")'
-
 # Flotante : Bryan
 def t_FLOTANTE(t):
     r'-?\d+\.\d+'
@@ -172,7 +169,8 @@ def t_ENTERO(t):
 
 # Cadenas: Stefany
 def t_CADENA(t):
-    r'("[^"]*"|\'[^\']*\')'
+    r'"[a-zA-Z0-9\s]*"|\'[a-zA-Z0-9\s]*\''
+    t.value = str(t.value)
     return t
 
 # Variable: Bryan
@@ -194,7 +192,8 @@ def t_newline(t):
     t.lexer.lineno += t.value.count("\n")
 
 def t_error(t):
-    print("No se reconoce '%s'" % t.value[0])
+    global textResult
+    textResult += "No se reconoce '%s'" % t.value[0] + "\n"
     t.lexer.skip(1)
 
 #Algorithm
@@ -203,7 +202,7 @@ lexer = lex.lex()
 
 def analysisLex(data):
     lexer.input(data)
-    global textrResult
+    global textResult
     textResult = ""
     while True:
         tok = lexer.token()

@@ -17,7 +17,6 @@ def p_instrucciones(p):
                      | lectura
                      | array
                      | switch
-                     | arrayAsig
                      | funcion'''
 
 # JAHIR VELIZ
@@ -83,15 +82,9 @@ def p_puntero(p):
 
 #STEFANY LAVAYEN: Sentencia For: ' for inicio; condicion; incremento { codigo } ' como esta en el avance 0
 def p_sentenciaFor(p):
-    'sentenciaFor : FOR inicio PUNTOCOMA condiciones PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT'
-
-#STEFANY LAVAYEN: inicio del For
-def p_iniciofor(p):
-    'inicio : VARIABLE DECLARADOR ENTERO'
-
-#STEFANY LAVAYEN: incremento del For
-def p_incrementa(p):
-    'incrementa : VARIABLE INCREMENTO'
+    ''' sentenciaFor : FOR inicio PUNTOCOMA condiciones PUNTOCOMA incrementa LLAVELEFT instrucciones LLAVERIGHT
+        inicio       : VARIABLE DECLARADOR ENTERO
+        incrementa   : VARIABLE INCREMENTO'''
 
 #STEFANY LAVAYEN: Tipos de Datos
 def p_typeData(p):
@@ -100,15 +93,34 @@ def p_typeData(p):
                 | FLOAT
                 | STRING'''
 
-#STEFANY LAVAYEN: Declaracion de Arrays
+#STEFANY LAVAYEN: Regla semantica en ARRAYS: Validacion de los elementos del arreglo de acuerdo al tipo de dato definido
+# colors := [4]string{"blue", "red", "pink", "yellow"} ---->  Elementos del arreglo solo debe ser de tipo String
+# edad := [4]int{1,2,3,4} ---->  Elementos del arreglo solo debe ser de tipo int
+# edad := [4]int{"blue", "red", "pink", "yellow"} ---->  X (error de semantica)
 def p_array(p):
-    'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT typeData LLAVELEFT contArray LLAVERIGHT'
+    'array : VARIABLE DECLARADOR CORCHLEFT ENTERO CORCHRIGHT contArray'
 
-#STEFANY LAAVYEN: Asignacion de Arrays
-def p_arrayAsig(p):
-    'arrayAsig : VAR VARIABLE CORCHLEFT ENTERO CORCHRIGHT typeData'
+def p_contenidoArray(p):
+    '''contArray : INT LLAVELEFT contArrayEnteros LLAVERIGHT
+                 | STRING LLAVELEFT contArrayCadenas LLAVERIGHT 
+                 | FLOAT LLAVELEFT contArrayFloat LLAVERIGHT'''
 
-#STEFANY: Print
+def p_ArrayEnteros(p):
+    '''contArrayEnteros : ENTERO COMA ENTERO
+                        | contArrayEnteros COMA ENTERO'''
+
+def p_ArrayCadenas(p):
+    '''contArrayCadenas : CADENA COMA CADENA
+                        | contArrayCadenas COMA CADENA'''
+
+def p_ArrayFlotante(p):
+    '''contArrayFloat : FLOTANTE COMA FLOTANTE
+                      | contArrayFloat COMA FLOTANTE'''
+
+#STEFANY LAVAYEN: Validacion de metodos de estructuras de datos ARRAY, SLICES, MAPS
+
+
+#STEFANY LAVAYEN: Print -> Regla semantica: Solo pueden imprimir contenido tipo STRING o variables
 def p_print(p):
     'print : IMPRIMIR PARLEFT contPrint PARRIGHT'
 
@@ -117,8 +129,7 @@ def p_contenidoPrint(p):
                  | contenido
        masCont   : masCont COMA contenido
                  | COMA contenido
-       contenido : expresion
-                 | CADENA
+       contenido : CADENA
                  | VARIABLE
                  | '''
 
@@ -129,31 +140,20 @@ def p_lectura(p):
 def p_contenidoScan(p):
     'contScan : AMPERSAND VARIABLE'
 
-# STEFANY LAVAYEN START{
-def p_contenidoArray(p):
-    'contArray : contArray COMA numericos'
+# STEFANY LAVAYEN: Regla semantica - Los datos numericos (int, float) son los unicos que pueden sumarse entre si 
+def p_aritmetica_expresion(p):
+    '''expresion : expresion operadorArit term'''
 
-def p_suma_expresion(p):
-    '''expresion : expresion SUMA term'''
-
-def p_resta_expresion(p):
-    'expresion : expresion RESTA term'
-
-def p_producto_expresion(p):
-    'expresion : expresion PRODUCTO term'
-
-def p_div_expresion(p):
-    'expresion : expresion DIVISION term'
-
-def p_modulo_expresion(p):
-    'expresion : expresion MODULO term'
-
+def p_operador_aritmetico(p):
+    '''operadorArit : SUMA
+                    | RESTA
+                    | PRODUCTO
+                    | DIVISION
+                    | MODULO
+    '''
+        
 def p_expression_term(p):
     'expresion : term'
-    #p[0] = p[1]
-
-def p_expression_term2(p):
-    'contArray : term'
     #p[0] = p[1]
 
 def p_term_factor(p):
@@ -167,10 +167,8 @@ def p_factor_var(p):
     'factor : VARIABLE'
 
 def p_numericos(p):
-    'numericos : ENTERO'
-
-def p_numericos_float(p):
-    'numericos : FLOTANTE'
+    '''numericos : ENTERO
+                | FLOTANTE '''
 
 def p_factor_exp(p):
     'numericos : PARLEFT expresion PARRIGHT'
@@ -282,5 +280,6 @@ def analysisSyntax(data):
     global textResult
     textResult = ""
     result = parser.parse(data)
-    textResult += str (result)+"\n"
+    textResult += str(result)+"\n"
+    print(textResult)
     return textResult
