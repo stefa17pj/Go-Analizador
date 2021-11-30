@@ -218,13 +218,15 @@ def p_switch(p):
     'switch : SWITCH VARIABLE LLAVELEFT bloque_switch LLAVERIGHT'
 
 def p_bloque_switch(p):
-    '''bloque_switch : CASE caso DOSPUNTOS instrucciones BREAK
-                     | CASE caso DOSPUNTOS instrucciones CONTINUE
-                     | CASE caso DOSPUNTOS instrucciones BREAK bloque_switch
-                     | switch_default
-       caso          : VARIABLE
-                     | CADENA
-                     | ENTERO'''
+    '''bloque_switch : CASE caso_switch DOSPUNTOS instrucciones BREAK
+                     | CASE caso_switch DOSPUNTOS instrucciones CONTINUE
+                     | CASE caso_switch DOSPUNTOS instrucciones BREAK bloque_switch
+                     | switch_default'''
+
+def p_caso_switch(p):
+    '''caso_switch : VARIABLE
+                   | CADENA
+                   | ENTERO '''
 
 def p_switch_default(p):
     'switch_default : DEFAULT DOSPUNTOS instrucciones '

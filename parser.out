@@ -115,13 +115,13 @@ Rule 109   parametros -> VARIABLE COMA parametros
 Rule 110   parametros -> typeData VARIABLE
 Rule 111   parametros -> typeData VARIABLE COMA parametros
 Rule 112   switch -> SWITCH VARIABLE LLAVELEFT bloque_switch LLAVERIGHT
-Rule 113   bloque_switch -> CASE caso DOSPUNTOS instrucciones BREAK
-Rule 114   bloque_switch -> CASE caso DOSPUNTOS instrucciones CONTINUE
-Rule 115   bloque_switch -> CASE caso DOSPUNTOS instrucciones BREAK bloque_switch
+Rule 113   bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones BREAK
+Rule 114   bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones CONTINUE
+Rule 115   bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones BREAK bloque_switch
 Rule 116   bloque_switch -> switch_default
-Rule 117   caso -> VARIABLE
-Rule 118   caso -> CADENA
-Rule 119   caso -> ENTERO
+Rule 117   caso_switch -> VARIABLE
+Rule 118   caso_switch -> CADENA
+Rule 119   caso_switch -> ENTERO
 Rule 120   switch_default -> DEFAULT DOSPUNTOS instrucciones
 Rule 121   condiciones -> factor MAYORQUE factor
 Rule 122   condiciones -> factor MENORQUE factor
@@ -202,7 +202,7 @@ arrayAsig            : 12
 asignacion           : 1
 bloque_switch        : 112 115
 booleano             : 14 28
-caso                 : 113 114 115
+caso_switch          : 113 114 115
 comparacion          : 127 128
 comparaciones        : 37 38 39 40 41 42 128
 condicion            : 25 129
@@ -2466,9 +2466,9 @@ state 130
 state 131
 
     (112) switch -> SWITCH VARIABLE LLAVELEFT . bloque_switch LLAVERIGHT
-    (113) bloque_switch -> . CASE caso DOSPUNTOS instrucciones BREAK
-    (114) bloque_switch -> . CASE caso DOSPUNTOS instrucciones CONTINUE
-    (115) bloque_switch -> . CASE caso DOSPUNTOS instrucciones BREAK bloque_switch
+    (113) bloque_switch -> . CASE caso_switch DOSPUNTOS instrucciones BREAK
+    (114) bloque_switch -> . CASE caso_switch DOSPUNTOS instrucciones CONTINUE
+    (115) bloque_switch -> . CASE caso_switch DOSPUNTOS instrucciones BREAK bloque_switch
     (116) bloque_switch -> . switch_default
     (120) switch_default -> . DEFAULT DOSPUNTOS instrucciones
 
@@ -2758,18 +2758,18 @@ state 154
 
 state 155
 
-    (113) bloque_switch -> CASE . caso DOSPUNTOS instrucciones BREAK
-    (114) bloque_switch -> CASE . caso DOSPUNTOS instrucciones CONTINUE
-    (115) bloque_switch -> CASE . caso DOSPUNTOS instrucciones BREAK bloque_switch
-    (117) caso -> . VARIABLE
-    (118) caso -> . CADENA
-    (119) caso -> . ENTERO
+    (113) bloque_switch -> CASE . caso_switch DOSPUNTOS instrucciones BREAK
+    (114) bloque_switch -> CASE . caso_switch DOSPUNTOS instrucciones CONTINUE
+    (115) bloque_switch -> CASE . caso_switch DOSPUNTOS instrucciones BREAK bloque_switch
+    (117) caso_switch -> . VARIABLE
+    (118) caso_switch -> . CADENA
+    (119) caso_switch -> . ENTERO
 
     VARIABLE        shift and go to state 179
     CADENA          shift and go to state 180
     ENTERO          shift and go to state 181
 
-    caso                           shift and go to state 178
+    caso_switch                    shift and go to state 178
 
 state 156
 
@@ -3038,32 +3038,32 @@ state 177
 
 state 178
 
-    (113) bloque_switch -> CASE caso . DOSPUNTOS instrucciones BREAK
-    (114) bloque_switch -> CASE caso . DOSPUNTOS instrucciones CONTINUE
-    (115) bloque_switch -> CASE caso . DOSPUNTOS instrucciones BREAK bloque_switch
+    (113) bloque_switch -> CASE caso_switch . DOSPUNTOS instrucciones BREAK
+    (114) bloque_switch -> CASE caso_switch . DOSPUNTOS instrucciones CONTINUE
+    (115) bloque_switch -> CASE caso_switch . DOSPUNTOS instrucciones BREAK bloque_switch
 
     DOSPUNTOS       shift and go to state 197
 
 
 state 179
 
-    (117) caso -> VARIABLE .
+    (117) caso_switch -> VARIABLE .
 
-    DOSPUNTOS       reduce using rule 117 (caso -> VARIABLE .)
+    DOSPUNTOS       reduce using rule 117 (caso_switch -> VARIABLE .)
 
 
 state 180
 
-    (118) caso -> CADENA .
+    (118) caso_switch -> CADENA .
 
-    DOSPUNTOS       reduce using rule 118 (caso -> CADENA .)
+    DOSPUNTOS       reduce using rule 118 (caso_switch -> CADENA .)
 
 
 state 181
 
-    (119) caso -> ENTERO .
+    (119) caso_switch -> ENTERO .
 
-    DOSPUNTOS       reduce using rule 119 (caso -> ENTERO .)
+    DOSPUNTOS       reduce using rule 119 (caso_switch -> ENTERO .)
 
 
 state 182
@@ -3463,9 +3463,9 @@ state 196
 
 state 197
 
-    (113) bloque_switch -> CASE caso DOSPUNTOS . instrucciones BREAK
-    (114) bloque_switch -> CASE caso DOSPUNTOS . instrucciones CONTINUE
-    (115) bloque_switch -> CASE caso DOSPUNTOS . instrucciones BREAK bloque_switch
+    (113) bloque_switch -> CASE caso_switch DOSPUNTOS . instrucciones BREAK
+    (114) bloque_switch -> CASE caso_switch DOSPUNTOS . instrucciones CONTINUE
+    (115) bloque_switch -> CASE caso_switch DOSPUNTOS . instrucciones BREAK bloque_switch
     (1) instrucciones -> . asignacion
     (2) instrucciones -> . expresion
     (3) instrucciones -> . condiciones
@@ -4109,9 +4109,9 @@ state 218
 
 state 219
 
-    (113) bloque_switch -> CASE caso DOSPUNTOS instrucciones . BREAK
-    (114) bloque_switch -> CASE caso DOSPUNTOS instrucciones . CONTINUE
-    (115) bloque_switch -> CASE caso DOSPUNTOS instrucciones . BREAK bloque_switch
+    (113) bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones . BREAK
+    (114) bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones . CONTINUE
+    (115) bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones . BREAK bloque_switch
 
     BREAK           shift and go to state 234
     CONTINUE        shift and go to state 235
@@ -4268,15 +4268,15 @@ state 233
 
 state 234
 
-    (113) bloque_switch -> CASE caso DOSPUNTOS instrucciones BREAK .
-    (115) bloque_switch -> CASE caso DOSPUNTOS instrucciones BREAK . bloque_switch
-    (113) bloque_switch -> . CASE caso DOSPUNTOS instrucciones BREAK
-    (114) bloque_switch -> . CASE caso DOSPUNTOS instrucciones CONTINUE
-    (115) bloque_switch -> . CASE caso DOSPUNTOS instrucciones BREAK bloque_switch
+    (113) bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones BREAK .
+    (115) bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones BREAK . bloque_switch
+    (113) bloque_switch -> . CASE caso_switch DOSPUNTOS instrucciones BREAK
+    (114) bloque_switch -> . CASE caso_switch DOSPUNTOS instrucciones CONTINUE
+    (115) bloque_switch -> . CASE caso_switch DOSPUNTOS instrucciones BREAK bloque_switch
     (116) bloque_switch -> . switch_default
     (120) switch_default -> . DEFAULT DOSPUNTOS instrucciones
 
-    LLAVERIGHT      reduce using rule 113 (bloque_switch -> CASE caso DOSPUNTOS instrucciones BREAK .)
+    LLAVERIGHT      reduce using rule 113 (bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones BREAK .)
     CASE            shift and go to state 155
     DEFAULT         shift and go to state 157
 
@@ -4285,9 +4285,9 @@ state 234
 
 state 235
 
-    (114) bloque_switch -> CASE caso DOSPUNTOS instrucciones CONTINUE .
+    (114) bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones CONTINUE .
 
-    LLAVERIGHT      reduce using rule 114 (bloque_switch -> CASE caso DOSPUNTOS instrucciones CONTINUE .)
+    LLAVERIGHT      reduce using rule 114 (bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones CONTINUE .)
 
 
 state 236
@@ -4411,9 +4411,9 @@ state 247
 
 state 248
 
-    (115) bloque_switch -> CASE caso DOSPUNTOS instrucciones BREAK bloque_switch .
+    (115) bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones BREAK bloque_switch .
 
-    LLAVERIGHT      reduce using rule 115 (bloque_switch -> CASE caso DOSPUNTOS instrucciones BREAK bloque_switch .)
+    LLAVERIGHT      reduce using rule 115 (bloque_switch -> CASE caso_switch DOSPUNTOS instrucciones BREAK bloque_switch .)
 
 
 state 249
