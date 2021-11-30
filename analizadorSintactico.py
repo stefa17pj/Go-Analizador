@@ -149,7 +149,7 @@ def p_lectura(p):
 def p_contenidoScan(p):
     'contScan : AMPERSAND VARIABLE'
 
-# STEFANY LAVAYEN: Regla semantica - Los datos numericos (int, float) son los unicos que pueden sumarse entre si 
+# STEFANY LAVAYEN: Regla semantica - Los datos numericos (int, float) son los unicos que pueden sumar/restar/multiplicar/dividirse entre si 
 def p_aritmetica_expresion(p):
     '''expresion : expresion operadorArit term'''
 
@@ -160,7 +160,6 @@ def p_operador_aritmetico(p):
                     | DIVISION
                     | MODULO
     '''
-        
 def p_expression_term(p):
     'expresion : term'
     #p[0] = p[1]
