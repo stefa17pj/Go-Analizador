@@ -303,8 +303,15 @@ def p_switch(p):
 
 def p_bloque_switch(p):
     '''bloque_switch : CASE caso_switch DOSPUNTOS instrucciones masInstrucciones BREAK
+                     | CASE caso_switch DOSPUNTOS instrucciones masInstrucciones
+                     | CASE caso_switch DOSPUNTOS instrucciones BREAK
+                     | CASE caso_switch DOSPUNTOS instrucciones
                      | CASE caso_switch DOSPUNTOS instrucciones masInstrucciones CONTINUE
+                     | CASE caso_switch DOSPUNTOS instrucciones CONTINUE
                      | CASE caso_switch DOSPUNTOS instrucciones masInstrucciones BREAK bloque_switch
+                     | CASE caso_switch DOSPUNTOS instrucciones masInstrucciones bloque_switch
+                     | CASE caso_switch DOSPUNTOS instrucciones bloque_switch
+                     | CASE caso_switch DOSPUNTOS instrucciones switch_default
                      | switch_default'''
 
 def p_caso_switch(p):
@@ -314,7 +321,11 @@ def p_caso_switch(p):
 
 def p_switch_default(p):
     '''switch_default : DEFAULT DOSPUNTOS instrucciones masInstrucciones BREAK
-                      | DEFAULT DOSPUNTOS instrucciones masInstrucciones CONTINUE'''
+                      | DEFAULT DOSPUNTOS instrucciones masInstrucciones
+                      | DEFAULT DOSPUNTOS instrucciones BREAK
+                      | DEFAULT DOSPUNTOS instrucciones masInstrucciones CONTINUE
+                      | DEFAULT DOSPUNTOS instrucciones CONTINUE
+                      | DEFAULT DOSPUNTOS instrucciones'''
 
 # Operadores logicos
 def p_mayorque_compare(p):
