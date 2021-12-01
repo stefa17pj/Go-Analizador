@@ -54,15 +54,15 @@ def p_asignacion(p):
 
 #JAHIR VELIZ
 def p_sentenciaIf(p):
-    '''sentenciaIf : IF comparaciones LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT
-                   | IF comparaciones LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT else
+    '''sentenciaIf : IF comparaciones LLAVELEFT instrucciones masInstrucciones RETURN valor LLAVERIGHT
+                   | IF comparaciones LLAVELEFT instrucciones masInstrucciones RETURN valor LLAVERIGHT else
                    | IF comparaciones LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
                    | IF comparaciones LLAVELEFT instrucciones masInstrucciones LLAVERIGHT else
-                   | IF comparaciones LLAVELEFT RETURN VARIABLE LLAVERIGHT
-                   | IF comparaciones LLAVELEFT RETURN VARIABLE LLAVERIGHT else
+                   | IF comparaciones LLAVELEFT RETURN valor LLAVERIGHT
+                   | IF comparaciones LLAVELEFT RETURN valor LLAVERIGHT else
         else :       ELSE LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
-                   | ELSE LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT
-                   | ELSE LLAVELEFT RETURN VARIABLE LLAVERIGHT
+                   | ELSE LLAVELEFT instrucciones masInstrucciones RETURN valor LLAVERIGHT
+                   | ELSE LLAVELEFT RETURN valor LLAVERIGHT
                    | ELSE sentenciaIf'''
 
 #JAHIR VELIZ
@@ -78,34 +78,34 @@ def p_contenidoMapa(p):
                  | BOOL LLAVELEFT parBoolean LLAVERIGHT'''
 
 def p_mapaEntero(p):
-    '''parEntero  : CADENA DOSPUNTOS datoEntero masEntero
-                  | CADENA DOSPUNTOS datoEntero
-       masEntero  : masEntero COMA CADENA DOSPUNTOS datoEntero
-                  | COMA CADENA DOSPUNTOS datoEntero
+    '''parEntero  : CADENA DOSPUNTOS datoEntero COMA masEntero
+                  | CADENA DOSPUNTOS datoEntero COMA
+       masEntero  : masEntero CADENA DOSPUNTOS datoEntero COMA
+                  | CADENA DOSPUNTOS datoEntero COMA
        datoEntero : VARIABLE
-                  | expresion'''
+                  | expresionInt'''
 
 def p_mapaCadena(p):
-    '''parCadena  : CADENA DOSPUNTOS datoCadena masCadena
-                  | CADENA DOSPUNTOS datoCadena
-       masCadena  : masCadena COMA CADENA DOSPUNTOS datoCadena
-                  | COMA CADENA DOSPUNTOS datoCadena
+    '''parCadena  : CADENA DOSPUNTOS CADENA COMA masCadena
+                  | CADENA DOSPUNTOS datoCadena COMA
+       masCadena  : masCadena CADENA DOSPUNTOS datoCadena COMA
+                  | CADENA DOSPUNTOS datoCadena COMA
        datoCadena : VARIABLE
                   | CADENA'''
 
 def p_mapaFlotante(p):
-    '''parFlotante  : CADENA DOSPUNTOS datoFlotante masFlotante
-                    | CADENA DOSPUNTOS datoFlotante
-       masFlotante  : masFlotante COMA CADENA DOSPUNTOS datoFlotante
-                    | COMA CADENA DOSPUNTOS datoFlotante
+    '''parFlotante  : CADENA DOSPUNTOS datoFlotante COMA masFlotante
+                    | CADENA DOSPUNTOS datoFlotante COMA
+       masFlotante  : masFlotante CADENA DOSPUNTOS datoFlotante COMA
+                    | CADENA DOSPUNTOS datoFlotante COMA
        datoFlotante : VARIABLE
-                    | expresion'''
+                    | expresionFloat'''
 
 def p_mapaBooleano(p):
-    '''parBoolean  : CADENA DOSPUNTOS datoBoolean masBoolean
-                   | CADENA DOSPUNTOS datoBoolean
-       masBoolean  : masBoolean COMA CADENA DOSPUNTOS datoBoolean
-                   | COMA CADENA DOSPUNTOS datoBoolean
+    '''parBoolean  : CADENA DOSPUNTOS datoBoolean COMA masBoolean
+                   | CADENA DOSPUNTOS datoBoolean COMA
+       masBoolean  : masBoolean CADENA DOSPUNTOS datoBoolean COMA
+                   | CADENA DOSPUNTOS datoBoolean COMA
        datoBoolean : condicion
                    | TRUE 
                    | FALSE'''
@@ -192,8 +192,10 @@ def p_aritmetica_expresion(p):
                  | expresionFloat
     expresionInt : expresionInt operadorArit ENTERO
                  | ENTERO operadorArit ENTERO
+                 | ENTERO
     expresionFloat : expresionFloat operadorArit FLOTANTE
                    | FLOTANTE operadorArit FLOTANTE
+                   | FLOTANTE
     '''
 def p_operador_aritmetico(p):
     '''operadorArit : SUMA
@@ -275,27 +277,21 @@ def p_comparaciones_paren(p):
 # Estructura de functions
 def p_funcion(p):
     '''funcion : funcion_sin_parametro
-               | funcion_parametro
-               | funcion_sin_parametro_return'''
+               | funcion_parametro'''
 
 def p_funcion_sin_parameters(p):
     '''funcion_sin_parametro : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
-                             | FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT RETURN LLAVERIGHT
-                             | FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones masInstrucciones RETURN LLAVERIGHT'''
-
-def p_funcion_sin_parameters_return(p):
-    'funcion_sin_parametro_return : FUNC VARIABLE PARLEFT PARRIGHT LLAVELEFT instrucciones masInstrucciones RETURN VARIABLE LLAVERIGHT'
+                             | FUNC VARIABLE PARLEFT PARRIGHT typeData LLAVELEFT RETURN valor LLAVERIGHT
+                             | FUNC VARIABLE PARLEFT PARRIGHT typeData LLAVELEFT instrucciones masInstrucciones RETURN valor LLAVERIGHT'''
 
 def p_funcion_parameters(p):
-    '''funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones masInstrucciones LLAVERIGHT
-                         | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones masInstrucciones RETURN LLAVERIGHT
-                         | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT RETURN LLAVERIGHT'''
+    '''funcion_parametro : FUNC VARIABLE PARLEFT parametros PARRIGHT typeData LLAVELEFT RETURN valor LLAVERIGHT
+                         | FUNC VARIABLE PARLEFT parametros PARRIGHT typeData LLAVELEFT instrucciones masInstrucciones RETURN valor LLAVERIGHT
+                         | FUNC VARIABLE PARLEFT parametros PARRIGHT LLAVELEFT instrucciones masInstrucciones LLAVERIGHT'''
 
 def p_parametros(p):
-    '''parametros : VARIABLE
-                  | VARIABLE COMA parametros
-                  | typeData VARIABLE
-                  | typeData VARIABLE COMA parametros'''
+    '''parametros : VARIABLE typeData
+                  | VARIABLE typeData COMA parametros'''
 
 # Estructura de switch / case
 def p_switch(p):
